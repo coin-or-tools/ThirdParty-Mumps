@@ -433,7 +433,7 @@ PACKAGE_VERSION='0.0'
 PACKAGE_STRING='ThirdPartyMumps 0.0'
 PACKAGE_BUGREPORT='http://projects.coin-or.org/BuildTools/newticket'
 
-ac_unique_file="MUMPS_4.6.4/src/dmumps_part1.F"
+ac_unique_file="MUMPS/src/dmumps_part1.F"
 ac_default_prefix=`pwd`
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -3023,7 +3023,7 @@ case $build in
      if test "$enable_doscompile" = msvc ; then
        coin_f77_comps="ifort fl32"
      else
-       coin_f77_comps="gfortran ifort g77 fl32"
+       coin_f77_comps="gfortran g77 ifort fl32"
      fi ;;
   sparc-sun-solaris*)
      coin_f77_comps="f95 f90 f77 xlf fort77 gfortran g77 pgf90 pgf77 ifort ifc frt af77" ;;
@@ -21172,8 +21172,6 @@ else
 fi
 coin_mumpssrcdir=$abs_source_dir/$coin_mumpsobjdir
 
-mumps_ver=4.6.4
-
 MAKEOKFILE=.MakeOk
 
 
@@ -21503,7 +21501,7 @@ if test x"$use_mumps" != x; then
   # and we need the Fortran runtime libraries if we want to link with C/C++
   coin_need_flibs=yes
 
-  MUMPS_INCFLAGS="-I`$CYGPATH_W $coin_mumpssrcdir/MUMPS_${mumps_ver}/libseq` -I`$CYGPATH_W $coin_mumpssrcdir/MUMPS_${mumps_ver}/include`"
+  MUMPS_INCFLAGS="-I`$CYGPATH_W $coin_mumpssrcdir/MUMPS/libseq` -I`$CYGPATH_W $coin_mumpssrcdir/MUMPS/include`"
 
 fi
 
@@ -21618,7 +21616,7 @@ else
 fi
 
 
-MUMPSDIR=MUMPS_4.6.4
+MUMPSDIR=MUMPS
 
 
           ac_config_files="$ac_config_files Makefile"

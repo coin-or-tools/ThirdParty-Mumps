@@ -34,3 +34,7 @@ MUMPS_4.6.4/src/dmumps_part5.F from
 to
 
          id%DKEEP(1) = -1.0
+
+Finally, rename the MUMPS_4.6.4 directory just to be MUMPS:
+
+mv MUMPS_4.6.4 MUMPS

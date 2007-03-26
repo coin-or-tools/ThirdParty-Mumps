@@ -22,7 +22,7 @@ under the Common Public License.])
 
 # List one file in the package so that the configure script can test
 # whether the package is actually there
-AC_CONFIG_SRCDIR(MUMPS_4.6.4/src/dmumps_part1.F)
+AC_CONFIG_SRCDIR(MUMPS/src/dmumps_part1.F)
 
 # Where should everything be installed by default?  Here, we want it
 # to be installed directly in 'bin', 'lib', 'include' subdirectories
@@ -110,7 +110,7 @@ fi
 AC_SUBST(MAKEOKFILE)
 AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
 
-MUMPSDIR=MUMPS_4.6.4
+MUMPSDIR=MUMPS
 AC_SUBST(MUMPSDIR)
 
 AC_CONFIG_FILES([Makefile])

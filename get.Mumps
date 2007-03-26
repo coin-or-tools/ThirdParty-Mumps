@@ -30,6 +30,8 @@ echo "Applying a patch for version 4.6.4"
 sed -e 's/         id%DKEEP(1) = ZERO/         id%DKEEP(1) = -1.0/' MUMPS_${mumps_ver}/src/dmumps_part5.F > bla
 mv bla MUMPS_${mumps_ver}/src/dmumps_part5.F
 
+mv MUMPS_${mumps_ver} MUMPS
+
 echo " "
 echo "Done downloading the source code for MUMPS."
 echo " "
