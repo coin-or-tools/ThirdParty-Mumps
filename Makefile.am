@@ -74,7 +74,8 @@ MODEXT = mod
 CLEANFILES = *.$(MODEXT)
 
 # Reset DEFS to that they don't show up for the Fortran compiler
-DEFS = $(MY_DEFS)
+DEFS =
+CFLAGS += $(MY_DEFS)
 
 ########################################################################
 #                         Maintainer Stuff                             #
