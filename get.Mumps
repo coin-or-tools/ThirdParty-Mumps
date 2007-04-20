@@ -12,10 +12,11 @@ echo " "
 
 rm -f MUMPS*.tgz
 
-mumps_ver=4.6.4
+mumps_ver=4.7
 
 echo "Downloading the source code from ..."
-wget http://graal.ens-lyon.fr/MUMPS/MUMPS_${mumps_ver}.tar.gz
+#wget http://graal.ens-lyon.fr/MUMPS/MUMPS_${mumps_ver}.tar.gz
+wget http://mumps.enseeiht.fr/MUMPS_${mumps_ver}.tar.gz
 
 echo "Uncompressing the tarball..."
 gunzip -f MUMPS_${mumps_ver}.tar.gz
