@@ -67,7 +67,7 @@ dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo: \
 dmumps_buffer.lo
 
 dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo: dmumps_ooc.lo
+dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo dmumps_part8.lo: dmumps_ooc.lo
 
 # Module files that need to be deleted
 MODEXT = mod

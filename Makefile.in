@@ -815,7 +815,7 @@ dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo: \
 dmumps_buffer.lo
 
 dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo: dmumps_ooc.lo
+dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo dmumps_part8.lo: dmumps_ooc.lo
 
 # Make sure acinclude is using most recent coin.m4
 @MAINTAINER_MODE_TRUE@$(srcdir)/acinclude.m4: $(BUILDTOOLSDIR)/coin.m4
