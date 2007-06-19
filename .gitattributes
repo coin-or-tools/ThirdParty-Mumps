@@ -2,3 +2,6 @@
 /INSTALL.MUMPS -text
 /configure -text
 /get.Mumps -text
+trunk/INSTALL.MUMPS -text
+trunk/configure -text
+trunk/get.Mumps -text
