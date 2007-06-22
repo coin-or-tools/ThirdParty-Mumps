@@ -4,6 +4,7 @@
 #  THERE MUST BE NO SPACE BEFORE AND AFTER THE EQUAL (=) OPERATOR.
 mumps_ver=4.7.3
 
+set -e
 
 wgetcount=`which wget 2>/dev/null | wc -w`
 if test ! $wgetcount = 1; then
