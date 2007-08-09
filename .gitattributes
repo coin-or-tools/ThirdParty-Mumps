@@ -1,1 +1,4 @@
 * text=auto !eol
+trunk/INSTALL.MUMPS -text
+trunk/configure -text
+trunk/get.Mumps -text
