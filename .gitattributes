@@ -1,4 +1,7 @@
 * text=auto !eol
+stable/1.0/INSTALL.MUMPS -text
+stable/1.0/configure -text
+stable/1.0/get.Mumps -text
 trunk/INSTALL.MUMPS -text
 trunk/configure -text
 trunk/get.Mumps -text
