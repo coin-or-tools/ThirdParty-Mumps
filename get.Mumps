@@ -6,10 +6,16 @@ mumps_ver=4.7.3
 
 set -e
 
+wgetcmd=wget
 wgetcount=`which wget 2>/dev/null | wc -w`
 if test ! $wgetcount = 1; then
   echo "Utility wget not found in your PATH."
-  exit -1
+  if test `uname` = Darwin; then
+    wgetcmd=ftp
+    echo "Using ftp command instead."
+  else
+    exit -1
+  fi
 fi
 
 echo " "
@@ -19,8 +25,7 @@ echo " "
 rm -f MUMPS*.tgz
 
 echo "Downloading the source code from ..."
-#wget http://graal.ens-lyon.fr/MUMPS/MUMPS_${mumps_ver}.tar.gz
-wget http://mumps.enseeiht.fr/MUMPS_${mumps_ver}.tar.gz
+$wgetcmd http://mumps.enseeiht.fr/MUMPS_${mumps_ver}.tar.gz
 
 echo "Uncompressing the tarball..."
 gunzip -f MUMPS_${mumps_ver}.tar.gz
