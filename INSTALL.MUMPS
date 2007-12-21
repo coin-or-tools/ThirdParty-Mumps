@@ -25,7 +25,6 @@ one.  In that case, please check the Mumps home page for the most recent
 version number and change the definition of the mumps_ver variable at the
 beginning of the get.Mumps script.
 
-
 If you don't have wget available, follow those instructions:
 
 Check the Mumps home page for the most recent version number (say, 4.7.3).
@@ -42,3 +41,31 @@ tar xf MUMPS_4.7.3.tar
 Finally, rename the MUMPS_4.7.3 directory just to be MUMPS:
 
 mv MUMPS_4.7.3 MUMPS
+
+**********************************************************************
+Additional instructions for building with Msys and MinGW
+**********************************************************************
+
+If you are trying to build Mumps in Microsoft Windows using the MSys shell
+environment, you will first need to install the MinGW gcc 4.2 technology
+preview in order obtain a Fortran 95 compliant Fortran compiler. GCC 4.2 is
+available here:
+
+http://sourceforge.net/project/showfiles.php?group_id=2435&package_id=241304
+
+You need to install the gcc-core, gcc-g++, and gcc-gfortran packages. After
+installing these packages, you will also need to patch Mumps by executing the
+command
+
+patch -p0 < mumps.gcc.patch
+
+in this directory.
+
+Note the executable names in the gcc packages have the suffix "sjlj" and will
+not be found by the configuration script of whatever project you are trying to
+build, so you must either (1) change their names by deleting the suffix
+(beware that if you do this, you may create a conflict with other version of
+gcc already installed) or (2) configure with
+
+./configure CC=gcc-sjlj CXX=g++-sjlj F77=gfortran-sjlj
+
