@@ -2,4 +2,3 @@
 /INSTALL.MUMPS -text
 /configure -text
 /get.Mumps -text
-/mumps.gcc.patch -text
