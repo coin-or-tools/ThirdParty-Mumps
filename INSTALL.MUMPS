@@ -57,7 +57,7 @@ You need to install the gcc-core, gcc-g++, and gcc-gfortran packages. After
 installing these packages, you will also need to patch Mumps by executing the
 command
 
-patch -p0 < mumps.gcc.patch
+patch -p0 < mumps_4.7.3.Win.patch
 
 in this directory.
 
