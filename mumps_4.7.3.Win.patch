@@ -1,0 +1,84 @@
+diff -Naur MUMPS/include/cmumps_c.h MUMPS.patched/include/cmumps_c.h
+--- MUMPS/include/cmumps_c.h	2007-05-04 10:00:47.000000000 -0400
++++ MUMPS.patched/include/cmumps_c.h	2007-11-12 19:45:16.140625000 -0500
+@@ -109,7 +109,7 @@
+   } CMUMPS_STRUC_C;
+ 
+ 
+-#if defined(UPPER) || defined(_WIN32)
++#if defined(UPPER) 
+ #define cmumps_f77_ CMUMPS_F77
+ #define cmumps_affect_mapping_ CMUMPS_AFFECT_MAPPING
+ #define cmumps_affect_pivnul_list_ CMUMPS_AFFECT_PIVNUL_LIST
+diff -Naur MUMPS/include/dmumps_c.h MUMPS.patched/include/dmumps_c.h
+--- MUMPS/include/dmumps_c.h	2007-05-04 09:58:02.000000000 -0400
++++ MUMPS.patched/include/dmumps_c.h	2007-11-12 11:06:15.796875000 -0500
+@@ -108,7 +108,7 @@
+   } DMUMPS_STRUC_C;
+ 
+ 
+-#if defined(UPPER) || defined(_WIN32)
++#if defined(UPPER) 
+ #define dmumps_f77_ DMUMPS_F77
+ #define dmumps_affect_mapping_ DMUMPS_AFFECT_MAPPING
+ #define dmumps_affect_pivnul_list_ DMUMPS_AFFECT_PIVNUL_LIST
+diff -Naur MUMPS/include/smumps_c.h MUMPS.patched/include/smumps_c.h
+--- MUMPS/include/smumps_c.h	2007-05-04 09:59:11.000000000 -0400
++++ MUMPS.patched/include/smumps_c.h	2007-11-12 19:45:40.890625000 -0500
+@@ -108,7 +108,7 @@
+   } SMUMPS_STRUC_C;
+ 
+ 
+-#if defined(UPPER) || defined(_WIN32)
++#if defined(UPPER)
+ #define smumps_f77_ SMUMPS_F77
+ #define smumps_affect_mapping_ SMUMPS_AFFECT_MAPPING
+ #define smumps_affect_pivnul_list_ SMUMPS_AFFECT_PIVNUL_LIST
+diff -Naur MUMPS/include/zmumps_c.h MUMPS.patched/include/zmumps_c.h
+--- MUMPS/include/zmumps_c.h	2007-05-04 09:59:46.000000000 -0400
++++ MUMPS.patched/include/zmumps_c.h	2007-11-12 19:45:56.015625000 -0500
+@@ -109,7 +109,7 @@
+   } ZMUMPS_STRUC_C;
+ 
+ 
+-#if defined(UPPER) || defined(_WIN32)
++#if defined(UPPER)
+ #define zmumps_f77_ ZMUMPS_F77
+ #define zmumps_affect_mapping_ ZMUMPS_AFFECT_MAPPING
+ #define zmumps_affect_pivnul_list_ ZMUMPS_AFFECT_PIVNUL_LIST
+diff -Naur MUMPS/libseq/mpi.f MUMPS.patched/libseq/mpi.f
+--- MUMPS/libseq/mpi.f	2007-05-04 10:00:48.000000000 -0400
++++ MUMPS.patched/libseq/mpi.f	2007-11-13 00:24:07.953125000 -0500
+@@ -493,7 +493,7 @@
+ C     elapsed time
+       DOUBLE PRECISION VAL
+ C     write(*,*) 'Entering MPI_WTIME'
+-      CALL ELAPSE( VAL )
++      VAL = 0.d0
+       MPI_WTIME = VAL
+ C     write(*,*) 'Exiting MPI_WTIME'
+       RETURN
+diff -Naur MUMPS/src/dmumps_io.h MUMPS.patched/src/dmumps_io.h
+--- MUMPS/src/dmumps_io.h	2007-05-04 09:57:50.000000000 -0400
++++ MUMPS.patched/src/dmumps_io.h	2007-11-13 00:01:03.421875000 -0500
+@@ -46,7 +46,7 @@
+ */
+ /*    $Id: dmumps_io.h,v 1.30 2006/12/06 12:05:49 jylexcel Exp $ */
+ 
+-#if defined(_WIN32) || defined (UPPER)
++#if defined (UPPER)
+ #define dmumps_is_there_finished_request DMUMPS_IS_THERE_FINISHED_REQUEST
+ #define dmumps_clean_request DMUMPS_CLEAN_REQUEST
+ #define dmumps_test_request DMUMPS_TEST_REQUEST
+diff -Naur MUMPS/src/dmumps_io_err.h MUMPS.patched/src/dmumps_io_err.h
+--- MUMPS/src/dmumps_io_err.h	2007-05-04 09:57:51.000000000 -0400
++++ MUMPS.patched/src/dmumps_io_err.h	2007-11-13 00:05:28.625000000 -0500
+@@ -48,7 +48,7 @@
+ 
+ #include <errno.h>
+ 
+-#if defined(UPPER) || defined(_WIN32)
++#if defined(UPPER)
+ #define dmumps_low_level_init_err_str DMUMPS_LOW_LEVEL_INIT_ERR_STR
+ #elif defined(Add_)
+ #define dmumps_low_level_init_err_str dmumps_low_level_init_err_str_

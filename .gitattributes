@@ -2,3 +2,4 @@
 /INSTALL.MUMPS -text
 /configure -text
 /get.Mumps -text
+/mumps_4.7.3.Win.patch -text
