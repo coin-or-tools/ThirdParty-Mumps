@@ -9,7 +9,7 @@ set -e
 if test "$1" == '-patch'; then
   uname=`uname`
   case "$uname" in
-    Msys | CYGWIN*)
+    MINGW* | CYGWIN*)
       patch=yes
       ;;
   esac
