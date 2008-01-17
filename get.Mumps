@@ -6,7 +6,7 @@ mumps_ver=4.7.3
 
 set -e
 
-if test "$1" == '-patch'; then
+if test "$1" = '-patch'; then
   uname=`uname`
   case "$uname" in
     MINGW* | CYGWIN*)
