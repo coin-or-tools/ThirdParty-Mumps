@@ -45,6 +45,7 @@ tar xf MUMPS_${mumps_ver}.tar
 echo "Deleting the tar file..."
 rm MUMPS_${mumps_ver}.tar
 
+rm -rf MUMPS
 mv MUMPS_${mumps_ver} MUMPS
 
 if test "$patch" = yes; then
