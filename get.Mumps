@@ -6,14 +6,12 @@ mumps_ver=4.7.3
 
 set -e
 
-if test "$1" = '-patch'; then
-  uname=`uname`
-  case "$uname" in
-    MINGW* | CYGWIN*)
-      patch=yes
-      ;;
-  esac
-fi
+uname=`uname`
+case "$uname" in
+  MINGW* | CYGWIN*)
+    patch=yes
+    ;;
+esac
 
 wgetcmd=wget
 wgetcount=`which wget 2>/dev/null | wc -w`
