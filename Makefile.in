@@ -81,7 +81,7 @@ nodist_libcoinmumps_la_OBJECTS = dmumps_bloc2.lo dmumps_buffer.lo \
 	elapse.lo
 libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
 @SKIPMAKE_FALSE@am_libcoinmumps_la_rpath =
-depcomp = $(SHELL) $(top_srcdir)/../../depcomp
+depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 PPF77COMPILE = $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS)
