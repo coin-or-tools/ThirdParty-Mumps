@@ -1,4 +1,4 @@
-# Copyright (C) 2007 International Business Machines.
+# Copyright (C) 2007-2008 International Business Machines.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -12,10 +12,10 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyMumps],[1.1trunk],[http://projects.coin-or.org/BuildTools/newticket])
+AC_INIT([ThirdPartyMumps],[1.1stable],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
-Copyright 2007 International Business Machines and others.
+Copyright 2007-2008 International Business Machines and others.
 All Rights Reserved.
 This file is part of the open source package Coin which is distributed
 under the Common Public License.])
