@@ -51,12 +51,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = $(am__configure_deps) \
-	$(srcdir)/../../BuildTools/Makemain.inc \
-	$(srcdir)/../../config.guess $(srcdir)/../../config.sub \
-	$(srcdir)/../../depcomp $(srcdir)/../../install-sh \
-	$(srcdir)/../../ltmain.sh $(srcdir)/../../missing \
-	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/configure
+	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in $(top_srcdir)/configure config.guess \
+	config.sub depcomp install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_1 = Externals
 @HAVE_EXTERNALS_TRUE@am__append_2 = .Externals-stamp
 subdir = .
@@ -81,7 +78,7 @@ nodist_libcoinmumps_la_OBJECTS = dmumps_bloc2.lo dmumps_buffer.lo \
 	elapse.lo
 libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
 @SKIPMAKE_FALSE@am_libcoinmumps_la_rpath =
-depcomp = $(SHELL) $(top_srcdir)/../../depcomp
+depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 PPF77COMPILE = $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS)
@@ -187,6 +184,8 @@ MAKEOKFILE = @MAKEOKFILE@
 MPICC = @MPICC@
 MPIF77 = @MPIF77@
 MUMPSDIR = @MUMPSDIR@
+MUMPSINCDIR = @MUMPSINCDIR@
+MUMPSLIB = @MUMPSLIB@
 MUMPS_INCFLAGS = @MUMPS_INCFLAGS@
 MY_DEFS = @MY_DEFS@
 OBJEXT = @OBJEXT@
@@ -580,7 +579,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/../.. $(distdir)/../../BuildTools
+	$(mkdir_p) $(distdir)/../../BuildTools
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
