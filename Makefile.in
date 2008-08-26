@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 2007 International Business Machines and others.
+# Copyright (C) 2007, 2008 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -68,14 +68,15 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libcoinmumps_la_LIBADD =
-nodist_libcoinmumps_la_OBJECTS = dmumps_bloc2.lo dmumps_buffer.lo \
-	dmumps_cv.lo dmumps_cv_load.lo dmumps_ooc.lo dmumps_part1.lo \
-	dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-	dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo \
-	dmumps_part8.lo dmumps_part9.lo dmumps_struc_def.lo \
-	dmumps_c.lo dmumps_io_basic.lo dmumps_io.lo dmumps_io_err.lo \
-	dmumps_io_thread.lo dmumps_orderings.lo mpi.lo mpic.lo \
-	elapse.lo
+nodist_libcoinmumps_la_OBJECTS = dmumps_comm_buffer.lo \
+	dmumps_struc_def.lo mumps_ooc_common.lo \
+	mumps_static_mapping.lo dmumps_ooc_buffer.lo dmumps_load.lo \
+	dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+	dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo \
+	dmumps_part7.lo dmumps_part8.lo mumps_part9.lo mumps_c.lo \
+	mumps_common.lo mumps_orderings.lo mumps_io.lo \
+	mumps_io_basic.lo mumps_io_thread.lo mumps_io_err.lo mpi.lo \
+	mpic.lo elapse.lo
 libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
 @SKIPMAKE_FALSE@am_libcoinmumps_la_rpath =
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -265,10 +266,12 @@ EXTRA_DIST = get.mumps INSTALL.MUMPS $(am__append_1)
 @SKIPMAKE_FALSE@noinst_LTLIBRARIES = libcoinmumps.la
 @SKIPMAKE_TRUE@noinst_LTLIBRARIES = 
 nodist_libcoinmumps_la_SOURCES = \
-	$(MUMPSDIR)/src/dmumps_bloc2.F \
-	$(MUMPSDIR)/src/dmumps_buffer.F \
-	$(MUMPSDIR)/src/dmumps_cv.F \
-	$(MUMPSDIR)/src/dmumps_cv_load.F \
+	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
+	$(MUMPSDIR)/src/dmumps_struc_def.F \
+	$(MUMPSDIR)/src/mumps_ooc_common.F\
+	$(MUMPSDIR)/src/mumps_static_mapping.F \
+	$(MUMPSDIR)/src/dmumps_ooc_buffer.F \
+	$(MUMPSDIR)/src/dmumps_load.F \
 	$(MUMPSDIR)/src/dmumps_ooc.F \
 	$(MUMPSDIR)/src/dmumps_part1.F \
 	$(MUMPSDIR)/src/dmumps_part2.F \
@@ -278,20 +281,21 @@ nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/dmumps_part6.F \
 	$(MUMPSDIR)/src/dmumps_part7.F \
 	$(MUMPSDIR)/src/dmumps_part8.F \
-	$(MUMPSDIR)/src/dmumps_part9.F \
-	$(MUMPSDIR)/src/dmumps_struc_def.F \
-	$(MUMPSDIR)/src/dmumps_c.c \
-	$(MUMPSDIR)/src/dmumps_io_basic.c \
-	$(MUMPSDIR)/src/dmumps_io.c \
-	$(MUMPSDIR)/src/dmumps_io_err.c \
-	$(MUMPSDIR)/src/dmumps_io_thread.c \
-	$(MUMPSDIR)/src/dmumps_orderings.c \
+	$(MUMPSDIR)/src/mumps_part9.F \
+	$(MUMPSDIR)/src/mumps_c.c \
+	$(MUMPSDIR)/src/mumps_common.c\
+	$(MUMPSDIR)/src/mumps_orderings.c\
+	$(MUMPSDIR)/src/mumps_io.c\
+	$(MUMPSDIR)/src/mumps_io_basic.c\
+	$(MUMPSDIR)/src/mumps_io_thread.c\
+	$(MUMPSDIR)/src/mumps_io_err.c\
 	$(MUMPSDIR)/libseq/mpi.f \
 	$(MUMPSDIR)/libseq/mpic.c \
 	$(MUMPSDIR)/libseq/elapse.c
 
 DEFAULT_INCLUDES = -I. -I`$(CYGPATH_W) $(srcdir)`
-AM_CPPFLAGS = -I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
+AM_CPPFLAGS = -DMUMPS_ARITH=MUMPS_ARITH_d \
+	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/libseq` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/include`
 
@@ -364,14 +368,15 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dmumps_c.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dmumps_io.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dmumps_io_basic.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dmumps_io_err.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dmumps_io_thread.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dmumps_orderings.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elapse.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mpic.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_c.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_common.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_io.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_io_basic.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_io_err.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_io_thread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_orderings.Plo@am__quote@
 
 .F.o:
 	$(PPF77COMPILE) -c -o $@ $<
@@ -382,17 +387,23 @@ distclean-compile:
 .F.lo:
 	$(LTPPF77COMPILE) -c -o $@ $<
 
-dmumps_bloc2.lo: $(MUMPSDIR)/src/dmumps_bloc2.F
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_bloc2.lo `test -f '$(MUMPSDIR)/src/dmumps_bloc2.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_bloc2.F
+dmumps_comm_buffer.lo: $(MUMPSDIR)/src/dmumps_comm_buffer.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_comm_buffer.lo `test -f '$(MUMPSDIR)/src/dmumps_comm_buffer.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_comm_buffer.F
 
-dmumps_buffer.lo: $(MUMPSDIR)/src/dmumps_buffer.F
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_buffer.lo `test -f '$(MUMPSDIR)/src/dmumps_buffer.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_buffer.F
+dmumps_struc_def.lo: $(MUMPSDIR)/src/dmumps_struc_def.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_struc_def.lo `test -f '$(MUMPSDIR)/src/dmumps_struc_def.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_struc_def.F
 
-dmumps_cv.lo: $(MUMPSDIR)/src/dmumps_cv.F
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_cv.lo `test -f '$(MUMPSDIR)/src/dmumps_cv.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_cv.F
+mumps_ooc_common.lo: $(MUMPSDIR)/src/mumps_ooc_common.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o mumps_ooc_common.lo `test -f '$(MUMPSDIR)/src/mumps_ooc_common.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_ooc_common.F
 
-dmumps_cv_load.lo: $(MUMPSDIR)/src/dmumps_cv_load.F
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_cv_load.lo `test -f '$(MUMPSDIR)/src/dmumps_cv_load.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_cv_load.F
+mumps_static_mapping.lo: $(MUMPSDIR)/src/mumps_static_mapping.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o mumps_static_mapping.lo `test -f '$(MUMPSDIR)/src/mumps_static_mapping.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_static_mapping.F
+
+dmumps_ooc_buffer.lo: $(MUMPSDIR)/src/dmumps_ooc_buffer.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_ooc_buffer.lo `test -f '$(MUMPSDIR)/src/dmumps_ooc_buffer.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_ooc_buffer.F
+
+dmumps_load.lo: $(MUMPSDIR)/src/dmumps_load.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_load.lo `test -f '$(MUMPSDIR)/src/dmumps_load.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_load.F
 
 dmumps_ooc.lo: $(MUMPSDIR)/src/dmumps_ooc.F
 	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_ooc.lo `test -f '$(MUMPSDIR)/src/dmumps_ooc.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_ooc.F
@@ -421,11 +432,8 @@ dmumps_part7.lo: $(MUMPSDIR)/src/dmumps_part7.F
 dmumps_part8.lo: $(MUMPSDIR)/src/dmumps_part8.F
 	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_part8.lo `test -f '$(MUMPSDIR)/src/dmumps_part8.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_part8.F
 
-dmumps_part9.lo: $(MUMPSDIR)/src/dmumps_part9.F
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_part9.lo `test -f '$(MUMPSDIR)/src/dmumps_part9.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_part9.F
-
-dmumps_struc_def.lo: $(MUMPSDIR)/src/dmumps_struc_def.F
-	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_struc_def.lo `test -f '$(MUMPSDIR)/src/dmumps_struc_def.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_struc_def.F
+mumps_part9.lo: $(MUMPSDIR)/src/mumps_part9.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o mumps_part9.lo `test -f '$(MUMPSDIR)/src/mumps_part9.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_part9.F
 .F.f:
 	$(F77COMPILE) -F $<
 
@@ -450,47 +458,54 @@ dmumps_struc_def.lo: $(MUMPSDIR)/src/dmumps_struc_def.F
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-dmumps_c.lo: $(MUMPSDIR)/src/dmumps_c.c
-@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dmumps_c.lo -MD -MP -MF "$(DEPDIR)/dmumps_c.Tpo" -c -o dmumps_c.lo `test -f '$(MUMPSDIR)/src/dmumps_c.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_c.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/dmumps_c.Tpo" "$(DEPDIR)/dmumps_c.Plo"; else rm -f "$(DEPDIR)/dmumps_c.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/dmumps_c.c' object='dmumps_c.lo' libtool=yes @AMDEPBACKSLASH@
+mumps_c.lo: $(MUMPSDIR)/src/mumps_c.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_c.lo -MD -MP -MF "$(DEPDIR)/mumps_c.Tpo" -c -o mumps_c.lo `test -f '$(MUMPSDIR)/src/mumps_c.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_c.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_c.Tpo" "$(DEPDIR)/mumps_c.Plo"; else rm -f "$(DEPDIR)/mumps_c.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_c.c' object='mumps_c.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dmumps_c.lo `test -f '$(MUMPSDIR)/src/dmumps_c.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_c.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_c.lo `test -f '$(MUMPSDIR)/src/mumps_c.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_c.c
 
-dmumps_io_basic.lo: $(MUMPSDIR)/src/dmumps_io_basic.c
-@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dmumps_io_basic.lo -MD -MP -MF "$(DEPDIR)/dmumps_io_basic.Tpo" -c -o dmumps_io_basic.lo `test -f '$(MUMPSDIR)/src/dmumps_io_basic.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io_basic.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/dmumps_io_basic.Tpo" "$(DEPDIR)/dmumps_io_basic.Plo"; else rm -f "$(DEPDIR)/dmumps_io_basic.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/dmumps_io_basic.c' object='dmumps_io_basic.lo' libtool=yes @AMDEPBACKSLASH@
+mumps_common.lo: $(MUMPSDIR)/src/mumps_common.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_common.lo -MD -MP -MF "$(DEPDIR)/mumps_common.Tpo" -c -o mumps_common.lo `test -f '$(MUMPSDIR)/src/mumps_common.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_common.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_common.Tpo" "$(DEPDIR)/mumps_common.Plo"; else rm -f "$(DEPDIR)/mumps_common.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_common.c' object='mumps_common.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dmumps_io_basic.lo `test -f '$(MUMPSDIR)/src/dmumps_io_basic.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io_basic.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_common.lo `test -f '$(MUMPSDIR)/src/mumps_common.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_common.c
 
-dmumps_io.lo: $(MUMPSDIR)/src/dmumps_io.c
-@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dmumps_io.lo -MD -MP -MF "$(DEPDIR)/dmumps_io.Tpo" -c -o dmumps_io.lo `test -f '$(MUMPSDIR)/src/dmumps_io.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/dmumps_io.Tpo" "$(DEPDIR)/dmumps_io.Plo"; else rm -f "$(DEPDIR)/dmumps_io.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/dmumps_io.c' object='dmumps_io.lo' libtool=yes @AMDEPBACKSLASH@
+mumps_orderings.lo: $(MUMPSDIR)/src/mumps_orderings.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_orderings.lo -MD -MP -MF "$(DEPDIR)/mumps_orderings.Tpo" -c -o mumps_orderings.lo `test -f '$(MUMPSDIR)/src/mumps_orderings.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_orderings.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_orderings.Tpo" "$(DEPDIR)/mumps_orderings.Plo"; else rm -f "$(DEPDIR)/mumps_orderings.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_orderings.c' object='mumps_orderings.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dmumps_io.lo `test -f '$(MUMPSDIR)/src/dmumps_io.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_orderings.lo `test -f '$(MUMPSDIR)/src/mumps_orderings.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_orderings.c
 
-dmumps_io_err.lo: $(MUMPSDIR)/src/dmumps_io_err.c
-@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dmumps_io_err.lo -MD -MP -MF "$(DEPDIR)/dmumps_io_err.Tpo" -c -o dmumps_io_err.lo `test -f '$(MUMPSDIR)/src/dmumps_io_err.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io_err.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/dmumps_io_err.Tpo" "$(DEPDIR)/dmumps_io_err.Plo"; else rm -f "$(DEPDIR)/dmumps_io_err.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/dmumps_io_err.c' object='dmumps_io_err.lo' libtool=yes @AMDEPBACKSLASH@
+mumps_io.lo: $(MUMPSDIR)/src/mumps_io.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_io.lo -MD -MP -MF "$(DEPDIR)/mumps_io.Tpo" -c -o mumps_io.lo `test -f '$(MUMPSDIR)/src/mumps_io.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_io.Tpo" "$(DEPDIR)/mumps_io.Plo"; else rm -f "$(DEPDIR)/mumps_io.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_io.c' object='mumps_io.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dmumps_io_err.lo `test -f '$(MUMPSDIR)/src/dmumps_io_err.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io_err.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_io.lo `test -f '$(MUMPSDIR)/src/mumps_io.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io.c
 
-dmumps_io_thread.lo: $(MUMPSDIR)/src/dmumps_io_thread.c
-@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dmumps_io_thread.lo -MD -MP -MF "$(DEPDIR)/dmumps_io_thread.Tpo" -c -o dmumps_io_thread.lo `test -f '$(MUMPSDIR)/src/dmumps_io_thread.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io_thread.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/dmumps_io_thread.Tpo" "$(DEPDIR)/dmumps_io_thread.Plo"; else rm -f "$(DEPDIR)/dmumps_io_thread.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/dmumps_io_thread.c' object='dmumps_io_thread.lo' libtool=yes @AMDEPBACKSLASH@
+mumps_io_basic.lo: $(MUMPSDIR)/src/mumps_io_basic.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_io_basic.lo -MD -MP -MF "$(DEPDIR)/mumps_io_basic.Tpo" -c -o mumps_io_basic.lo `test -f '$(MUMPSDIR)/src/mumps_io_basic.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_basic.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_io_basic.Tpo" "$(DEPDIR)/mumps_io_basic.Plo"; else rm -f "$(DEPDIR)/mumps_io_basic.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_io_basic.c' object='mumps_io_basic.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dmumps_io_thread.lo `test -f '$(MUMPSDIR)/src/dmumps_io_thread.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_io_thread.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_io_basic.lo `test -f '$(MUMPSDIR)/src/mumps_io_basic.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_basic.c
 
-dmumps_orderings.lo: $(MUMPSDIR)/src/dmumps_orderings.c
-@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT dmumps_orderings.lo -MD -MP -MF "$(DEPDIR)/dmumps_orderings.Tpo" -c -o dmumps_orderings.lo `test -f '$(MUMPSDIR)/src/dmumps_orderings.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_orderings.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/dmumps_orderings.Tpo" "$(DEPDIR)/dmumps_orderings.Plo"; else rm -f "$(DEPDIR)/dmumps_orderings.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/dmumps_orderings.c' object='dmumps_orderings.lo' libtool=yes @AMDEPBACKSLASH@
+mumps_io_thread.lo: $(MUMPSDIR)/src/mumps_io_thread.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_io_thread.lo -MD -MP -MF "$(DEPDIR)/mumps_io_thread.Tpo" -c -o mumps_io_thread.lo `test -f '$(MUMPSDIR)/src/mumps_io_thread.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_thread.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_io_thread.Tpo" "$(DEPDIR)/mumps_io_thread.Plo"; else rm -f "$(DEPDIR)/mumps_io_thread.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_io_thread.c' object='mumps_io_thread.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o dmumps_orderings.lo `test -f '$(MUMPSDIR)/src/dmumps_orderings.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_orderings.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_io_thread.lo `test -f '$(MUMPSDIR)/src/mumps_io_thread.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_thread.c
+
+mumps_io_err.lo: $(MUMPSDIR)/src/mumps_io_err.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_io_err.lo -MD -MP -MF "$(DEPDIR)/mumps_io_err.Tpo" -c -o mumps_io_err.lo `test -f '$(MUMPSDIR)/src/mumps_io_err.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_err.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_io_err.Tpo" "$(DEPDIR)/mumps_io_err.Plo"; else rm -f "$(DEPDIR)/mumps_io_err.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_io_err.c' object='mumps_io_err.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_io_err.lo `test -f '$(MUMPSDIR)/src/mumps_io_err.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_err.c
 
 mpic.lo: $(MUMPSDIR)/libseq/mpic.c
 @am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mpic.lo -MD -MP -MF "$(DEPDIR)/mpic.Tpo" -c -o mpic.lo `test -f '$(MUMPSDIR)/libseq/mpic.c' || echo '$(srcdir)/'`$(MUMPSDIR)/libseq/mpic.c; \
@@ -803,21 +818,25 @@ uninstall-am: uninstall-info-am
 
 
 # Some dependecies for modules:
-dmumps_cv_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo \
-dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo \
-dmumps_part7.lo dmumps_part8.lo: dmumps_struc_def.lo
 
-dmumps_part3.lo dmumps_part5.lo: dmumps_cv.lo
+dmumps_load.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: \
+dmumps_comm_buffer.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo: dmumps_cv_load.lo
+dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo: dmumps_load.lo
 
-dmumps_cv_load.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
-dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo: \
-dmumps_buffer.lo
+dmumps_part1.lo dmumps_ooc.lo: dmumps_ooc_buffer.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo dmumps_part8.lo: dmumps_ooc.lo
+dmumps_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+dmumps_part4.lo dmumps_part5.lo dmumps_part7.lo dmumps_part8.lo: \
+dmumps_struc_def.lo
+
+dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
+
+dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
+
+dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

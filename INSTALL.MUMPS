@@ -27,20 +27,20 @@ beginning of the get.Mumps script.
 
 If you don't have wget available, follow those instructions:
 
-Check the Mumps home page for the most recent version number (say, 4.7.3).
+Check the Mumps home page for the most recent version number (say, 4.8.1).
 You may then download
 
-http://graal.ens-lyon.fr/MUMPS/MUMPS_4.7.3.tar.gz (or try
-http://mumps.enseeiht.fr/MUMPS_4.7.3.tar.gz if first URL doesn't work)
+http://graal.ens-lyon.fr/MUMPS/MUMPS_4.8.1.tar.gz (or try
+http://mumps.enseeiht.fr/MUMPS_4.8.1.tar.gz if first URL doesn't work)
 
 and unpack it in this directory:
 
-gunzip MUMPS_4.7.3.tar.gz
-tar xf MUMPS_4.7.3.tar
+gunzip MUMPS_4.8.1.tar.gz
+tar xf MUMPS_4.8.1.tar
 
-Finally, rename the MUMPS_4.7.3 directory just to be MUMPS:
+Finally, rename the MUMPS_4.8.1 directory just to be MUMPS:
 
-mv MUMPS_4.7.3 MUMPS
+mv MUMPS_4.8.1 MUMPS
 
 **********************************************************************
 Additional instructions for building with Msys and MinGW
@@ -60,6 +60,9 @@ command
 patch -p0 < mumps_4.7.3.Win.patch
 
 in this directory.
+
+NOTE: THE ABOVE PATCH WAS FOR ONLY FOR THE 4.7.3 VERSION, WE DON'T HAVE A
+      PATCH FOR A LATER VERSION YET (MAYBE IT IS NOT REQUIRED)!!!
 
 Note the executable names in the gcc packages have the suffix "sjlj" and will
 not be found by the configuration script of whatever project you are trying to

@@ -1,4 +1,4 @@
-# Copyright (C) 2007 International Business Machines and others.
+# Copyright (C) 2007, 2008 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -17,10 +17,12 @@ endif
 MUMPSDIR = @MUMPSDIR@
 
 nodist_libcoinmumps_la_SOURCES = \
-	$(MUMPSDIR)/src/dmumps_bloc2.F \
-	$(MUMPSDIR)/src/dmumps_buffer.F \
-	$(MUMPSDIR)/src/dmumps_cv.F \
-	$(MUMPSDIR)/src/dmumps_cv_load.F \
+	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
+	$(MUMPSDIR)/src/dmumps_struc_def.F \
+	$(MUMPSDIR)/src/mumps_ooc_common.F\
+	$(MUMPSDIR)/src/mumps_static_mapping.F \
+	$(MUMPSDIR)/src/dmumps_ooc_buffer.F \
+	$(MUMPSDIR)/src/dmumps_load.F \
 	$(MUMPSDIR)/src/dmumps_ooc.F \
 	$(MUMPSDIR)/src/dmumps_part1.F \
 	$(MUMPSDIR)/src/dmumps_part2.F \
@@ -30,14 +32,14 @@ nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/dmumps_part6.F \
 	$(MUMPSDIR)/src/dmumps_part7.F \
 	$(MUMPSDIR)/src/dmumps_part8.F \
-	$(MUMPSDIR)/src/dmumps_part9.F \
-	$(MUMPSDIR)/src/dmumps_struc_def.F \
-	$(MUMPSDIR)/src/dmumps_c.c \
-	$(MUMPSDIR)/src/dmumps_io_basic.c \
-	$(MUMPSDIR)/src/dmumps_io.c \
-	$(MUMPSDIR)/src/dmumps_io_err.c \
-	$(MUMPSDIR)/src/dmumps_io_thread.c \
-	$(MUMPSDIR)/src/dmumps_orderings.c \
+	$(MUMPSDIR)/src/mumps_part9.F \
+	$(MUMPSDIR)/src/mumps_c.c \
+	$(MUMPSDIR)/src/mumps_common.c\
+	$(MUMPSDIR)/src/mumps_orderings.c\
+	$(MUMPSDIR)/src/mumps_io.c\
+	$(MUMPSDIR)/src/mumps_io_basic.c\
+	$(MUMPSDIR)/src/mumps_io_thread.c\
+	$(MUMPSDIR)/src/mumps_io_err.c\
 	$(MUMPSDIR)/libseq/mpi.f \
 	$(MUMPSDIR)/libseq/mpic.c \
 	$(MUMPSDIR)/libseq/elapse.c
@@ -45,7 +47,8 @@ nodist_libcoinmumps_la_SOURCES = \
 
 DEFAULT_INCLUDES = -I. -I`$(CYGPATH_W) $(srcdir)`
 
-AM_CPPFLAGS = -I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
+AM_CPPFLAGS = -DMUMPS_ARITH=MUMPS_ARITH_d \
+	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/libseq` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/include`
 
@@ -53,21 +56,26 @@ AM_CPPFLAGS = -I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
 libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 
 # Some dependecies for modules:
-dmumps_cv_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo \
-dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo \
-dmumps_part7.lo dmumps_part8.lo: dmumps_struc_def.lo
 
-dmumps_part3.lo dmumps_part5.lo: dmumps_cv.lo
+dmumps_load.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: \
+dmumps_comm_buffer.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo: dmumps_cv_load.lo
+dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo: dmumps_load.lo
 
-dmumps_cv_load.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
-dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo: \
-dmumps_buffer.lo
+dmumps_part1.lo dmumps_ooc.lo: dmumps_ooc_buffer.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo dmumps_part7.lo dmumps_part8.lo: dmumps_ooc.lo
+dmumps_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
+dmumps_part4.lo dmumps_part5.lo dmumps_part7.lo dmumps_part8.lo: \
+dmumps_struc_def.lo
+
+dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
+
+dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
+
+dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
+
 
 # Module files that need to be deleted
 MODEXT = mod
