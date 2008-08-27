@@ -6,13 +6,6 @@ mumps_ver=4.8.1
 
 set -e
 
-uname=`uname`
-case "$uname" in
-  MINGW* | CYGWIN*)
-    patch=yes
-    ;;
-esac
-
 wgetcmd=wget
 wgetcount=`which wget 2>/dev/null | wc -w`
 if test ! $wgetcount = 1; then
@@ -46,10 +39,13 @@ rm MUMPS_${mumps_ver}.tar
 rm -rf MUMPS
 mv MUMPS_${mumps_ver} MUMPS
 
-if test "$patch" = yes; then
-  echo "Applying a patch for version 4.7.3"
-  patch -p0 < mumps_4.7.3.Win.patch
-fi
+#uname=`uname`
+#case "$uname" in
+#  MINGW* | CYGWIN*)
+#    echo "Applying a patch for version 4.7.3"
+#    patch -p0 < mumps_4.7.3.Win.patch
+#  ;;
+#esac
 
 echo " "
 echo "Done downloading the source code for MUMPS."
