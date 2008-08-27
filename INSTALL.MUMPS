@@ -47,12 +47,13 @@ Additional instructions for building with Msys and MinGW
 **********************************************************************
 
 If you are trying to build Mumps in Microsoft Windows using the MSys shell
-environment, you will first need to install the MinGW gcc 4.2 technology
-preview in order obtain a Fortran 95 compliant Fortran compiler. GCC 4.2 is
-available here:
+environment and gnu fortran compilers, you will first need to install the
+MinGW gcc 4.2 technology preview in order obtain a Fortran 95 compliant
+Fortran compiler. GCC 4.2 is available here:
 
 http://sourceforge.net/project/showfiles.php?group_id=2435&package_id=241304
 
+/*
 You need to install the gcc-core, gcc-g++, and gcc-gfortran packages. After
 installing these packages, you will also need to patch Mumps by executing the
 command
@@ -63,6 +64,7 @@ in this directory.
 
 NOTE: THE ABOVE PATCH WAS FOR ONLY FOR THE 4.7.3 VERSION, WE DON'T HAVE A
       PATCH FOR A LATER VERSION YET (MAYBE IT IS NOT REQUIRED)!!!
+*/
 
 Note the executable names in the gcc packages have the suffix "sjlj" and will
 not be found by the configuration script of whatever project you are trying to

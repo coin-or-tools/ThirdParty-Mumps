@@ -82,6 +82,10 @@ case "$ac_cv_f77_mangling" in
   MY_DEFS="-DUPPER"
   ;;
 esac
+
+# check for pthread.h header file
+AC_COIN_CHECK_HEADER([pthread.h],,[MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"])
+
 MY_DEFS="$MY_DEFS -DALLOW_NON_INIT"
 AC_SUBST(MY_DEFS)
 
