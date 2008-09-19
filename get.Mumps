@@ -39,13 +39,7 @@ rm MUMPS_${mumps_ver}.tar
 rm -rf MUMPS
 mv MUMPS_${mumps_ver} MUMPS
 
-#uname=`uname`
-#case "$uname" in
-#  MINGW* | CYGWIN*)
-#    echo "Applying a patch for version 4.7.3"
-#    patch -p0 < mumps_4.7.3.Win.patch
-#  ;;
-#esac
+patch -p0 < mumps.patch
 
 echo " "
 echo "Done downloading the source code for MUMPS."
