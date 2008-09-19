@@ -27,20 +27,24 @@ beginning of the get.Mumps script.
 
 If you don't have wget available, follow those instructions:
 
-Check the Mumps home page for the most recent version number (say, 4.8.1).
+Check the Mumps home page for the most recent version number (say, 4.8.2).
 You may then download
 
-http://graal.ens-lyon.fr/MUMPS/MUMPS_4.8.1.tar.gz (or try
-http://mumps.enseeiht.fr/MUMPS_4.8.1.tar.gz if first URL doesn't work)
+http://graal.ens-lyon.fr/MUMPS/MUMPS_4.8.2.tar.gz (or try
+http://mumps.enseeiht.fr/MUMPS_4.8.2.tar.gz if first URL doesn't work)
 
 and unpack it in this directory:
 
-gunzip MUMPS_4.8.1.tar.gz
-tar xf MUMPS_4.8.1.tar
+gunzip MUMPS_4.8.2.tar.gz
+tar xf MUMPS_4.8.2.tar
 
-Finally, rename the MUMPS_4.8.1 directory just to be MUMPS:
+Then, rename the MUMPS_4.8.2 directory just to be MUMPS:
 
-mv MUMPS_4.8.1 MUMPS
+mv MUMPS_4.8.2 MUMPS
+
+Finally, apply the patchfile:
+
+patch -p0 < mumps.patch
 
 **********************************************************************
 Additional instructions for building with Msys and MinGW
