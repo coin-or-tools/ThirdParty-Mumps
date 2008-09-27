@@ -2,7 +2,7 @@
 
 # Set the following to the latest MUMPS version.
 #  THERE MUST BE NO SPACE BEFORE AND AFTER THE EQUAL (=) OPERATOR.
-mumps_ver=4.8.2
+mumps_ver=4.8.3
 
 set -e
 
@@ -39,7 +39,7 @@ rm MUMPS_${mumps_ver}.tar
 rm -rf MUMPS
 mv MUMPS_${mumps_ver} MUMPS
 
-patch -p0 < mumps.patch
+#patch -p0 < mumps.patch
 
 echo " "
 echo "Done downloading the source code for MUMPS."
