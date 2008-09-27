@@ -2,7 +2,7 @@
 
 # Set the following to the latest MUMPS version.
 #  THERE MUST BE NO SPACE BEFORE AND AFTER THE EQUAL (=) OPERATOR.
-mumps_ver=4.8.1
+mumps_ver=4.8.3
 
 set -e
 
@@ -38,14 +38,6 @@ rm MUMPS_${mumps_ver}.tar
 
 rm -rf MUMPS
 mv MUMPS_${mumps_ver} MUMPS
-
-#uname=`uname`
-#case "$uname" in
-#  MINGW* | CYGWIN*)
-#    echo "Applying a patch for version 4.7.3"
-#    patch -p0 < mumps_4.7.3.Win.patch
-#  ;;
-#esac
 
 echo " "
 echo "Done downloading the source code for MUMPS."
