@@ -92,6 +92,9 @@ AC_SUBST(MY_DEFS)
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
+# Check for user-provided BLAS library
+AC_COIN_HAS_BLAS
+
 ## Check if Mumps is already provided by user
 AC_COIN_HAS_MUMPS
 
