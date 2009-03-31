@@ -47,7 +47,7 @@ nodist_libcoinmumps_la_SOURCES = \
 
 DEFAULT_INCLUDES = -I. -I`$(CYGPATH_W) $(srcdir)`
 
-AM_CPPFLAGS = -DMUMPS_ARITH=MUMPS_ARITH_d \
+AM_CPPFLAGS = \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/libseq` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/include`
