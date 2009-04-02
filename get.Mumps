@@ -39,8 +39,6 @@ rm MUMPS_${mumps_ver}.tar
 rm -rf MUMPS
 mv MUMPS_${mumps_ver} MUMPS
 
-#patch -p0 < mumps.patch
-
 echo " "
 echo "Done downloading the source code for MUMPS."
 echo " "
