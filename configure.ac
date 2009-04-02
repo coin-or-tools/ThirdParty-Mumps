@@ -86,11 +86,17 @@ esac
 # check for pthread.h header file
 AC_COIN_CHECK_HEADER([pthread.h],,[MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"])
 
-MY_DEFS="$MY_DEFS -DALLOW_NON_INIT"
+MY_DEFS="$MY_DEFS -DALLOW_NON_INIT -DMUMPS_ARITH=MUMPS_ARITH_d"
 AC_SUBST(MY_DEFS)
+
+AC_MSG_CHECKING([for additional preprocessor C flags])
+AC_MSG_RESULT([$MY_DEFS])
 
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
+
+# Check for user-provided BLAS library
+AC_COIN_HAS_BLAS
 
 ## Check if Mumps is already provided by user
 AC_COIN_HAS_MUMPS
