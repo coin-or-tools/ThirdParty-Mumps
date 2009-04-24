@@ -89,14 +89,18 @@ AC_COIN_CHECK_HEADER([pthread.h],,[MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"])
 MY_DEFS="$MY_DEFS -DALLOW_NON_INIT -DMUMPS_ARITH=MUMPS_ARITH_d"
 AC_SUBST(MY_DEFS)
 
-AC_MSG_CHECKING([for additional preprocessor C flags])
-AC_MSG_RESULT([$MY_DEFS])
-
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
 # Check for user-provided BLAS library
 AC_COIN_HAS_BLAS
+
+# Check if Metis is available
+AC_COIN_HAS_METIS
+if test "$coin_has_metis" = yes; then
+  MY_DEFS="$MY_DEFS -Dmetis"
+  MY_FDEFS="$MY_FDEFS -Dmetis"
+fi
 
 ## Check if Mumps is already provided by user
 AC_COIN_HAS_MUMPS
@@ -128,6 +132,23 @@ AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
 
 MUMPSDIR=MUMPS
 AC_SUBST(MUMPSDIR)
+
+# Fix Fortran preprocessor flags
+case $F77 in
+  *xlf*)
+    fdefs=
+    for flag in "$MY_FDEFS"; do
+      fdefs="$fdefs -WF,$flag"
+    done
+    MY_FDEFS="$fdefs"
+    ;;
+esac
+AC_SUBST(MY_FDEFS)
+
+AC_MSG_CHECKING([for additional preprocessor C flags])
+AC_MSG_RESULT([$MY_DEFS])
+AC_MSG_CHECKING([for additional preprocessor Fortran flags])
+AC_MSG_RESULT([$MY_FDEFS])
 
 AC_CONFIG_FILES([Makefile])
 
