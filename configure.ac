@@ -105,6 +105,9 @@ fi
 ## Check if Mumps is already provided by user
 #AC_COIN_HAS_MUMPS
 
+#Mumps needs pthreads
+AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
+
 # Verify that we can compile Fortran 90 code
 #if test "$use_mumps" = BUILD; then
   AC_MSG_CHECKING([whether we can compile Fortran 90 code])
