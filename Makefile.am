@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2009 International Business Machines and others.
+# Copyright (C) 2007, 2008 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -8,8 +8,11 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = get.mumps INSTALL.MUMPS
 
-thirdpartylibdir = $(prefix)/lib/ThirdParty
-thirdpartylib_LTLIBRARIES = libcoinmumps.la
+if SKIPMAKE
+  noinst_LTLIBRARIES =
+else
+  noinst_LTLIBRARIES = libcoinmumps.la
+endif
 
 MUMPSDIR = @MUMPSDIR@
 
@@ -82,15 +85,6 @@ CLEANFILES = *.$(MODEXT)
 DEFS =
 CFLAGS += $(MY_DEFS)
 FFLAGS += $(MY_FDEFS)
-
-thirdpartyincludedir = $(includedir)/coin/ThirdParty
-thirdpartyinclude_HEADERS = \
-  $(MUMPSDIR)/include/dmumps_c.h \
-  $(MUMPSDIR)/include/mumps_compat.h \
-  $(MUMPSDIR)/include/mumps_c_types.h
-
-addlibsdir = $(prefix)/share/doc/coin/ThirdParty/Mumps
-addlibs_DATA = README mumps_addlibs.txt
 
 ########################################################################
 #                         Maintainer Stuff                             #

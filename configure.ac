@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2009 International Business Machines.
+# Copyright (C) 2007-2008 International Business Machines.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -15,7 +15,7 @@ AC_PREREQ(2.59)
 AC_INIT([ThirdPartyMumps],[1.1trunk],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
-Copyright 2007-2009 International Business Machines and others.
+Copyright 2007-2008 International Business Machines and others.
 All Rights Reserved.
 This file is part of the open source package Coin which is distributed
 under the Common Public License.])
@@ -103,13 +103,13 @@ if test "$coin_has_metis" = yes; then
 fi
 
 ## Check if Mumps is already provided by user
-#AC_COIN_HAS_MUMPS
+AC_COIN_HAS_MUMPS
 
 #Mumps needs pthreads
 AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
 
 # Verify that we can compile Fortran 90 code
-#if test "$use_mumps" = BUILD; then
+if test "$use_mumps" = BUILD; then
   AC_MSG_CHECKING([whether we can compile Fortran 90 code])
   AC_LANG_PUSH(Fortran 77)
   AC_COMPILE_IFELSE([        MODULE BLA
@@ -118,20 +118,20 @@ AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
   AC_MSG_RESULT([$can_f90])
   AC_LANG_POP(Fortran 77)
   if test $can_f90 = no; then
-    AC_MSG_ERROR([Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS])
-#    use_mumps=
+    AC_MSG_WARN([Your Fortran compiler can't compile Fortran 90, I will not compile MUMPS])
+    use_mumps=
   fi
-#fi
+fi
 
-#rm -f $MAKEOKFILE
-#if test $coin_has_mumps = yes && test "$use_mumps" != BUILD; then
-#  AC_MSG_NOTICE([The Mumps sources don't need to be compiled])
-#  MAKEOKFILE=
-#else
-#  touch $MAKEOKFILE
-#fi
-#AC_SUBST(MAKEOKFILE)
-#AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
+rm -f $MAKEOKFILE
+if test $coin_has_mumps = yes && test "$use_mumps" != BUILD; then
+  AC_MSG_NOTICE([The Mumps sources don't need to be compiled])
+  MAKEOKFILE=
+else
+  touch $MAKEOKFILE
+fi
+AC_SUBST(MAKEOKFILE)
+AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
 
 MUMPSDIR=MUMPS
 AC_SUBST(MUMPSDIR)
@@ -153,6 +153,6 @@ AC_MSG_RESULT([$MY_DEFS])
 AC_MSG_CHECKING([for additional preprocessor Fortran flags])
 AC_MSG_RESULT([$MY_FDEFS])
 
-AC_CONFIG_FILES([Makefile mumps_addlibs.txt])
+AC_CONFIG_FILES([Makefile])
 
 AC_COIN_FINALIZE
