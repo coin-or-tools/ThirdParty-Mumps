@@ -1,4 +1,4 @@
-# Copyright (C) 2007, 2008 International Business Machines and others.
+# Copyright (C) 2007, 2008, 2009 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -17,6 +17,7 @@ endif
 MUMPSDIR = @MUMPSDIR@
 
 nodist_libcoinmumps_la_SOURCES = \
+	$(MUMPSDIR)/src/tools_common_mod.F \
 	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
 	$(MUMPSDIR)/src/dmumps_struc_def.F \
 	$(MUMPSDIR)/src/mumps_ooc_common.F\
@@ -40,6 +41,7 @@ nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/mumps_io_basic.c\
 	$(MUMPSDIR)/src/mumps_io_thread.c\
 	$(MUMPSDIR)/src/mumps_io_err.c\
+	$(MUMPSDIR)/src/mumps_size.c\
 	$(MUMPSDIR)/libseq/mpi.f \
 	$(MUMPSDIR)/libseq/mpic.c \
 	$(MUMPSDIR)/libseq/elapse.c
@@ -76,6 +78,7 @@ dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 
 dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
 
+dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 
 # Module files that need to be deleted
 MODEXT = mod
