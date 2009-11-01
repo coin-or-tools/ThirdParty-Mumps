@@ -92,11 +92,24 @@ AC_SUBST(MY_DEFS)
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
-# Check for user-provided BLAS library
-AC_COIN_HAS_BLAS
+#fake that pkg-config is not available
+#AC_COIN_HAS_PKGCONFIG
+#PKG_CONFIG=""
 
-# Check if Metis is available
-AC_COIN_HAS_METIS
+AC_COIN_HAS_MODULE(Blas, Blas)
+AC_COIN_HAS_MODULE(Metis, Metis >= 4.0)
+
+#Fallback if pkgconfig not available or projects do not have .pc files
+if test "$coin_has_blas" != yes ; then
+  AC_COIN_HAS_BLAS
+else
+  #to make configure happy, since COIN_BUILD_BLAS is defined by AC_COIN_HAS_BLAS
+  AM_CONDITIONAL([COIN_BUILD_BLAS],[test "$coin_has_blas" = yes])
+fi
+if test "$coin_has_metis" != yes ; then
+  AC_COIN_HAS_METIS
+fi
+
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
@@ -109,19 +122,16 @@ fi
 AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
 
 # Verify that we can compile Fortran 90 code
-#if test "$use_mumps" = BUILD; then
-  AC_MSG_CHECKING([whether we can compile Fortran 90 code])
-  AC_LANG_PUSH(Fortran 77)
-  AC_COMPILE_IFELSE([        MODULE BLA
-        DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
-        END MODULE BLA],[can_f90=yes],[can_f90=no])
-  AC_MSG_RESULT([$can_f90])
-  AC_LANG_POP(Fortran 77)
-  if test $can_f90 = no; then
-    AC_MSG_ERROR([Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS])
-#    use_mumps=
-  fi
-#fi
+AC_MSG_CHECKING([whether we can compile Fortran 90 code])
+AC_LANG_PUSH(Fortran 77)
+AC_COMPILE_IFELSE([        MODULE BLA
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
+      END MODULE BLA],[can_f90=yes],[can_f90=no])
+AC_MSG_RESULT([$can_f90])
+AC_LANG_POP(Fortran 77)
+if test $can_f90 = no; then
+  AC_MSG_ERROR([Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS])
+fi
 
 #rm -f $MAKEOKFILE
 #if test $coin_has_mumps = yes && test "$use_mumps" != BUILD; then
@@ -134,7 +144,12 @@ AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
 #AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
 
 MUMPSDIR=MUMPS
+MUMPSOBJDIR=`pwd`
+MUMPSSRCDIR=$abs_source_dir/$coin_mumpsobjdir/$MUMPSDIR
+
 AC_SUBST(MUMPSDIR)
+AC_SUBST(MUMPSOBJDIR)
+AC_SUBST(MUMPSSRCDIR)
 
 # Fix Fortran preprocessor flags
 case $F77 in
@@ -153,6 +168,6 @@ AC_MSG_RESULT([$MY_DEFS])
 AC_MSG_CHECKING([for additional preprocessor Fortran flags])
 AC_MSG_RESULT([$MY_FDEFS])
 
-AC_CONFIG_FILES([Makefile mumps_addlibs.txt])
+AC_CONFIG_FILES([Makefile mumps_addlibs.txt mumps.pc mumps-uninstalled.pc])
 
 AC_COIN_FINALIZE

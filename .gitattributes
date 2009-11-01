@@ -9,4 +9,6 @@
 /install-sh -text
 /ltmain.sh -text
 /missing -text
+/mumps-uninstalled.pc.in -text
+/mumps.pc.in -text
 /mumps_addlibs.txt.in -text
