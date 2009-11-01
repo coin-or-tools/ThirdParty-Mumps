@@ -21664,6 +21664,7 @@ BLAS_DATA=
 
 
 
+
 #check if user provided LIBS, CFLAGS, and DATA for module
 if test $coin_has_blas != skipping; then
 
@@ -21673,6 +21674,8 @@ if test "${with_blas_lib+set}" = set; then
   withval="$with_blas_lib"
   coin_has_blas=yes
        BLAS_LIBS="$withval"
+       ADDLIBS="$ADDLIBS $withval"
+
 fi;
 
 
@@ -21706,7 +21709,7 @@ if test "${with_coin_instdir+set}" = set; then
 echo "$as_me: error: argument for --with-coin-instdir not a directory" >&2;}
    { (exit 1); exit 1; }; }
        fi
-       PKG_CONFIG_PATH="$withval/lib/pkgconfig:$PKG_CONFIG_PATH",
+       PKG_CONFIG_PATH="$withval/lib/pkgconfig:$withval/lib/ThirdParty/pkgconfig:$withval/lib/Data/pkgconfig:$PKG_CONFIG_PATH",
 
 fi;
 
@@ -21720,9 +21723,17 @@ pkgname=`echo "Blas" | sed -e 's/ .*//g'`
 
 # check if directory $srcdir/../Blas exists and add ../Blas to the PKG_CONFIG_PATH
 # this is for the classic setup where an uninstalled project can be found in ../Blas
+# we do the same for ThirdParty/Blas and Data/Blas; it's not nice but the only way I see to easily get around these nonstandard locations
 if test -d $srcdir/../$pkgname; then
   PKG_CONFIG_PATH="../$pkgname:$PKG_CONFIG_PATH"
 fi
+if test -d $srcdir/../ThirdParty/$pkgname; then
+  PKG_CONFIG_PATH="../ThirdParty/$pkgname$PKG_CONFIG_PATH"
+fi
+if test -d $srcdir/../Data/$pkgname; then
+  PKG_CONFIG_PATH="../Data/$pkgname:$PKG_CONFIG_PATH"
+fi
+
 
 
 
@@ -21742,14 +21753,13 @@ fi
 if test -n "$PKG_CONFIG" ; then
   if $PKG_CONFIG --exists "$module_content"; then
     BLAS_VERSIONS="`$PKG_CONFIG --modversion $module_content 2>/dev/null`"
-     BLAS_CFLAGS=`$PKG_CONFIG --cflags "blas" 2>/dev/null`
-    BLAS_LIBS=`$PKG_CONFIG --libs "blas" 2>/dev/null`
-    BLAS_DATA=`$PKG_CONFIG --variable=datadir "blas" 2>/dev/null`
+     BLAS_CFLAGS=`$PKG_CONFIG --cflags "$module_content" 2>/dev/null`
+    BLAS_LIBS=`$PKG_CONFIG --libs "$module_content" 2>/dev/null`
+    BLAS_DATA=`$PKG_CONFIG --variable=datadir "$module_content" 2>/dev/null`
      coin_has_blas=yes
         echo "$as_me:$LINENO: result: yes: $BLAS_VERSIONS" >&5
 echo "${ECHO_T}yes: $BLAS_VERSIONS" >&6
         REQUIREDPACKAGES="$REQUIREDPACKAGES $module_content"
-
 
 
   else
@@ -21781,15 +21791,15 @@ fi
 
 if test $coin_has_blas != skipping &&
    test $coin_has_blas != notGiven ; then
-  if test "x$BLAS_CFLAGS" != x ; then
+  if test -n "$BLAS_CFLAGS" ; then
     { echo "$as_me:$LINENO: Blas CFLAGS are $BLAS_CFLAGS" >&5
 echo "$as_me: Blas CFLAGS are $BLAS_CFLAGS" >&6;}
   fi
-  if test "x$BLAS_LIBS" != x ; then
+  if test -n "$BLAS_LIBS" ; then
     { echo "$as_me:$LINENO: Blas LIBS   are $BLAS_LIBS" >&5
 echo "$as_me: Blas LIBS   are $BLAS_LIBS" >&6;}
   fi
-  if test "x$BLAS_DATA" != x ; then
+  if test -n "$BLAS_DATA" ; then
     { echo "$as_me:$LINENO: Blas DATA   is  $BLAS_DATA" >&5
 echo "$as_me: Blas DATA   is  $BLAS_DATA" >&6;}
   fi
@@ -21836,6 +21846,7 @@ METIS_DATA=
 
 
 
+
 #check if user provided LIBS, CFLAGS, and DATA for module
 if test $coin_has_metis != skipping; then
 
@@ -21845,6 +21856,8 @@ if test "${with_metis_lib+set}" = set; then
   withval="$with_metis_lib"
   coin_has_metis=yes
        METIS_LIBS="$withval"
+       ADDLIBS="$ADDLIBS $withval"
+
 fi;
 
 
@@ -21878,7 +21891,7 @@ if test "${with_coin_instdir+set}" = set; then
 echo "$as_me: error: argument for --with-coin-instdir not a directory" >&2;}
    { (exit 1); exit 1; }; }
        fi
-       PKG_CONFIG_PATH="$withval/lib/pkgconfig:$PKG_CONFIG_PATH",
+       PKG_CONFIG_PATH="$withval/lib/pkgconfig:$withval/lib/ThirdParty/pkgconfig:$withval/lib/Data/pkgconfig:$PKG_CONFIG_PATH",
 
 fi;
 
@@ -21892,9 +21905,17 @@ pkgname=`echo "Metis >= 4.0" | sed -e 's/ .*//g'`
 
 # check if directory $srcdir/../Metis >= 4.0 exists and add ../Metis >= 4.0 to the PKG_CONFIG_PATH
 # this is for the classic setup where an uninstalled project can be found in ../Metis >= 4.0
+# we do the same for ThirdParty/Metis >= 4.0 and Data/Metis >= 4.0; it's not nice but the only way I see to easily get around these nonstandard locations
 if test -d $srcdir/../$pkgname; then
   PKG_CONFIG_PATH="../$pkgname:$PKG_CONFIG_PATH"
 fi
+if test -d $srcdir/../ThirdParty/$pkgname; then
+  PKG_CONFIG_PATH="../ThirdParty/$pkgname$PKG_CONFIG_PATH"
+fi
+if test -d $srcdir/../Data/$pkgname; then
+  PKG_CONFIG_PATH="../Data/$pkgname:$PKG_CONFIG_PATH"
+fi
+
 
 
 
@@ -21914,14 +21935,13 @@ fi
 if test -n "$PKG_CONFIG" ; then
   if $PKG_CONFIG --exists "$module_content"; then
     METIS_VERSIONS="`$PKG_CONFIG --modversion $module_content 2>/dev/null`"
-     METIS_CFLAGS=`$PKG_CONFIG --cflags "metis" 2>/dev/null`
-    METIS_LIBS=`$PKG_CONFIG --libs "metis" 2>/dev/null`
-    METIS_DATA=`$PKG_CONFIG --variable=datadir "metis" 2>/dev/null`
+     METIS_CFLAGS=`$PKG_CONFIG --cflags "$module_content" 2>/dev/null`
+    METIS_LIBS=`$PKG_CONFIG --libs "$module_content" 2>/dev/null`
+    METIS_DATA=`$PKG_CONFIG --variable=datadir "$module_content" 2>/dev/null`
      coin_has_metis=yes
         echo "$as_me:$LINENO: result: yes: $METIS_VERSIONS" >&5
 echo "${ECHO_T}yes: $METIS_VERSIONS" >&6
         REQUIREDPACKAGES="$REQUIREDPACKAGES $module_content"
-
 
 
   else
@@ -21953,15 +21973,15 @@ fi
 
 if test $coin_has_metis != skipping &&
    test $coin_has_metis != notGiven ; then
-  if test "x$METIS_CFLAGS" != x ; then
+  if test -n "$METIS_CFLAGS" ; then
     { echo "$as_me:$LINENO: Metis CFLAGS are $METIS_CFLAGS" >&5
 echo "$as_me: Metis CFLAGS are $METIS_CFLAGS" >&6;}
   fi
-  if test "x$METIS_LIBS" != x ; then
+  if test -n "$METIS_LIBS" ; then
     { echo "$as_me:$LINENO: Metis LIBS   are $METIS_LIBS" >&5
 echo "$as_me: Metis LIBS   are $METIS_LIBS" >&6;}
   fi
-  if test "x$METIS_DATA" != x ; then
+  if test -n "$METIS_DATA" ; then
     { echo "$as_me:$LINENO: Metis DATA   is  $METIS_DATA" >&5
 echo "$as_me: Metis DATA   is  $METIS_DATA" >&6;}
   fi
