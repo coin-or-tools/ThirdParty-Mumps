@@ -77,7 +77,8 @@ am__vpath_adj = case $$p in \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
-	"$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(thirdpartyincludedir)"
+	"$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)" \
+	"$(DESTDIR)$(thirdpartyincludedir)"
 thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
 libcoinmumps_la_LIBADD =
@@ -115,7 +116,8 @@ LTF77COMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) \
 SOURCES = $(nodist_libcoinmumps_la_SOURCES)
 DIST_SOURCES =
 addlibsDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(addlibs_DATA)
+pkgconfiglibDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(addlibs_DATA) $(pkgconfiglib_DATA)
 thirdpartyincludeHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(thirdpartyinclude_HEADERS)
 ETAGS = etags
@@ -336,6 +338,8 @@ thirdpartyinclude_HEADERS = \
 
 addlibsdir = $(prefix)/share/doc/coin/ThirdParty/Mumps
 addlibs_DATA = README mumps_addlibs.txt
+pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
+pkgconfiglib_DATA = mumps.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #
@@ -615,6 +619,23 @@ uninstall-addlibsDATA:
 	  echo " rm -f '$(DESTDIR)$(addlibsdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(addlibsdir)/$$f"; \
 	done
+install-pkgconfiglibDATA: $(pkgconfiglib_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(pkgconfiglibdir)" || $(mkdir_p) "$(DESTDIR)$(pkgconfiglibdir)"
+	@list='$(pkgconfiglib_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(pkgconfiglibDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(pkgconfiglibdir)/$$f'"; \
+	  $(pkgconfiglibDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(pkgconfiglibdir)/$$f"; \
+	done
+
+uninstall-pkgconfiglibDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgconfiglib_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(pkgconfiglibdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(pkgconfiglibdir)/$$f"; \
+	done
 install-thirdpartyincludeHEADERS: $(thirdpartyinclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(thirdpartyincludedir)" || $(mkdir_p) "$(DESTDIR)$(thirdpartyincludedir)"
@@ -812,7 +833,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
+	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -863,7 +884,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-addlibsDATA install-thirdpartyincludeHEADERS \
+install-data-am: install-addlibsDATA install-pkgconfiglibDATA \
+	install-thirdpartyincludeHEADERS \
 	install-thirdpartylibLTLIBRARIES
 
 install-exec-am:
@@ -895,7 +917,7 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-addlibsDATA uninstall-info-am \
-	uninstall-thirdpartyincludeHEADERS \
+	uninstall-pkgconfiglibDATA uninstall-thirdpartyincludeHEADERS \
 	uninstall-thirdpartylibLTLIBRARIES
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
@@ -906,14 +928,15 @@ uninstall-am: uninstall-addlibsDATA uninstall-info-am \
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
 	html-am info info-am install install-addlibsDATA install-am \
 	install-data install-data-am install-exec install-exec-am \
-	install-info install-info-am install-man install-strip \
+	install-info install-info-am install-man \
+	install-pkgconfiglibDATA install-strip \
 	install-thirdpartyincludeHEADERS \
 	install-thirdpartylibLTLIBRARIES installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
 	uninstall-addlibsDATA uninstall-am uninstall-info-am \
-	uninstall-thirdpartyincludeHEADERS \
+	uninstall-pkgconfiglibDATA uninstall-thirdpartyincludeHEADERS \
 	uninstall-thirdpartylibLTLIBRARIES
 
 

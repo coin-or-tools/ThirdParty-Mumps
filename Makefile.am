@@ -92,6 +92,9 @@ thirdpartyinclude_HEADERS = \
 addlibsdir = $(prefix)/share/doc/coin/ThirdParty/Mumps
 addlibs_DATA = README mumps_addlibs.txt
 
+pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
+pkgconfiglib_DATA = mumps.pc
+
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
