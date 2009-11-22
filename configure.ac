@@ -92,12 +92,8 @@ AC_SUBST(MY_DEFS)
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
-#fake that pkg-config is not available
-#AC_COIN_HAS_PKGCONFIG
-#PKG_CONFIG=""
-
-AC_COIN_HAS_MODULE(Blas, Blas)
-AC_COIN_HAS_MODULE(Metis, Metis >= 4.0)
+AC_COIN_HAS_MODULE_BLAS
+AC_COIN_HAS_MODULE(Metis, [metis >= 4.0])
 
 #Fallback if pkgconfig not available or projects do not have .pc files
 if test "$coin_has_blas" != yes ; then
@@ -106,6 +102,7 @@ else
   #to make configure happy, since COIN_BUILD_BLAS is defined by AC_COIN_HAS_BLAS
   AM_CONDITIONAL([COIN_BUILD_BLAS],[test "$coin_has_blas" = yes])
 fi
+
 if test "$coin_has_metis" != yes ; then
   AC_COIN_HAS_METIS
 fi
@@ -114,9 +111,6 @@ if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
 fi
-
-## Check if Mumps is already provided by user
-#AC_COIN_HAS_MUMPS
 
 #Mumps needs pthreads
 AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
@@ -132,16 +126,6 @@ AC_LANG_POP(Fortran 77)
 if test $can_f90 = no; then
   AC_MSG_ERROR([Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS])
 fi
-
-#rm -f $MAKEOKFILE
-#if test $coin_has_mumps = yes && test "$use_mumps" != BUILD; then
-#  AC_MSG_NOTICE([The Mumps sources don't need to be compiled])
-#  MAKEOKFILE=
-#else
-#  touch $MAKEOKFILE
-#fi
-#AC_SUBST(MAKEOKFILE)
-#AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
 
 MUMPSDIR=MUMPS
 MUMPSOBJDIR=`pwd`
