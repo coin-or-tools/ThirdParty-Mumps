@@ -87,7 +87,8 @@ thirdpartyincludedir = $(includedir)/coin/ThirdParty
 thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/dmumps_c.h \
   $(MUMPSDIR)/include/mumps_compat.h \
-  $(MUMPSDIR)/include/mumps_c_types.h
+  $(MUMPSDIR)/include/mumps_c_types.h \
+  $(MUMPSDIR)/libseq/mpi.h
 
 addlibsdir = $(prefix)/share/doc/coin/ThirdParty/Mumps
 addlibs_DATA = README mumps_addlibs.txt
