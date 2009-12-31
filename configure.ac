@@ -56,6 +56,9 @@ AC_COIN_PROG_F77
 # Find out how to call Fortran from C and determine Fortran runtime libraries
 AC_COIN_F77_WRAPPERS
 
+# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
+coin_need_flibs=yes
+
 # We need to translate the result from autoconf to what MUMPS wants
 case "$ac_cv_f77_mangling" in
   "lower case, no underscore, no extra underscore")
