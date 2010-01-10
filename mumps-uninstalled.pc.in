@@ -5,5 +5,5 @@ Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
 Version: 4.8.3
 Libs: -L${libdir} -lcoinmumps @ADDLIBS@
-Cflags: -I@abs_source_dir@/libseq -I@abs_source_dir@/include
+Cflags: -I@abs_source_dir@/MUMPS/libseq -I@abs_source_dir@/MUMPS/include
 Requires: @REQUIREDPACKAGES@
