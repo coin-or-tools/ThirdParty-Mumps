@@ -96,7 +96,7 @@ AC_SUBST(MY_DEFS)
 AC_COIN_INIT_AUTO_TOOLS
 
 AC_COIN_HAS_MODULE_BLAS
-AC_COIN_HAS_MODULE(Metis, [metis >= 4.0])
+AC_COIN_HAS_MODULE(Metis, [coinmetis >= 4.0])
 
 #Fallback if pkgconfig not available or projects do not have .pc files
 if test "$coin_has_blas" != yes ; then
@@ -155,6 +155,6 @@ AC_MSG_RESULT([$MY_DEFS])
 AC_MSG_CHECKING([for additional preprocessor Fortran flags])
 AC_MSG_RESULT([$MY_FDEFS])
 
-AC_CONFIG_FILES([Makefile mumps_addlibs.txt mumps.pc mumps-uninstalled.pc])
+AC_CONFIG_FILES([Makefile mumps_addlibs.txt coinmumps.pc coinmumps-uninstalled.pc])
 
 AC_COIN_FINALIZE

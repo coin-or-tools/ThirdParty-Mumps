@@ -54,8 +54,8 @@ build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = README $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/mumps-uninstalled.pc.in \
-	$(srcdir)/mumps.pc.in $(srcdir)/mumps_addlibs.txt.in \
+	$(srcdir)/Makefile.in $(srcdir)/coinmumps-uninstalled.pc.in \
+	$(srcdir)/coinmumps.pc.in $(srcdir)/mumps_addlibs.txt.in \
 	$(thirdpartyinclude_HEADERS) $(top_srcdir)/configure \
 	config.guess config.sub depcomp install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_1 = Externals
@@ -69,7 +69,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = mumps_addlibs.txt mumps.pc mumps-uninstalled.pc
+CONFIG_CLEAN_FILES = mumps_addlibs.txt coinmumps.pc \
+	coinmumps-uninstalled.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -290,7 +291,7 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = get.mumps INSTALL.MUMPS $(am__append_1)
-thirdpartylibdir = $(prefix)/lib/ThirdParty
+thirdpartylibdir = $(libdir)/coin/ThirdParty
 thirdpartylib_LTLIBRARIES = libcoinmumps.la
 nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
@@ -338,10 +339,10 @@ thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/mumps_c_types.h \
   $(MUMPSDIR)/libseq/mpi.h
 
-addlibsdir = $(prefix)/share/doc/coin/ThirdParty/Mumps
+addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
 addlibs_DATA = README mumps_addlibs.txt
-pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
-pkgconfiglib_DATA = mumps.pc
+pkgconfiglibdir = $(libdir)/pkgconfig
+pkgconfiglib_DATA = coinmumps.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #
@@ -390,9 +391,9 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 mumps_addlibs.txt: $(top_builddir)/config.status $(srcdir)/mumps_addlibs.txt.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-mumps.pc: $(top_builddir)/config.status $(srcdir)/mumps.pc.in
+coinmumps.pc: $(top_builddir)/config.status $(srcdir)/coinmumps.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-mumps-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/mumps-uninstalled.pc.in
+coinmumps-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinmumps-uninstalled.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-thirdpartylibLTLIBRARIES: $(thirdpartylib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)

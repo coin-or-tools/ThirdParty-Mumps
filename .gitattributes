@@ -1,6 +1,8 @@
 * text=auto !eol
 /INSTALL.MUMPS -text
 /README -text
+/coinmumps-uninstalled.pc.in -text
+/coinmumps.pc.in -text
 /config.guess -text
 /config.sub -text
 /configure -text
@@ -9,6 +11,4 @@
 /install-sh -text
 /ltmain.sh -text
 /missing -text
-/mumps-uninstalled.pc.in -text
-/mumps.pc.in -text
 /mumps_addlibs.txt.in -text

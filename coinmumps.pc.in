@@ -1,6 +1,7 @@
 prefix=@prefix@
-libdir=@exec_prefix@/lib/ThirdParty
-includedir=${prefix}/include/coin/ThirdParty
+exec_prefix=@exec_prefix@
+libdir=@libdir@/coin/ThirdParty
+includedir=@includedir@/coin/ThirdParty
 
 Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver

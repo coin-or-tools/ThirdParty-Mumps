@@ -8,7 +8,7 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = get.mumps INSTALL.MUMPS
 
-thirdpartylibdir = $(prefix)/lib/ThirdParty
+thirdpartylibdir = $(libdir)/coin/ThirdParty
 thirdpartylib_LTLIBRARIES = libcoinmumps.la
 
 MUMPSDIR = @MUMPSDIR@
@@ -90,11 +90,11 @@ thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/mumps_c_types.h \
   $(MUMPSDIR)/libseq/mpi.h
 
-addlibsdir = $(prefix)/share/doc/coin/ThirdParty/Mumps
+addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
 addlibs_DATA = README mumps_addlibs.txt
 
-pkgconfiglibdir = $(prefix)/lib/ThirdParty/pkgconfig
-pkgconfiglib_DATA = mumps.pc
+pkgconfiglibdir = $(libdir)/pkgconfig
+pkgconfiglib_DATA = coinmumps.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #
