@@ -5,7 +5,7 @@ includedir=@includedir@/coin/ThirdParty
 
 Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
-Version: 4.8.3
+Version: 4.9
 Libs: -L${libdir} -lcoinmumps @ADDLIBS@
 Cflags: -I${includedir}
 Requires: @REQUIREDPACKAGES@
