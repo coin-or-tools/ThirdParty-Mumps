@@ -83,15 +83,15 @@ am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
 thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
 libcoinmumps_la_LIBADD =
-nodist_libcoinmumps_la_OBJECTS = dmumps_comm_buffer.lo \
-	dmumps_struc_def.lo mumps_ooc_common.lo \
+nodist_libcoinmumps_la_OBJECTS = tools_common_mod.lo \
+	dmumps_comm_buffer.lo dmumps_struc_def.lo mumps_ooc_common.lo \
 	mumps_static_mapping.lo dmumps_ooc_buffer.lo dmumps_load.lo \
 	dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
 	dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo \
 	dmumps_part7.lo dmumps_part8.lo mumps_part9.lo mumps_c.lo \
 	mumps_common.lo mumps_orderings.lo mumps_io.lo \
-	mumps_io_basic.lo mumps_io_thread.lo mumps_io_err.lo mpi.lo \
-	mpic.lo elapse.lo
+	mumps_io_basic.lo mumps_io_thread.lo mumps_io_err.lo \
+	mumps_size.lo mpi.lo mpic.lo elapse.lo
 libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -294,6 +294,7 @@ EXTRA_DIST = get.mumps INSTALL.MUMPS $(am__append_1)
 thirdpartylibdir = $(libdir)/coin/ThirdParty
 thirdpartylib_LTLIBRARIES = libcoinmumps.la
 nodist_libcoinmumps_la_SOURCES = \
+	$(MUMPSDIR)/src/tools_common_mod.F \
 	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
 	$(MUMPSDIR)/src/dmumps_struc_def.F \
 	$(MUMPSDIR)/src/mumps_ooc_common.F\
@@ -317,6 +318,7 @@ nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/mumps_io_basic.c\
 	$(MUMPSDIR)/src/mumps_io_thread.c\
 	$(MUMPSDIR)/src/mumps_io_err.c\
+	$(MUMPSDIR)/src/mumps_size.c\
 	$(MUMPSDIR)/libseq/mpi.f \
 	$(MUMPSDIR)/libseq/mpic.c \
 	$(MUMPSDIR)/libseq/elapse.c
@@ -351,7 +353,7 @@ pkgconfiglib_DATA = coinmumps.pc
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = $(MAKEOKFILE) $(am__append_2) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
-DocInstallDir = $(prefix)/share/doc/coin/$(PACKAGE_NAME)
+DocInstallDir = $(datadir)/coin/doc/$(PACKAGE_NAME)
 all: all-am
 
 .SUFFIXES:
@@ -440,6 +442,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_io_err.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_io_thread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_orderings.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mumps_size.Plo@am__quote@
 
 .F.o:
 	$(PPF77COMPILE) -c -o $@ $<
@@ -449,6 +452,9 @@ distclean-compile:
 
 .F.lo:
 	$(LTPPF77COMPILE) -c -o $@ $<
+
+tools_common_mod.lo: $(MUMPSDIR)/src/tools_common_mod.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o tools_common_mod.lo `test -f '$(MUMPSDIR)/src/tools_common_mod.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/tools_common_mod.F
 
 dmumps_comm_buffer.lo: $(MUMPSDIR)/src/dmumps_comm_buffer.F
 	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_comm_buffer.lo `test -f '$(MUMPSDIR)/src/dmumps_comm_buffer.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_comm_buffer.F
@@ -569,6 +575,13 @@ mumps_io_err.lo: $(MUMPSDIR)/src/mumps_io_err.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_io_err.c' object='mumps_io_err.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_io_err.lo `test -f '$(MUMPSDIR)/src/mumps_io_err.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_io_err.c
+
+mumps_size.lo: $(MUMPSDIR)/src/mumps_size.c
+@am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mumps_size.lo -MD -MP -MF "$(DEPDIR)/mumps_size.Tpo" -c -o mumps_size.lo `test -f '$(MUMPSDIR)/src/mumps_size.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_size.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/mumps_size.Tpo" "$(DEPDIR)/mumps_size.Plo"; else rm -f "$(DEPDIR)/mumps_size.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(MUMPSDIR)/src/mumps_size.c' object='mumps_size.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mumps_size.lo `test -f '$(MUMPSDIR)/src/mumps_size.c' || echo '$(srcdir)/'`$(MUMPSDIR)/src/mumps_size.c
 
 mpic.lo: $(MUMPSDIR)/libseq/mpic.c
 @am__fastdepCC_TRUE@	if $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mpic.lo -MD -MP -MF "$(DEPDIR)/mpic.Tpo" -c -o mpic.lo `test -f '$(MUMPSDIR)/libseq/mpic.c' || echo '$(srcdir)/'`$(MUMPSDIR)/libseq/mpic.c; \
@@ -963,6 +976,8 @@ dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
 dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 
 dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
+
+dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
