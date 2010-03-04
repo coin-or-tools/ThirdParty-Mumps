@@ -21503,7 +21503,8 @@ LT_LDFLAGS=
 #END
 }
 
-# Check for user-provided BLAS library
+# Check for user-provided BLAS library, but make sure it is not added to libcoinmumps.a
+save_LIBS="$LIBS"
 if test "$PACKAGE_NAME" = ThirdPartyBlas || test "$PACKAGE_NAME" = ThirdPartyLapack || test "$PACKAGE_NAME" = ThirdPartyMumps; then
   coin_blasobjdir=../Blas
 else
@@ -23517,6 +23518,7 @@ _ACEOF
 
 fi
 
+LIBS="$save_LIBS"
 
 # Check if Metis is available
 

@@ -92,8 +92,10 @@ AC_SUBST(MY_DEFS)
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
-# Check for user-provided BLAS library
+# Check for user-provided BLAS library, but make sure it is not added to libcoinmumps.a
+save_LIBS="$LIBS"
 AC_COIN_HAS_BLAS
+LIBS="$save_LIBS"
 
 # Check if Metis is available
 AC_COIN_HAS_METIS
