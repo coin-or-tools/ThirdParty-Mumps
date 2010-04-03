@@ -42,6 +42,10 @@ Then, rename the MUMPS_4.9 directory just to be MUMPS:
 
 mv MUMPS_4.9 MUMPS
 
+Further, you may apply a patch that fixes problems with matrices of size 1:
+
+patch -p0 < mumps.patch
+
 **********************************************************************
 Additional instructions for building with Msys and MinGW
 **********************************************************************

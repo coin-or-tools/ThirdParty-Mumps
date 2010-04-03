@@ -1,0 +1,12 @@
+--- MUMPS_4.9/src/dmumps_part2.F	2009-07-29 12:38:27.000000000 +0200
++++ MUMPS/src/dmumps_part2.F	2010-04-03 14:01:57.441212067 +0200
+@@ -4618,6 +4618,9 @@
+       INTEGER, INTENT(OUT) ::  PERM( N )
+       INTEGER  :: IPERM, INODE, IN, I
+       INTEGER  :: INBLEAF, INBROOT
++      IF (N.EQ.1) THEN
++         RETURN
++      END IF
+       IF (N.GT.1) THEN
+          IF(POOL(N-1) .LT. 0) THEN
+             INBLEAF = N-1

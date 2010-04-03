@@ -44,4 +44,10 @@ echo "Done downloading the source code for MUMPS."
 echo " "
 
 echo " "
+echo "Applying patch."
+echo " "
+
+patch -p0 < mumps.patch
+
+echo " "
 echo "Verify that there are no error message in the output above."
