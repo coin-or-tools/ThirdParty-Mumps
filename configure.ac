@@ -97,18 +97,7 @@ AC_COIN_INIT_AUTO_TOOLS
 
 AC_COIN_HAS_MODULE_BLAS
 AC_COIN_HAS_MODULE(Metis, [coinmetis >= 4.0])
-
-#Fallback if pkgconfig not available or projects do not have .pc files
-if test "$coin_has_blas" != yes ; then
-  AC_COIN_HAS_BLAS
-else
-  #to make configure happy, since COIN_BUILD_BLAS is defined by AC_COIN_HAS_BLAS
-  AM_CONDITIONAL([COIN_BUILD_BLAS],[test "$coin_has_blas" = yes])
-fi
-
-if test "$coin_has_metis" != yes ; then
-  AC_COIN_HAS_METIS
-fi
+AC_COIN_HAS_MODULE_FALLBACK(Metis, [coinmetis], [../Metis])
 
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
