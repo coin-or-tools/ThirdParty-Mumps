@@ -23856,7 +23856,7 @@ fi
 
 #call fallback in case the previous failed, maybe because pkg-config was not available
 
-if test $coin_has_blas != "yes" ; then
+if test x$coin_has_blas != "xyes" ; then
 echo "$as_me:$LINENO: checking for COIN-OR module Blas (fallback)" >&5
 echo $ECHO_N "checking for COIN-OR module Blas (fallback)... $ECHO_C" >&6
 
@@ -23882,16 +23882,23 @@ if test $coin_has_blas != "skipping" ; then
     # read CFLAGS and LIBS from coinblas-uninstalled.pc file
     # add CYGPATH_W cludge into include flags
     # replace -L${libdir} by absolute path to build directory in linker flags
+    # we assume that the build directory is ../ThirdParty/Blas/src if this directory exists, otherwise we assume that it is ../ThirdParty/Blas
     BLAS_CFLAGS=`sed -n -e 's/Cflags://' -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/gp' ../ThirdParty/Blas/coinblas-uninstalled.pc`
     projectlibs=`sed -n -e 's/Libs://' -e 's/-L\${libdir}//p' ../ThirdParty/Blas/coinblas-uninstalled.pc`
     if test "x$projectlibs" != x ; then
-      BLAS_LIBS="-L`cd ../ThirdParty/Blas; pwd` $projectlibs"
+      if test -d ../ThirdParty/Blas/src ; then
+        BLAS_LIBS="-L`cd ../ThirdParty/Blas/src; pwd` $projectlibs"
+      else
+        BLAS_LIBS="-L`cd ../ThirdParty/Blas; pwd` $projectlibs"
+      fi
+    else
+      BLAS_LIBS=`sed -n -e 's/Libs://p' ../ThirdParty/Blas/coinblas-uninstalled.pc`
     fi
     BLAS_DATA=`sed -n -e 's/datadir=//gp' ../ThirdParty/Blas/coinblas-uninstalled.pc`
 
     ADDLIBS="$ADDLIBS $BLAS_LIBS"
+       REQUIREDPACKAGES="$REQUIREDPACKAGES coinblas"
 
-    REQUIREDPACKAGES="$REQUIREDPACKAGES coinblas"
 
 
 cat >>confdefs.h <<\_ACEOF
@@ -24109,7 +24116,7 @@ fi
 
 
 
-if test $coin_has_metis != "yes" ; then
+if test x$coin_has_metis != "xyes" ; then
 echo "$as_me:$LINENO: checking for COIN-OR module Metis (fallback)" >&5
 echo $ECHO_N "checking for COIN-OR module Metis (fallback)... $ECHO_C" >&6
 
@@ -24135,16 +24142,23 @@ if test $coin_has_metis != "skipping" ; then
     # read CFLAGS and LIBS from coinmetis-uninstalled.pc file
     # add CYGPATH_W cludge into include flags
     # replace -L${libdir} by absolute path to build directory in linker flags
+    # we assume that the build directory is ../Metis/src if this directory exists, otherwise we assume that it is ../Metis
     METIS_CFLAGS=`sed -n -e 's/Cflags://' -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/gp' ../Metis/coinmetis-uninstalled.pc`
     projectlibs=`sed -n -e 's/Libs://' -e 's/-L\${libdir}//p' ../Metis/coinmetis-uninstalled.pc`
     if test "x$projectlibs" != x ; then
-      METIS_LIBS="-L`cd ../Metis; pwd` $projectlibs"
+      if test -d ../Metis/src ; then
+        METIS_LIBS="-L`cd ../Metis/src; pwd` $projectlibs"
+      else
+        METIS_LIBS="-L`cd ../Metis; pwd` $projectlibs"
+      fi
+    else
+      METIS_LIBS=`sed -n -e 's/Libs://p' ../Metis/coinmetis-uninstalled.pc`
     fi
     METIS_DATA=`sed -n -e 's/datadir=//gp' ../Metis/coinmetis-uninstalled.pc`
 
     ADDLIBS="$ADDLIBS $METIS_LIBS"
+       REQUIREDPACKAGES="$REQUIREDPACKAGES coinmetis"
 
-    REQUIREDPACKAGES="$REQUIREDPACKAGES coinmetis"
 
 
 cat >>confdefs.h <<\_ACEOF
