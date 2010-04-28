@@ -1,4 +1,4 @@
-# Copyright (C) 2007, 2008, 2009 International Business Machines and others.
+# Copyright (C) 2007, 2010 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -68,6 +68,11 @@ dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo: dmumps_load.lo
 
 dmumps_part1.lo dmumps_ooc.lo: dmumps_ooc_buffer.lo
 
+dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
+dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
+
+dmumps_part1.lo dmumps_part5.lo: dmumps_part2.lo
+
 dmumps_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
 dmumps_part4.lo dmumps_part5.lo dmumps_part7.lo dmumps_part8.lo: \
 dmumps_struc_def.lo
@@ -76,11 +81,7 @@ dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
 
 dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
-
 dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
-
-dmumps_part5.lo: dmumps_part2.lo
 
 # Module files that need to be deleted
 MODEXT = mod

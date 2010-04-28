@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 2007, 2008, 2009 International Business Machines and others.
+# Copyright (C) 2007, 2010 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -435,6 +435,9 @@ dmumps_part3.lo: $(MUMPSDIR)/src/dmumps_part3.F
 dmumps_part4.lo: $(MUMPSDIR)/src/dmumps_part4.F
 	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_part4.lo `test -f '$(MUMPSDIR)/src/dmumps_part4.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_part4.F
 
+dmumps_part5.lo: $(MUMPSDIR)/src/dmumps_part5.F
+	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_part5.lo `test -f '$(MUMPSDIR)/src/dmumps_part5.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_part5.F
+
 dmumps_part6.lo: $(MUMPSDIR)/src/dmumps_part6.F
 	$(LIBTOOL) --tag=F77 --mode=compile $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_FFLAGS) $(FFLAGS) -c -o dmumps_part6.lo `test -f '$(MUMPSDIR)/src/dmumps_part6.F' || echo '$(srcdir)/'`$(MUMPSDIR)/src/dmumps_part6.F
 
@@ -847,6 +850,11 @@ dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo: dmumps_load.lo
 
 dmumps_part1.lo dmumps_ooc.lo: dmumps_ooc_buffer.lo
 
+dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
+dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
+
+dmumps_part1.lo dmumps_part5.lo: dmumps_part2.lo
+
 dmumps_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
 dmumps_part4.lo dmumps_part5.lo dmumps_part7.lo dmumps_part8.lo: \
 dmumps_struc_def.lo
@@ -855,11 +863,7 @@ dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
 
 dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
-
 dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
-
-dmumps_part5.lo: dmumps_part2.lo
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
