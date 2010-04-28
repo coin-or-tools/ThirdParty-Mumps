@@ -80,6 +80,8 @@ dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo 
 
 dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 
+dmumps_part5.lo: dmumps_part2.lo
+
 # Module files that need to be deleted
 MODEXT = mod
 CLEANFILES = *.$(MODEXT)
