@@ -79,7 +79,7 @@ dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 
 # Module files that need to be deleted
 MODEXT = mod
-CLEANFILES = *.$(MODEXT)
+CLEANFILES = *.$(MODEXT)  mumps_addlibs.txt
 
 # Reset DEFS to that they don't show up for the Fortran compiler
 DEFS =
@@ -93,8 +93,13 @@ thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/mumps_c_types.h \
   $(MUMPSDIR)/libseq/mpi.h
 
+if COIN_HAS_PKGCONFIG
 addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
-addlibs_DATA = README mumps_addlibs.txt
+addlibs_DATA = mumps_addlibs.txt
+
+mumps_addlibs.txt : coinmumps.pc
+	PKG_CONFIG_PATH=.:$(libdir)/pkgconfig:${PKG_CONFIG_PATH} $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
+endif
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc

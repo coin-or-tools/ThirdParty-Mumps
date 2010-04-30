@@ -52,12 +52,12 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-DIST_COMMON = README $(am__configure_deps) \
+DIST_COMMON = $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/coinmumps-uninstalled.pc.in \
-	$(srcdir)/coinmumps.pc.in $(srcdir)/mumps_addlibs.txt.in \
-	$(thirdpartyinclude_HEADERS) $(top_srcdir)/configure \
-	config.guess config.sub depcomp install-sh ltmain.sh missing
+	$(srcdir)/coinmumps.pc.in $(thirdpartyinclude_HEADERS) \
+	$(top_srcdir)/configure config.guess config.sub depcomp \
+	install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_1 = Externals
 @HAVE_EXTERNALS_TRUE@am__append_2 = .Externals-stamp
 subdir = .
@@ -69,8 +69,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = mumps_addlibs.txt coinmumps.pc \
-	coinmumps-uninstalled.pc
+CONFIG_CLEAN_FILES = coinmumps.pc coinmumps-uninstalled.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -162,6 +161,8 @@ COIN_HAS_BLAS_FALSE = @COIN_HAS_BLAS_FALSE@
 COIN_HAS_BLAS_TRUE = @COIN_HAS_BLAS_TRUE@
 COIN_HAS_METIS_FALSE = @COIN_HAS_METIS_FALSE@
 COIN_HAS_METIS_TRUE = @COIN_HAS_METIS_TRUE@
+COIN_HAS_PKGCONFIG_FALSE = @COIN_HAS_PKGCONFIG_FALSE@
+COIN_HAS_PKGCONFIG_TRUE = @COIN_HAS_PKGCONFIG_TRUE@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -331,7 +332,7 @@ libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 
 # Module files that need to be deleted
 MODEXT = mod
-CLEANFILES = *.$(MODEXT)
+CLEANFILES = *.$(MODEXT)  mumps_addlibs.txt
 thirdpartyincludedir = $(includedir)/coin/ThirdParty
 thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/dmumps_c.h \
@@ -339,8 +340,8 @@ thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/mumps_c_types.h \
   $(MUMPSDIR)/libseq/mpi.h
 
-addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
-addlibs_DATA = README mumps_addlibs.txt
+@COIN_HAS_PKGCONFIG_TRUE@addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
+@COIN_HAS_PKGCONFIG_TRUE@addlibs_DATA = mumps_addlibs.txt
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
 
@@ -389,8 +390,6 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(srcdir) && $(AUTOCONF)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
-mumps_addlibs.txt: $(top_builddir)/config.status $(srcdir)/mumps_addlibs.txt.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinmumps.pc: $(top_builddir)/config.status $(srcdir)/coinmumps.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinmumps-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinmumps-uninstalled.pc.in
@@ -976,6 +975,9 @@ dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
 
 dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
+
+@COIN_HAS_PKGCONFIG_TRUE@mumps_addlibs.txt : coinmumps.pc
+@COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=.:$(libdir)/pkgconfig:${PKG_CONFIG_PATH} $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

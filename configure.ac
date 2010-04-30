@@ -143,6 +143,6 @@ AC_MSG_RESULT([$MY_DEFS])
 AC_MSG_CHECKING([for additional preprocessor Fortran flags])
 AC_MSG_RESULT([$MY_FDEFS])
 
-AC_CONFIG_FILES([Makefile mumps_addlibs.txt coinmumps.pc coinmumps-uninstalled.pc])
+AC_CONFIG_FILES([Makefile coinmumps.pc coinmumps-uninstalled.pc])
 
 AC_COIN_FINALIZE
