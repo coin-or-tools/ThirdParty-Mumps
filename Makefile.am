@@ -98,7 +98,7 @@ addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
 addlibs_DATA = mumps_addlibs.txt
 
 mumps_addlibs.txt : coinmumps.pc
-	PKG_CONFIG_PATH=.:$(libdir)/pkgconfig:${PKG_CONFIG_PATH} $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
+	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
 endif
 
 pkgconfiglibdir = $(libdir)/pkgconfig
