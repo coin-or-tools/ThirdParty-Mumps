@@ -9,7 +9,7 @@
 # gives unlimited permission to copy, distribute and modify it.
 #
 #
-# Copyright 2007-2008 International Business Machines and others.
+# Copyright 2007-2009 International Business Machines and others.
 # All Rights Reserved.
 # This file is part of the open source package Coin which is distributed
 # under the Common Public License.
@@ -472,7 +472,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS ADDLIBS FADDLIBS ALWAYS_FALSE_TRUE ALWAYS_FALSE_FALSE have_svnversion _SVN_REV build build_cpu build_vendor build_os CDEFS ADD_CFLAGS DBG_CFLAGS OPT_CFLAGS sol_cc_compiler CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT MPICC ADD_FFLAGS DBG_FFLAGS OPT_FFLAGS F77 FFLAGS ac_ct_F77 MPIF77 FLIBS CPP EGREP MY_DEFS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT LIBTOOLM4 have_autoconf have_automake have_svn BUILDTOOLSDIR AUX_DIR abs_source_dir abs_lib_dir abs_include_dir abs_bin_dir HAVE_EXTERNALS_TRUE HAVE_EXTERNALS_FALSE host host_cpu host_vendor host_os LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP LIBTOOL ac_c_preproc_warn_flag ac_cxx_preproc_warn_flag RPATH_FLAGS LT_LDFLAGS COIN_HAS_BLAS_TRUE COIN_HAS_BLAS_FALSE COIN_BUILD_BLAS_TRUE COIN_BUILD_BLAS_FALSE COIN_HAS_METIS_TRUE COIN_HAS_METIS_FALSE MUMPSINCDIR MUMPSLIB COIN_HAS_MUMPS_TRUE COIN_HAS_MUMPS_FALSE MUMPS_INCFLAGS COIN_BUILD_MUMPS_TRUE COIN_BUILD_MUMPS_FALSE MAKEOKFILE SKIPMAKE_TRUE SKIPMAKE_FALSE MUMPSDIR MY_FDEFS LIBEXT VPATH_DISTCLEANFILES LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS ADDLIBS FADDLIBS ALWAYS_FALSE_TRUE ALWAYS_FALSE_FALSE have_svnversion _SVN_REV build build_cpu build_vendor build_os CDEFS ADD_CFLAGS DBG_CFLAGS OPT_CFLAGS sol_cc_compiler CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT MPICC ADD_FFLAGS DBG_FFLAGS OPT_FFLAGS F77 FFLAGS ac_ct_F77 MPIF77 FLIBS CPP EGREP MY_DEFS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT LIBTOOLM4 have_autoconf have_automake have_svn BUILDTOOLSDIR AUX_DIR abs_source_dir abs_lib_dir abs_include_dir abs_bin_dir HAVE_EXTERNALS_TRUE HAVE_EXTERNALS_FALSE host host_cpu host_vendor host_os LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP LIBTOOL ac_c_preproc_warn_flag ac_cxx_preproc_warn_flag RPATH_FLAGS LT_LDFLAGS PKG_CONFIG ac_pt_PKG_CONFIG COIN_HAS_PKGCONFIG_TRUE COIN_HAS_PKGCONFIG_FALSE COIN_PKG_CONFIG_PATH BLAS_LIBS BLAS_CFLAGS BLAS_DATA REQUIREDPACKAGES COIN_HAS_BLAS_TRUE COIN_HAS_BLAS_FALSE METIS_LIBS METIS_CFLAGS METIS_DATA COIN_HAS_METIS_TRUE COIN_HAS_METIS_FALSE MUMPSDIR MUMPSOBJDIR MUMPSSRCDIR MY_FDEFS LIBEXT VPATH_DISTCLEANFILES ABSBUILDDIR LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -989,6 +989,10 @@ ac_env_CXXCPP_set=${CXXCPP+set}
 ac_env_CXXCPP_value=$CXXCPP
 ac_cv_env_CXXCPP_set=${CXXCPP+set}
 ac_cv_env_CXXCPP_value=$CXXCPP
+ac_env_PKG_CONFIG_set=${PKG_CONFIG+set}
+ac_env_PKG_CONFIG_value=$PKG_CONFIG
+ac_cv_env_PKG_CONFIG_set=${PKG_CONFIG+set}
+ac_cv_env_PKG_CONFIG_value=$PKG_CONFIG
 
 #
 # Report the --help message.
@@ -1088,8 +1092,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-mumps-libcheck use disable-mumps-libcheck to skip the
-                          link check at configuration time
+  --enable-pkg-config     use pkg-config if available (default is yes)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1102,9 +1105,15 @@ Optional Packages:
   --with-tags[=TAGS]
                           include additional configurations [automatic]
   --with-blas             specify BLAS library (or BUILD for compilation)
-  --with-metis            specify flags to link with METIS library
-  --with-mumps-incdir specify the header file directory for library mumps
-  --with-mumps-lib specify the flags used to link with the library mumps
+
+  --with-coin-instdir     prefix of installation directory for precompiled
+                          COIN packages
+  --with-blas-lib linker flags for using module Blas
+  --with-blas-incdir directory with header files for using module Blas
+  --with-blas-datadir directory with data files for using module Blas
+  --with-metis-lib linker flags for using module Metis
+  --with-metis-incdir directory with header files for using module Metis
+  --with-metis-datadir directory with data files for using module Metis
 
 Some influential environment variables:
   CDEFS       Additional -D flags to be used when compiling C code.
@@ -1128,6 +1137,7 @@ Some influential environment variables:
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
   CXXCPP      C++ preprocessor
+  PKG_CONFIG  path to pkg-config utility
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -1236,7 +1246,7 @@ This configure script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it.
 
 
-Copyright 2007-2008 International Business Machines and others.
+Copyright 2007-2009 International Business Machines and others.
 All Rights Reserved.
 This file is part of the open source package Coin which is distributed
 under the Common Public License.
@@ -3357,7 +3367,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:3360:" \
+echo "$as_me:3370:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -3925,7 +3935,7 @@ _ACEOF
 # flags.
 ac_save_FFLAGS=$FFLAGS
 FFLAGS="$FFLAGS $ac_verb"
-(eval echo $as_me:3928: \"$ac_link\") >&5
+(eval echo $as_me:3938: \"$ac_link\") >&5
 ac_f77_v_output=`eval $ac_link 5>&1 2>&1 | grep -v 'Driving:'`
 echo "$ac_f77_v_output" >&5
 FFLAGS=$ac_save_FFLAGS
@@ -4003,7 +4013,7 @@ _ACEOF
 # flags.
 ac_save_FFLAGS=$FFLAGS
 FFLAGS="$FFLAGS $ac_cv_prog_f77_v"
-(eval echo $as_me:4006: \"$ac_link\") >&5
+(eval echo $as_me:4016: \"$ac_link\") >&5
 ac_f77_v_output=`eval $ac_link 5>&1 2>&1 | grep -v 'Driving:'`
 echo "$ac_f77_v_output" >&5
 FFLAGS=$ac_save_FFLAGS
@@ -4751,6 +4761,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+
+# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
+coin_need_flibs=yes
 
 # We need to translate the result from autoconf to what MUMPS wants
 case "$ac_cv_f77_mangling" in
@@ -7057,7 +7070,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 7060 "configure"' > conftest.$ac_ext
+  echo '#line 7073 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -9053,11 +9066,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9056: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9069: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:9060: \$? = $ac_status" >&5
+   echo "$as_me:9073: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9321,11 +9334,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9324: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9337: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:9328: \$? = $ac_status" >&5
+   echo "$as_me:9341: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9425,11 +9438,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9428: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9441: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9432: \$? = $ac_status" >&5
+   echo "$as_me:9445: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -11842,7 +11855,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 11845 "configure"
+#line 11858 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11942,7 +11955,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 11945 "configure"
+#line 11958 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14302,11 +14315,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14305: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14318: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14309: \$? = $ac_status" >&5
+   echo "$as_me:14322: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14406,11 +14419,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14409: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14422: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14413: \$? = $ac_status" >&5
+   echo "$as_me:14426: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15976,11 +15989,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15979: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15992: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15983: \$? = $ac_status" >&5
+   echo "$as_me:15996: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16080,11 +16093,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16083: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16096: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:16087: \$? = $ac_status" >&5
+   echo "$as_me:16100: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -18287,11 +18300,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18290: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18303: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18294: \$? = $ac_status" >&5
+   echo "$as_me:18307: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18555,11 +18568,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18558: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18571: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:18562: \$? = $ac_status" >&5
+   echo "$as_me:18575: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -18659,11 +18672,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:18662: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:18675: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:18666: \$? = $ac_status" >&5
+   echo "$as_me:18679: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -21577,41 +21590,217 @@ fi
 #END
 }
 
-# Check for user-provided BLAS library, but make sure it is not added to libcoinmumps.a
-save_LIBS="$LIBS"
-if test "$PACKAGE_NAME" = ThirdPartyBlas || test "$PACKAGE_NAME" = ThirdPartyLapack || test "$PACKAGE_NAME" = ThirdPartyMumps; then
-  coin_blasobjdir=../Blas
+
+
+# Check whether --enable-pkg-config or --disable-pkg-config was given.
+if test "${enable_pkg_config+set}" = set; then
+  enableval="$enable_pkg_config"
+  use_pkgconfig="$enableval"
 else
-  coin_blasobjdir=../ThirdParty/Blas
+  use_pkgconfig=yes
+fi;
+
+if test $use_pkgconfig = yes ; then
+  if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+    if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_path_PKG_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+  ;;
+esac
 fi
-coin_blassrcdir=$srcdir/$coin_blasobjdir
+PKG_CONFIG=$ac_cv_path_PKG_CONFIG
+
+if test -n "$PKG_CONFIG"; then
+  echo "$as_me:$LINENO: result: $PKG_CONFIG" >&5
+echo "${ECHO_T}$PKG_CONFIG" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+fi
+if test -z "$ac_cv_path_PKG_CONFIG"; then
+  ac_pt_PKG_CONFIG=$PKG_CONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_path_ac_pt_PKG_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $ac_pt_PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+  ;;
+esac
+fi
+ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
+
+if test -n "$ac_pt_PKG_CONFIG"; then
+  echo "$as_me:$LINENO: result: $ac_pt_PKG_CONFIG" >&5
+echo "${ECHO_T}$ac_pt_PKG_CONFIG" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  PKG_CONFIG=$ac_pt_PKG_CONFIG
+else
+  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
+fi
+
+  fi
+  if test -n "$PKG_CONFIG"; then
+    _pkg_min_version=0.9.0
+    echo "$as_me:$LINENO: checking pkg-config is at least version $_pkg_min_version" >&5
+echo $ECHO_N "checking pkg-config is at least version $_pkg_min_version... $ECHO_C" >&6
+    if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+      echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+    else
+      echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+      PKG_CONFIG=""
+    fi
+  fi
+
+  # check if pkg-config supports the short-errors flag
+  if test -n "$PKG_CONFIG" && \
+    $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+    pkg_short_errors=" --short-errors "
+  else
+    pkg_short_errors=""
+  fi
+fi
+
+
+
+if test -n "$PKG_CONFIG"; then
+  COIN_HAS_PKGCONFIG_TRUE=
+  COIN_HAS_PKGCONFIG_FALSE='#'
+else
+  COIN_HAS_PKGCONFIG_TRUE='#'
+  COIN_HAS_PKGCONFIG_FALSE=
+fi
+
+
+
+# assemble search path for pkg-config, if we are in a project setup
+if test x$coin_projectdir = xyes ; then
+  COIN_PKG_CONFIG_PATH="$PKG_CONFIG_PATH"
+
+  # let's assume that when installing into $prefix, then the user may have installed some other coin projects there before, so it's worth to have a look into there
+  # best would actually to use ${libdir}, since .pc files get installed into ${libdir}/pkgconfig,
+  # unfortunately, ${libdir} expands to ${exec_prefix}/lib and ${exec_prefix} to ${prefix}...
+  if test -d "${prefix}"; then
+    COIN_PKG_CONFIG_PATH="${prefix}/lib/pkgconfig:${COIN_PKG_CONFIG_PATH}"
+  fi
+
+
+# Check whether --with-coin-instdir or --without-coin-instdir was given.
+if test "${with_coin_instdir+set}" = set; then
+  withval="$with_coin_instdir"
+  if test -d "$withval"; then : ; else
+       { { echo "$as_me:$LINENO: error: argument for --with-coin-instdir not a directory" >&5
+echo "$as_me: error: argument for --with-coin-instdir not a directory" >&2;}
+   { (exit 1); exit 1; }; }
+     fi
+     COIN_PKG_CONFIG_PATH="$withval/lib/pkgconfig:${COIN_PKG_CONFIG_PATH}"
+
+fi;
+
+  # in a classic setup, we want to find uninstalled projects
+  # their (relative) location is written to coin_subdirs.txt by the configure in the project base directory
+  # unfortunately, if the user set prefix, then we do not know where the project base directory is located
+  # but it is likely to be either .. (if we are a usual coin project) or ../.. (if we are a unusual coin project like ThirdParty or Data)
+  if test -e ../coin_subdirs.txt ; then
+    for i in `cat ../coin_subdirs.txt` ; do
+      if test -d ../$i ; then
+        COIN_PKG_CONFIG_PATH="`cd ../$i; pwd`:${COIN_PKG_CONFIG_PATH}"
+      fi
+    done
+  fi
+
+  if test -e ../../coin_subdirs.txt ; then
+    for i in `cat ../../coin_subdirs.txt` ; do
+      if test -d ../../$i ; then
+        COIN_PKG_CONFIG_PATH="`cd ../../$i; pwd`:${COIN_PKG_CONFIG_PATH}"
+      fi
+    done
+  fi
+
+
+fi
+
+
 
 
 # Check whether --with-blas or --without-blas was given.
 if test "${with_blas+set}" = set; then
   withval="$with_blas"
-  use_blas=$withval
+  use_blas="$withval"
 else
   use_blas=
 fi;
 
-MAKEOKFILE=.MakeOk
+#if user specified --with-blas-lib, then we should give COIN_HAS_MODULE preference
+
+# Check whether --with-blas-lib or --without-blas-lib was given.
+if test "${with_blas_lib+set}" = set; then
+  withval="$with_blas_lib"
+  use_blas=BUILD
+fi;
+
 # Check if user supplied option makes sense
 if test x"$use_blas" != x; then
   if test "$use_blas" = "BUILD"; then
-    # Don't check for course code if this is executed in ThirdParty/Blas
-    if test "$PACKAGE_NAME" != ThirdPartyBlas; then
-      if test -r $coin_blasobjdir/.MakeOk; then :; else
-        { { echo "$as_me:$LINENO: error: option \"BUILD\" specified for Blas, but $coin_blasobjdir directory is not properly configured" >&5
-echo "$as_me: error: option \"BUILD\" specified for Blas, but $coin_blasobjdir directory is not properly configured" >&2;}
-   { (exit 1); exit 1; }; }
-      fi
-    fi
-  elif test "$use_blas" != no ; then
+    # we come to this later
+    :
+  elif test "$use_blas" != "no"; then
     echo "$as_me:$LINENO: checking whether user supplied BLASLIB=\"$use_blas\" works" >&5
 echo $ECHO_N "checking whether user supplied BLASLIB=\"$use_blas\" works... $ECHO_C" >&6
+    coin_save_LIBS="$LIBS"
     LIBS="$use_blas $LIBS"
-    ADDLIBS="$use_blas $ADDLIBS"
     case $ac_ext in
   f)
     cat >conftest.$ac_ext <<_ACEOF
@@ -21661,6 +21850,7 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   (exit $ac_status); }; }; then
   echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
+                       ADDLIBS="$use_blas $ADDLIBS"
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -21755,6 +21945,7 @@ rm -f conftest.err conftest.$ac_objext \
     if test $flink_try = yes; then
       echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
+                       ADDLIBS="$use_blas $ADDLIBS"
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -21807,6 +21998,7 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   LIBS="$flink_save_libs"
                      echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
+                       ADDLIBS="$use_blas $ADDLIBS"
                      coin_need_flibs=yes
 else
   echo "$as_me: failed program was:" >&5
@@ -21911,6 +22103,7 @@ rm -f conftest.err conftest.$ac_objext \
     if test $flink_try = yes; then
       echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
+                       ADDLIBS="$use_blas $ADDLIBS"
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -21963,6 +22156,7 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   LIBS="$flink_save_libs"
                      echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
+                       ADDLIBS="$use_blas $ADDLIBS"
                      coin_need_flibs=yes
 else
   echo "$as_me: failed program was:" >&5
@@ -21988,6 +22182,7 @@ echo "$as_me: error: user supplied BLAS library \"$use_blas\" does not work" >&2
     ;;
 esac
 
+    LIBS="$coin_save_LIBS"
   fi
 else
 # Try to autodetect the library for blas based on build system
@@ -21995,9 +22190,9 @@ else
   skip_lblas_check=no
   case $build in
     *-sgi-*)
-      SAVE_LIBS="$LIBS"
       echo "$as_me:$LINENO: checking whether -lcomplib.sgimath has BLAS" >&5
 echo $ECHO_N "checking whether -lcomplib.sgimath has BLAS... $ECHO_C" >&6
+      SAVE_LIBS="$LIBS"
       LIBS="-lcomplib.sgimath $LIBS"
       case $ac_ext in
   f)
@@ -23545,24 +23740,240 @@ echo "${ECHO_T}no" >&6
 esac
 
   fi
+  LIBS="$SAVE_LIBS"
 
-# If we have no other ideas, consider building BLAS.
-  if test -z "$use_blas"; then
-    if test "$PACKAGE_NAME" != ThirdPartyBlas; then
-      if test -r $coin_blasobjdir/.MakeOk; then
-        use_blas=BUILD
-      fi
-    fi
+  # If we have no other ideas, consider building BLAS.
+  if test -z "$use_blas" ; then
+    use_blas=BUILD
   fi
 fi
 
-if test "$use_blas" = BUILD; then
-  coin_need_flibs=yes
+if test "x$use_blas" = xBUILD ; then
+  if test -d ../ThirdParty/Blas ; then
+    blasdir=../ThirdParty/Blas
+  else
+    blasdir=../Blas
+  fi
+
+echo "$as_me:$LINENO: checking for COIN-OR module Blas" >&5
+echo $ECHO_N "checking for COIN-OR module Blas... $ECHO_C" >&6
+
+coin_has_blas=notGiven
+
+# check if user wants to skip module in any case
+if test x"$COIN_SKIP_PROJECTS" != x; then
+  for dir in $COIN_SKIP_PROJECTS; do
+    if test $dir = "Blas"; then
+      coin_has_blas=skipping
+    fi
+  done
+fi
+
+BLAS_LIBS=
+BLAS_CFLAGS=
+BLAS_DATA=
+
+
+
+
+
+#check if user provided LIBS, CFLAGS, and DATA for module
+if test $coin_has_blas != skipping; then
+
+
+# Check whether --with-m4_tolower(Blas)-lib or --without-m4_tolower(Blas)-lib was given.
+if test "${with_blas_lib+set}" = set; then
+  withval="$with_blas_lib"
+  coin_has_blas=yes
+       BLAS_LIBS="$withval"
+       ADDLIBS="$ADDLIBS $withval"
+
+fi;
+
+
+# Check whether --with-m4_tolower(Blas)-incdir or --without-m4_tolower(Blas)-incdir was given.
+if test "${with_blas_incdir+set}" = set; then
+  withval="$with_blas_incdir"
+  coin_has_blas=yes
+     BLAS_CFLAGS="-I`${CYGPATH_W} $withval`"
+fi;
+
+
+# Check whether --with-m4_tolower(Blas)-datadir or --without-m4_tolower(Blas)-datadir was given.
+if test "${with_blas_datadir+set}" = set; then
+  withval="$with_blas_datadir"
+  coin_has_blas=yes
+     BLAS_DATA="$withval"
+fi;
+fi
+
+if test $coin_has_blas = notGiven; then
+  if test -n "$PKG_CONFIG" ; then
+    # set search path for pkg-config
+    # need to export variable to be sure that the following pkg-config gets these values
+    coin_save_PKG_CONFIG_PATH="$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+
+    # let pkg-config do it's magic
+
+
+
+if test -n "$PKG_CONFIG" ; then
+  if $PKG_CONFIG --exists "coinblas"; then
+    BLAS_VERSIONS="`$PKG_CONFIG --modversion coinblas 2>/dev/null`"
+     cflags=`$PKG_CONFIG --cflags "coinblas" 2>/dev/null`
+    # pkg-config cannot handle spaces, so CYGPATH_W cannot be put into .pc files
+	# thus, we modify the cflags extracted from pkg-config by putting CYGPATH_W behind -I's
+	# but only do this if is not trivial
+    if test "$CYGPATH_W" != "echo" ; then
+      # need to put into brackets since otherwise autoconf replaces the brackets in the sed command
+	  cflags=`echo $cflags | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+	fi
+    BLAS_CFLAGS="$cflags"
+    BLAS_LIBS=`$PKG_CONFIG --libs "coinblas" 2>/dev/null`
+    BLAS_DATA=`$PKG_CONFIG --variable=datadir "coinblas" 2>/dev/null`
+     coin_has_blas=yes
+        echo "$as_me:$LINENO: result: yes: $BLAS_VERSIONS" >&5
+echo "${ECHO_T}yes: $BLAS_VERSIONS" >&6
+        REQUIREDPACKAGES="$REQUIREDPACKAGES coinblas"
+
+
+  else
+    BLAS_PKG_ERRORS=`$PKG_CONFIG $pkg_short_errors --errors-to-stdout --print-errors coinblas`
+      coin_has_blas=notGiven
+        echo "$as_me:$LINENO: result: not given: $BLAS_PKG_ERRORS" >&5
+echo "${ECHO_T}not given: $BLAS_PKG_ERRORS" >&6
+
+  fi
+else
+  { { echo "$as_me:$LINENO: error: \"Cannot check for existance of module Blas without pkg-config\"" >&5
+echo "$as_me: error: \"Cannot check for existance of module Blas without pkg-config\"" >&2;}
+   { (exit 1); exit 1; }; }
 fi
 
 
 
-if test x"$use_blas" != x; then
+
+    # reset PKG_CONFIG_PATH variable
+    PKG_CONFIG_PATH="$coin_save_PKG_CONFIG_PATH"
+  else
+    #if 4th argument is given, try fallback - whereby we take the first word from coinblas as basename for the .pc file
+
+if test x$coin_has_blas != "xyes" ; then
+
+
+
+coin_has_blas=notGiven
+
+# check if user wants to skip module in any case
+if test x"$COIN_SKIP_PROJECTS" != x; then
+  for dir in $COIN_SKIP_PROJECTS; do
+    if test $dir = "Blas"; then
+      coin_has_blas=skipping
+    fi
+  done
+fi
+
+BLAS_LIBS=
+BLAS_CFLAGS=
+BLAS_DATA=
+
+
+if test $coin_has_blas != "skipping" ; then
+  # if the project is available and configured, then a project-uninstalled.pc file should have been created
+  if test -r $blasdir/coinblas-uninstalled.pc ; then
+    # read CFLAGS and LIBS from m4_bpatsubst(coinblas, [ .*], [])-uninstalled.pc file
+    # add CYGPATH_W cludge into include flags
+    # replace -L${libdir} by absolute path to build directory in linker flags
+    # we assume that the build directory is $blasdir/src if this directory exists, otherwise we assume that it is $blasdir
+    BLAS_CFLAGS=`sed -n -e 's/Cflags://' -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/gp' $blasdir/coinblas-uninstalled.pc`
+    projectlibs=`sed -n -e 's/Libs://' -e 's/-L\${libdir}//p' $blasdir/coinblas-uninstalled.pc`
+    if test "x$projectlibs" != x ; then
+      if test -d $blasdir/src ; then
+        BLAS_LIBS="-L`cd $blasdir/src; pwd` $projectlibs"
+      else
+        BLAS_LIBS="-L`cd $blasdir; pwd` $projectlibs"
+      fi
+    else
+      BLAS_LIBS=`sed -n -e 's/Libs://p' $blasdir/coinblas-uninstalled.pc`
+    fi
+    BLAS_DATA=`sed -n -e 's/datadir=//gp' $blasdir/coinblas-uninstalled.pc`
+
+    ADDLIBS="$ADDLIBS $BLAS_LIBS"
+       REQUIREDPACKAGES="$REQUIREDPACKAGES coinblas"
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define COIN_HAS_BLAS 1
+_ACEOF
+
+
+
+    coin_has_blas=yes
+    echo "$as_me:$LINENO: result: $blasdir" >&5
+echo "${ECHO_T}$blasdir" >&6
+  else
+    echo "$as_me:$LINENO: result: $coin_has_blas" >&5
+echo "${ECHO_T}$coin_has_blas" >&6
+  fi
+else
+  echo "$as_me:$LINENO: result: skipping" >&5
+echo "${ECHO_T}skipping" >&6
+fi
+
+#if user did not disable setting of makefile conditional, do it
+
+
+if test $coin_has_blas != notGiven &&
+                test $coin_has_blas != skipping; then
+  COIN_HAS_BLAS_TRUE=
+  COIN_HAS_BLAS_FALSE='#'
+else
+  COIN_HAS_BLAS_TRUE='#'
+  COIN_HAS_BLAS_FALSE=
+fi
+
+
+fi
+
+
+  fi
+
+else
+  echo "$as_me:$LINENO: result: $coin_has_blas" >&5
+echo "${ECHO_T}$coin_has_blas" >&6
+fi
+
+if test $coin_has_blas != skipping &&
+   test $coin_has_blas != notGiven ; then
+  if test 0 = 1 ; then  #change this test to enable a bit of debugging output
+  if test -n "$BLAS_CFLAGS" ; then
+    { echo "$as_me:$LINENO: Blas CFLAGS are $BLAS_CFLAGS" >&5
+echo "$as_me: Blas CFLAGS are $BLAS_CFLAGS" >&6;}
+  fi
+  if test -n "$BLAS_LIBS" ; then
+    { echo "$as_me:$LINENO: Blas LIBS   are $BLAS_LIBS" >&5
+echo "$as_me: Blas LIBS   are $BLAS_LIBS" >&6;}
+  fi
+  if test -n "$BLAS_DATA" ; then
+    { echo "$as_me:$LINENO: Blas DATA   is  $BLAS_DATA" >&5
+echo "$as_me: Blas DATA   is  $BLAS_DATA" >&6;}
+  fi
+  fi
+
+cat >>confdefs.h <<\_ACEOF
+#define COIN_HAS_BLAS 1
+_ACEOF
+
+fi
+
+# Define the Makefile conditional
+
+
+if test $coin_has_blas != notGiven &&
+                test $coin_has_blas != skipping; then
   COIN_HAS_BLAS_TRUE=
   COIN_HAS_BLAS_FALSE='#'
 else
@@ -23572,162 +23983,220 @@ fi
 
 
 
-if test "$use_blas" = BUILD; then
-  COIN_BUILD_BLAS_TRUE=
-  COIN_BUILD_BLAS_FALSE='#'
+
+elif test "x$use_blas" != x && test "$use_blas" != no; then
+  coin_has_blas=yes
+
+
+if test 0 = 0; then
+  COIN_HAS_BLAS_TRUE=
+  COIN_HAS_BLAS_FALSE='#'
 else
-  COIN_BUILD_BLAS_TRUE='#'
-  COIN_BUILD_BLAS_FALSE=
+  COIN_HAS_BLAS_TRUE='#'
+  COIN_HAS_BLAS_FALSE=
 fi
 
-
-if test x"$use_blas" = x || test "$use_blas" = no; then
-  coin_has_blas=no
-else
-  coin_has_blas=yes
 
 cat >>confdefs.h <<\_ACEOF
 #define COIN_HAS_BLAS 1
 _ACEOF
 
+  BLAS_LIBS="$use_blas"
+  BLAS_CFLAGS=
+  BLAS_DATA=
+
+
+
+
+else
+  coin_has_blas=no
+
+
+if test 0 = 1; then
+  COIN_HAS_BLAS_TRUE=
+  COIN_HAS_BLAS_FALSE='#'
+else
+  COIN_HAS_BLAS_TRUE='#'
+  COIN_HAS_BLAS_FALSE=
 fi
 
-LIBS="$save_LIBS"
-
-# Check if Metis is available
-
-case "$PACKAGE_NAME" in
-  ThirdParty*)
-    coin_metisobjdir=../Metis
-    ;;
-  *)
-    coin_metisobjdir=../ThirdParty/Metis
-    ;;
-esac
-
-MAKEOKFILE=.MakeOk
-
-#check if user provides a METIS library (that works)
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
+fi
 
 
-# Check whether --with-metis or --without-metis was given.
-if test "${with_metis+set}" = set; then
-  withval="$with_metis"
-  METISLIB="$withval"; coin_has_metis=true
-else
-  coin_has_metis=no
+
+echo "$as_me:$LINENO: checking for COIN-OR module Metis" >&5
+echo $ECHO_N "checking for COIN-OR module Metis... $ECHO_C" >&6
+
+coin_has_metis=notGiven
+
+# check if user wants to skip module in any case
+if test x"$COIN_SKIP_PROJECTS" != x; then
+  for dir in $COIN_SKIP_PROJECTS; do
+    if test $dir = "Metis"; then
+      coin_has_metis=skipping
+    fi
+  done
+fi
+
+METIS_LIBS=
+METIS_CFLAGS=
+METIS_DATA=
+
+
+
+
+
+#check if user provided LIBS, CFLAGS, and DATA for module
+if test $coin_has_metis != skipping; then
+
+
+# Check whether --with-m4_tolower(Metis)-lib or --without-m4_tolower(Metis)-lib was given.
+if test "${with_metis_lib+set}" = set; then
+  withval="$with_metis_lib"
+  coin_has_metis=yes
+       METIS_LIBS="$withval"
+       ADDLIBS="$ADDLIBS $withval"
+
 fi;
 
-if test $coin_has_metis = true; then
-  coin_save_LIBS="$LIBS"
-  LIBS="$METISLIB $ADDLIBS"
-  echo "$as_me:$LINENO: checking whether symbol metis_nodend is available with " >&5
-echo $ECHO_N "checking whether symbol metis_nodend is available with ... $ECHO_C" >&6
-  cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
 
-#ifdef F77_DUMMY_MAIN
+# Check whether --with-m4_tolower(Metis)-incdir or --without-m4_tolower(Metis)-incdir was given.
+if test "${with_metis_incdir+set}" = set; then
+  withval="$with_metis_incdir"
+  coin_has_metis=yes
+     METIS_CFLAGS="-I`${CYGPATH_W} $withval`"
+fi;
 
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
 
-#endif
-int
-main ()
-{
-metis_nodend()
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
+# Check whether --with-m4_tolower(Metis)-datadir or --without-m4_tolower(Metis)-datadir was given.
+if test "${with_metis_datadir+set}" = set; then
+  withval="$with_metis_datadir"
+  coin_has_metis=yes
+     METIS_DATA="$withval"
+fi;
+fi
+
+if test $coin_has_metis = notGiven; then
+  if test -n "$PKG_CONFIG" ; then
+    # set search path for pkg-config
+    # need to export variable to be sure that the following pkg-config gets these values
+    coin_save_PKG_CONFIG_PATH="$PKG_CONFIG_PATH"
+    PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+
+    # let pkg-config do it's magic
+
+
+
+if test -n "$PKG_CONFIG" ; then
+  if $PKG_CONFIG --exists "coinmetis >= 4.0"; then
+    METIS_VERSIONS="`$PKG_CONFIG --modversion coinmetis >= 4.0 2>/dev/null`"
+     cflags=`$PKG_CONFIG --cflags "coinmetis >= 4.0" 2>/dev/null`
+    # pkg-config cannot handle spaces, so CYGPATH_W cannot be put into .pc files
+	# thus, we modify the cflags extracted from pkg-config by putting CYGPATH_W behind -I's
+	# but only do this if is not trivial
+    if test "$CYGPATH_W" != "echo" ; then
+      # need to put into brackets since otherwise autoconf replaces the brackets in the sed command
+	  cflags=`echo $cflags | sed -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/g'`
+	fi
+    METIS_CFLAGS="$cflags"
+    METIS_LIBS=`$PKG_CONFIG --libs "coinmetis >= 4.0" 2>/dev/null`
+    METIS_DATA=`$PKG_CONFIG --variable=datadir "coinmetis >= 4.0" 2>/dev/null`
+     coin_has_metis=yes
+        echo "$as_me:$LINENO: result: yes: $METIS_VERSIONS" >&5
+echo "${ECHO_T}yes: $METIS_VERSIONS" >&6
+        REQUIREDPACKAGES="$REQUIREDPACKAGES coinmetis >= 4.0"
+
+
+  else
+    METIS_PKG_ERRORS=`$PKG_CONFIG $pkg_short_errors --errors-to-stdout --print-errors coinmetis >= 4.0`
+      coin_has_metis=notGiven
+        echo "$as_me:$LINENO: result: not given: $METIS_PKG_ERRORS" >&5
+echo "${ECHO_T}not given: $METIS_PKG_ERRORS" >&6
+
+  fi
 else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-      { { echo "$as_me:$LINENO: error: User-supplied METIS library does not work" >&5
-echo "$as_me: error: User-supplied METIS library does not work" >&2;}
+  { { echo "$as_me:$LINENO: error: \"Cannot check for existance of module Metis without pkg-config\"" >&5
+echo "$as_me: error: \"Cannot check for existance of module Metis without pkg-config\"" >&2;}
    { (exit 1); exit 1; }; }
 fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-  LIBS="$coin_save_LIBS"
-fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-if test "$coin_has_metis" = "true"; then  # user provided metis library
-  use_metis=yes
-  coin_has_metis=yes
 
-  ADDLIBS="$METISLIB $ADDLIBS"
 
-else # no user provided library, so we try to build our own
-  use_metis=BUILD
-
-  # Check if the METIS' ThirdParty project has been configured
-  if test "$PACKAGE_NAME" != ThirdPartyMetis; then
-    if test -r $coin_metisobjdir/.MakeOk; then
-      use_metis=BUILD
-    else
-      use_metis=
-    fi
-  fi
-
-  if test x"$use_metis" != x; then
-    coin_has_metis=yes
+    # reset PKG_CONFIG_PATH variable
+    PKG_CONFIG_PATH="$coin_save_PKG_CONFIG_PATH"
   else
-    coin_has_metis=no
-  fi
-  echo "$as_me:$LINENO: checking whether METIS is available" >&5
-echo $ECHO_N "checking whether METIS is available... $ECHO_C" >&6
-  echo "$as_me:$LINENO: result: $coin_has_metis" >&5
-echo "${ECHO_T}$coin_has_metis" >&6
+    #if 4th argument is given, try fallback - whereby we take the first word from coinmetis >= 4.0 as basename for the .pc file
+
+if test x$coin_has_metis != "xyes" ; then
+
+
+
+coin_has_metis=notGiven
+
+# check if user wants to skip module in any case
+if test x"$COIN_SKIP_PROJECTS" != x; then
+  for dir in $COIN_SKIP_PROJECTS; do
+    if test $dir = "Metis"; then
+      coin_has_metis=skipping
+    fi
+  done
 fi
 
+METIS_LIBS=
+METIS_CFLAGS=
+METIS_DATA=
 
 
-if test $coin_has_metis = yes; then
+if test $coin_has_metis != "skipping" ; then
+  # if the project is available and configured, then a project-uninstalled.pc file should have been created
+  if test -r ../Metis/coinmetis-uninstalled.pc ; then
+    # read CFLAGS and LIBS from m4_bpatsubst(coinmetis >= 4.0, [ .*], [])-uninstalled.pc file
+    # add CYGPATH_W cludge into include flags
+    # replace -L${libdir} by absolute path to build directory in linker flags
+    # we assume that the build directory is ../Metis/src if this directory exists, otherwise we assume that it is ../Metis
+    METIS_CFLAGS=`sed -n -e 's/Cflags://' -e 's/-I\([^ ]*\)/-I\`${CYGPATH_W} \1\`/gp' ../Metis/coinmetis-uninstalled.pc`
+    projectlibs=`sed -n -e 's/Libs://' -e 's/-L\${libdir}//p' ../Metis/coinmetis-uninstalled.pc`
+    if test "x$projectlibs" != x ; then
+      if test -d ../Metis/src ; then
+        METIS_LIBS="-L`cd ../Metis/src; pwd` $projectlibs"
+      else
+        METIS_LIBS="-L`cd ../Metis; pwd` $projectlibs"
+      fi
+    else
+      METIS_LIBS=`sed -n -e 's/Libs://p' ../Metis/coinmetis-uninstalled.pc`
+    fi
+    METIS_DATA=`sed -n -e 's/datadir=//gp' ../Metis/coinmetis-uninstalled.pc`
+
+    ADDLIBS="$ADDLIBS $METIS_LIBS"
+       REQUIREDPACKAGES="$REQUIREDPACKAGES coinmetis"
+
+
+
+cat >>confdefs.h <<\_ACEOF
+#define COIN_HAS_METIS 1
+_ACEOF
+
+
+
+    coin_has_metis=yes
+    echo "$as_me:$LINENO: result: ../Metis" >&5
+echo "${ECHO_T}../Metis" >&6
+  else
+    echo "$as_me:$LINENO: result: $coin_has_metis" >&5
+echo "${ECHO_T}$coin_has_metis" >&6
+  fi
+else
+  echo "$as_me:$LINENO: result: skipping" >&5
+echo "${ECHO_T}skipping" >&6
+fi
+
+#if user did not disable setting of makefile conditional, do it
+
+
+if test $coin_has_metis != notGiven &&
+                test $coin_has_metis != skipping; then
   COIN_HAS_METIS_TRUE=
   COIN_HAS_METIS_FALSE='#'
 else
@@ -23735,7 +24204,33 @@ else
   COIN_HAS_METIS_FALSE=
 fi
 
-if test $coin_has_metis = yes; then
+
+fi
+
+
+  fi
+
+else
+  echo "$as_me:$LINENO: result: $coin_has_metis" >&5
+echo "${ECHO_T}$coin_has_metis" >&6
+fi
+
+if test $coin_has_metis != skipping &&
+   test $coin_has_metis != notGiven ; then
+  if test 0 = 1 ; then  #change this test to enable a bit of debugging output
+  if test -n "$METIS_CFLAGS" ; then
+    { echo "$as_me:$LINENO: Metis CFLAGS are $METIS_CFLAGS" >&5
+echo "$as_me: Metis CFLAGS are $METIS_CFLAGS" >&6;}
+  fi
+  if test -n "$METIS_LIBS" ; then
+    { echo "$as_me:$LINENO: Metis LIBS   are $METIS_LIBS" >&5
+echo "$as_me: Metis LIBS   are $METIS_LIBS" >&6;}
+  fi
+  if test -n "$METIS_DATA" ; then
+    { echo "$as_me:$LINENO: Metis DATA   is  $METIS_DATA" >&5
+echo "$as_me: Metis DATA   is  $METIS_DATA" >&6;}
+  fi
+  fi
 
 cat >>confdefs.h <<\_ACEOF
 #define COIN_HAS_METIS 1
@@ -23743,391 +24238,25 @@ _ACEOF
 
 fi
 
+# Define the Makefile conditional
+
+
+if test $coin_has_metis != notGiven &&
+                test $coin_has_metis != skipping; then
+  COIN_HAS_METIS_TRUE=
+  COIN_HAS_METIS_FALSE='#'
+else
+  COIN_HAS_METIS_TRUE='#'
+  COIN_HAS_METIS_FALSE=
+fi
+
+
+
 
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
 fi
-
-## Check if Mumps is already provided by user
-
-if test "$PACKAGE_NAME" = ThirdPartyMumps; then
-  coin_mumpsobjdir=../Mumps
-else
-  coin_mumpsobjdir=../ThirdParty/Mumps
-fi
-coin_mumpssrcdir=$abs_source_dir/$coin_mumpsobjdir/MUMPS
-
-MAKEOKFILE=.MakeOk
-
-#check if user provides a MUMPS library (that works)
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-SAVE_ADDLIBS="$ADDLIBS"
-ADDLIBS="$ADDLIBS $FLIBS"
-
-  echo "$as_me:$LINENO: checking if user provides library for mumps" >&5
-echo $ECHO_N "checking if user provides library for mumps... $ECHO_C" >&6
-
-# Check for header file directory
-
-
-# Check whether --with-mumps-incdir or --without-mumps-incdir was given.
-if test "${with_mumps_incdir+set}" = set; then
-  withval="$with_mumps_incdir"
-  MUMPSINCDIR=`cd $withval; pwd`
-fi;
-
-# Check for library directory
-
-
-# Check whether --with-mumps-lib or --without-mumps-lib was given.
-if test "${with_mumps_lib+set}" = set; then
-  withval="$with_mumps_lib"
-  MUMPSLIB=$withval
-fi;
-
-# Switch to disable library check if requested
-
-  # Check whether --enable-mumps-libcheck or --disable-mumps-libcheck was given.
-if test "${enable_mumps_libcheck+set}" = set; then
-  enableval="$enable_mumps_libcheck"
-  mumps_libcheck=$enableval
-else
-  mumps_libcheck=yes
-fi;
-
-# At this point, if we're going to use the library, both LBRYINCDIR and
-# LBRYLIB must be defined and not empty.
-
-  if test x"$MUMPSINCDIR" != x || test x"$MUMPSLIB" != x; then
-    if test x"$MUMPSINCDIR" = x || test x"$MUMPSLIB" = x; then
-      { { echo "$as_me:$LINENO: error: You need to specify both an include directory and link flags to use library mumps. Use --with-mumps-incdir of environment variable $MUMPSINCDIR to specify the include directory. Use --with-mumps-lib or environment variable $MUMPSLIB to specify link flags." >&5
-echo "$as_me: error: You need to specify both an include directory and link flags to use library mumps. Use --with-mumps-incdir of environment variable $MUMPSINCDIR to specify the include directory. Use --with-mumps-lib or environment variable $MUMPSLIB to specify link flags." >&2;}
-   { (exit 1); exit 1; }; }
-    fi
-    coin_has_mumps=true
-    echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-  else
-    coin_has_mumps=false
-    echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-  fi
-
-# If we have instructions for use, consider header and link checks.
-
-  if test $coin_has_mumps = true; then
-
-# If argument 3 (file) is given, check for the file. Typically this will be a
-# header file, but that's not assumed.
-
-    if test -r $MUMPSINCDIR/dmumps_c.h; then
-
-  :
-else
-  { { echo "$as_me:$LINENO: error: Cannot find file dmumps_c.h in $MUMPSINCDIR" >&5
-echo "$as_me: error: Cannot find file dmumps_c.h in $MUMPSINCDIR" >&2;}
-   { (exit 1); exit 1; }; }
-  :
-fi
-
-
-# Now see if we can link the function. There are arguments for and against
-# assuming argument 3 is a header file declaring the function. A correct
-# function declaration is the main argument in favour. Having to cope with
-# possible dependencies or other oddities are the main arguments against.
-# Force the use of C as the best single choice amongst C++, C, and Fortran.
-# Obviously, this has limits.
-
-    if test x"$mumps_libcheck" != xno; then
-	   coin_save_LIBS="$LIBS"
-	   LIBS="$MUMPSLIB $ADDLIBS"
-	   coin_MUMPS_link=no
-	   ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-	   for fnm in dmumps_c ; do
-	     echo "$as_me:$LINENO: checking whether symbol $fnm is available with MUMPS" >&5
-echo $ECHO_N "checking whether symbol $fnm is available with MUMPS... $ECHO_C" >&6
-	     cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-#ifdef F77_DUMMY_MAIN
-
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-
-#endif
-int
-main ()
-{
-$fnm()
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-		  coin_MUMPS_link=yes
-		  break
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-	   done
-	   ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-	   if test x"$coin_MUMPS_link" = xyes ; then
-	     LIBS="$coin_save_LIBS"
-	   else
-	     { { echo "$as_me:$LINENO: error: Cannot find symbol(s) dmumps_c with MUMPS" >&5
-echo "$as_me: error: Cannot find symbol(s) dmumps_c with MUMPS" >&2;}
-   { (exit 1); exit 1; }; }
-	   fi
-	 fi
-
-
-# If we make it this far, we've verified the file and linked the function. Add
-# the necessary link flags to ADDLIBS and define the preprocessor symbol
-# COIN_HAS_LBRY.
-
-    ADDLIBS="$MUMPSLIB $ADDLIBS"
-
-cat >>confdefs.h <<\_ACEOF
-#define COIN_HAS_MUMPS 1
-_ACEOF
-
-  fi
-
-# Arrange for configure to substitute LBRYINCDIR and LBRYLIB and create the
-# automake conditional. These actions must occur unconditionally.
-
-
-
-
-
-if test $coin_has_mumps = true; then
-  COIN_HAS_MUMPS_TRUE=
-  COIN_HAS_MUMPS_FALSE='#'
-else
-  COIN_HAS_MUMPS_TRUE='#'
-  COIN_HAS_MUMPS_FALSE=
-fi
-
-
-ADDLIBS="$SAVE_ADDLIBS"
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-if test "$coin_has_mumps" = "true"; then  # user provided mumps library
-  use_mumps=yes
-  coin_has_mumps=yes
-
-  MUMPS_INCFLAGS="-I\`\$(CYGPATH_W) $MUMPSINCDIR\`"
-  ADDLIBS="$MUMPSLIB $ADDLIBS"
-
-else # no user provided library, so we try to build our own
-  use_mumps=BUILD
-
-  # Check if the MUMPS' ThirdParty project has been configured
-  if test "$PACKAGE_NAME" != ThirdPartyMumps; then
-    if test -r $coin_mumpsobjdir/.MakeOk; then
-      use_mumps=BUILD
-      # Mumps needs pthreads
-      ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-      save_LIBS="$LIBS"
-      LIBS="$LIBS $FLIBS"
-      echo "$as_me:$LINENO: checking for pthread_create in -lpthread" >&5
-echo $ECHO_N "checking for pthread_create in -lpthread... $ECHO_C" >&6
-if test "${ac_cv_lib_pthread_pthread_create+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lpthread  $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char pthread_create ();
-#ifdef F77_DUMMY_MAIN
-
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int F77_DUMMY_MAIN() { return 1; }
-
-#endif
-int
-main ()
-{
-pthread_create ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_pthread_pthread_create=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_pthread_pthread_create=no
-fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_pthread_pthread_create" >&5
-echo "${ECHO_T}$ac_cv_lib_pthread_pthread_create" >&6
-if test $ac_cv_lib_pthread_pthread_create = yes; then
-  LIBS="-lpthread $save_LIBS"; ADDLIBS="-lpthread $ADDLIBS"
-else
-  LIBS="save_LIBS"
-fi
-
-      ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-      MUMPS_INCFLAGS="-I\`\$(CYGPATH_W) $coin_mumpssrcdir/libseq\` -I\`\$(CYGPATH_W) $coin_mumpssrcdir/include\`"
-    else
-      use_mumps=
-    fi
-  fi
-
-  # if a user provided library is used, then COIN_HAS_USER_LIBRARY takes care of the COIN_HAS_MUMPS conditional and preprocessor symbol
-
-
-if test x"$use_mumps" != x; then
-  COIN_HAS_MUMPS_TRUE=
-  COIN_HAS_MUMPS_FALSE='#'
-else
-  COIN_HAS_MUMPS_TRUE='#'
-  COIN_HAS_MUMPS_FALSE=
-fi
-
-  if test x"$use_mumps" != x; then
-
-cat >>confdefs.h <<\_ACEOF
-#define COIN_HAS_MUMPS 1
-_ACEOF
-
-    coin_has_mumps=yes
-  else
-    coin_has_mumps=no
-  fi
-  echo "$as_me:$LINENO: checking whether MUMPS is available" >&5
-echo $ECHO_N "checking whether MUMPS is available... $ECHO_C" >&6
-  echo "$as_me:$LINENO: result: $coin_has_mumps" >&5
-echo "${ECHO_T}$coin_has_mumps" >&6
-fi
-
-if test x"$use_mumps" != x; then
-  # we need the Fortran runtime libraries if we want to link with C/C++
-  coin_need_flibs=yes
-
-
-fi
-
-
-
-if test "$use_mumps" = BUILD; then
-  COIN_BUILD_MUMPS_TRUE=
-  COIN_BUILD_MUMPS_FALSE='#'
-else
-  COIN_BUILD_MUMPS_TRUE='#'
-  COIN_BUILD_MUMPS_FALSE=
-fi
-
-
-
 
 #Mumps needs pthreads
 echo "$as_me:$LINENO: checking for pthread_create in -lpthread" >&5
@@ -24208,18 +24337,17 @@ fi
 
 
 # Verify that we can compile Fortran 90 code
-if test "$use_mumps" = BUILD; then
-  echo "$as_me:$LINENO: checking whether we can compile Fortran 90 code" >&5
+echo "$as_me:$LINENO: checking whether we can compile Fortran 90 code" >&5
 echo $ECHO_N "checking whether we can compile Fortran 90 code... $ECHO_C" >&6
-  ac_ext=f
+ac_ext=f
 ac_compile='$F77 -c $FFLAGS conftest.$ac_ext >&5'
 ac_link='$F77 -o conftest$ac_exeext $FFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_f77_compiler_gnu
 
-  cat >conftest.$ac_ext <<_ACEOF
+cat >conftest.$ac_ext <<_ACEOF
         MODULE BLA
-        DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
-        END MODULE BLA
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
+      END MODULE BLA
 _ACEOF
 rm -f conftest.$ac_objext
 if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
@@ -24251,42 +24379,26 @@ sed 's/^/| /' conftest.$ac_ext >&5
 can_f90=no
 fi
 rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
-  echo "$as_me:$LINENO: result: $can_f90" >&5
+echo "$as_me:$LINENO: result: $can_f90" >&5
 echo "${ECHO_T}$can_f90" >&6
-  ac_ext=c
+ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-  if test $can_f90 = no; then
-    { echo "$as_me:$LINENO: WARNING: Your Fortran compiler can't compile Fortran 90, I will not compile MUMPS" >&5
-echo "$as_me: WARNING: Your Fortran compiler can't compile Fortran 90, I will not compile MUMPS" >&2;}
-    use_mumps=
-  fi
+if test $can_f90 = no; then
+  { { echo "$as_me:$LINENO: error: Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS" >&5
+echo "$as_me: error: Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS" >&2;}
+   { (exit 1); exit 1; }; }
 fi
-
-rm -f $MAKEOKFILE
-if test $coin_has_mumps = yes && test "$use_mumps" != BUILD; then
-  { echo "$as_me:$LINENO: The Mumps sources don't need to be compiled" >&5
-echo "$as_me: The Mumps sources don't need to be compiled" >&6;}
-  MAKEOKFILE=
-else
-  touch $MAKEOKFILE
-fi
-
-
-
-if test -z "$MAKEOKFILE"; then
-  SKIPMAKE_TRUE=
-  SKIPMAKE_FALSE='#'
-else
-  SKIPMAKE_TRUE='#'
-  SKIPMAKE_FALSE=
-fi
-
 
 MUMPSDIR=MUMPS
+MUMPSOBJDIR=`pwd`
+MUMPSSRCDIR=$abs_source_dir/$coin_mumpsobjdir/$MUMPSDIR
+
+
+
 
 
 # Fix Fortran preprocessor flags
@@ -24310,7 +24422,7 @@ echo $ECHO_N "checking for additional preprocessor Fortran flags... $ECHO_C" >&6
 echo "$as_me:$LINENO: result: $MY_FDEFS" >&5
 echo "${ECHO_T}$MY_FDEFS" >&6
 
-          ac_config_files="$ac_config_files Makefile"
+                              ac_config_files="$ac_config_files Makefile coinmumps.pc coinmumps-uninstalled.pc"
 
 
 
@@ -24368,6 +24480,16 @@ if test x$coin_skip_ac_output != xyes; then
       fi
     done
     subdirs="$new_subdirs"
+  fi
+
+  # need to come before AC_OUTPUT
+  if test x$coin_projectdir != xyes; then
+    # write coin_subdirs to a file so that project configuration knows where to find uninstalled projects
+    echo $coin_subdirs > coin_subdirs.txt
+  else
+    # substitute for OBJDIR, needed to setup .pc file for uninstalled project
+    ABSBUILDDIR="`pwd`"
+
   fi
 
   cat >confcache <<\_ACEOF
@@ -24534,6 +24656,13 @@ echo "$as_me: error: conditional \"am__fastdepCXX\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${COIN_HAS_PKGCONFIG_TRUE}" && test -z "${COIN_HAS_PKGCONFIG_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_PKGCONFIG\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"COIN_HAS_PKGCONFIG\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 if test -z "${COIN_HAS_BLAS_TRUE}" && test -z "${COIN_HAS_BLAS_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_BLAS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -24541,10 +24670,24 @@ echo "$as_me: error: conditional \"COIN_HAS_BLAS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${COIN_BUILD_BLAS_TRUE}" && test -z "${COIN_BUILD_BLAS_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"COIN_BUILD_BLAS\" was never defined.
+if test -z "${COIN_HAS_BLAS_TRUE}" && test -z "${COIN_HAS_BLAS_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_BLAS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"COIN_BUILD_BLAS\" was never defined.
+echo "$as_me: error: conditional \"COIN_HAS_BLAS\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${COIN_HAS_BLAS_TRUE}" && test -z "${COIN_HAS_BLAS_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_BLAS\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"COIN_HAS_BLAS\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${COIN_HAS_BLAS_TRUE}" && test -z "${COIN_HAS_BLAS_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_BLAS\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"COIN_HAS_BLAS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -24555,31 +24698,10 @@ echo "$as_me: error: conditional \"COIN_HAS_METIS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${COIN_HAS_MUMPS_TRUE}" && test -z "${COIN_HAS_MUMPS_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_MUMPS\" was never defined.
+if test -z "${COIN_HAS_METIS_TRUE}" && test -z "${COIN_HAS_METIS_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_METIS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"COIN_HAS_MUMPS\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${COIN_HAS_MUMPS_TRUE}" && test -z "${COIN_HAS_MUMPS_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"COIN_HAS_MUMPS\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"COIN_HAS_MUMPS\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${COIN_BUILD_MUMPS_TRUE}" && test -z "${COIN_BUILD_MUMPS_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"COIN_BUILD_MUMPS\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"COIN_BUILD_MUMPS\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${SKIPMAKE_TRUE}" && test -z "${SKIPMAKE_FALSE}"; then
-  { { echo "$as_me:$LINENO: error: conditional \"SKIPMAKE\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-echo "$as_me: error: conditional \"SKIPMAKE\" was never defined.
+echo "$as_me: error: conditional \"COIN_HAS_METIS\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -25023,6 +25145,8 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+  "coinmumps.pc" ) CONFIG_FILES="$CONFIG_FILES coinmumps.pc" ;;
+  "coinmumps-uninstalled.pc" ) CONFIG_FILES="$CONFIG_FILES coinmumps-uninstalled.pc" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -25210,26 +25334,29 @@ s,@ac_c_preproc_warn_flag@,$ac_c_preproc_warn_flag,;t t
 s,@ac_cxx_preproc_warn_flag@,$ac_cxx_preproc_warn_flag,;t t
 s,@RPATH_FLAGS@,$RPATH_FLAGS,;t t
 s,@LT_LDFLAGS@,$LT_LDFLAGS,;t t
+s,@PKG_CONFIG@,$PKG_CONFIG,;t t
+s,@ac_pt_PKG_CONFIG@,$ac_pt_PKG_CONFIG,;t t
+s,@COIN_HAS_PKGCONFIG_TRUE@,$COIN_HAS_PKGCONFIG_TRUE,;t t
+s,@COIN_HAS_PKGCONFIG_FALSE@,$COIN_HAS_PKGCONFIG_FALSE,;t t
+s,@COIN_PKG_CONFIG_PATH@,$COIN_PKG_CONFIG_PATH,;t t
+s,@BLAS_LIBS@,$BLAS_LIBS,;t t
+s,@BLAS_CFLAGS@,$BLAS_CFLAGS,;t t
+s,@BLAS_DATA@,$BLAS_DATA,;t t
+s,@REQUIREDPACKAGES@,$REQUIREDPACKAGES,;t t
 s,@COIN_HAS_BLAS_TRUE@,$COIN_HAS_BLAS_TRUE,;t t
 s,@COIN_HAS_BLAS_FALSE@,$COIN_HAS_BLAS_FALSE,;t t
-s,@COIN_BUILD_BLAS_TRUE@,$COIN_BUILD_BLAS_TRUE,;t t
-s,@COIN_BUILD_BLAS_FALSE@,$COIN_BUILD_BLAS_FALSE,;t t
+s,@METIS_LIBS@,$METIS_LIBS,;t t
+s,@METIS_CFLAGS@,$METIS_CFLAGS,;t t
+s,@METIS_DATA@,$METIS_DATA,;t t
 s,@COIN_HAS_METIS_TRUE@,$COIN_HAS_METIS_TRUE,;t t
 s,@COIN_HAS_METIS_FALSE@,$COIN_HAS_METIS_FALSE,;t t
-s,@MUMPSINCDIR@,$MUMPSINCDIR,;t t
-s,@MUMPSLIB@,$MUMPSLIB,;t t
-s,@COIN_HAS_MUMPS_TRUE@,$COIN_HAS_MUMPS_TRUE,;t t
-s,@COIN_HAS_MUMPS_FALSE@,$COIN_HAS_MUMPS_FALSE,;t t
-s,@MUMPS_INCFLAGS@,$MUMPS_INCFLAGS,;t t
-s,@COIN_BUILD_MUMPS_TRUE@,$COIN_BUILD_MUMPS_TRUE,;t t
-s,@COIN_BUILD_MUMPS_FALSE@,$COIN_BUILD_MUMPS_FALSE,;t t
-s,@MAKEOKFILE@,$MAKEOKFILE,;t t
-s,@SKIPMAKE_TRUE@,$SKIPMAKE_TRUE,;t t
-s,@SKIPMAKE_FALSE@,$SKIPMAKE_FALSE,;t t
 s,@MUMPSDIR@,$MUMPSDIR,;t t
+s,@MUMPSOBJDIR@,$MUMPSOBJDIR,;t t
+s,@MUMPSSRCDIR@,$MUMPSSRCDIR,;t t
 s,@MY_FDEFS@,$MY_FDEFS,;t t
 s,@LIBEXT@,$LIBEXT,;t t
 s,@VPATH_DISTCLEANFILES@,$VPATH_DISTCLEANFILES,;t t
+s,@ABSBUILDDIR@,$ABSBUILDDIR,;t t
 s,@LIBOBJS@,$LIBOBJS,;t t
 s,@LTLIBOBJS@,$LTLIBOBJS,;t t
 CEOF

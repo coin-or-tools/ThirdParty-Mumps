@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2008 International Business Machines.
+# Copyright (C) 2007-2009 International Business Machines.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -15,7 +15,7 @@ AC_PREREQ(2.59)
 AC_INIT([ThirdPartyMumps],[1.1trunk],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
-Copyright 2007-2008 International Business Machines and others.
+Copyright 2007-2009 International Business Machines and others.
 All Rights Reserved.
 This file is part of the open source package Coin which is distributed
 under the Common Public License.])
@@ -56,6 +56,9 @@ AC_COIN_PROG_F77
 # Find out how to call Fortran from C and determine Fortran runtime libraries
 AC_COIN_F77_WRAPPERS
 
+# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
+coin_need_flibs=yes
+
 # We need to translate the result from autoconf to what MUMPS wants
 case "$ac_cv_f77_mangling" in
   "lower case, no underscore, no extra underscore")
@@ -92,51 +95,36 @@ AC_SUBST(MY_DEFS)
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
-# Check for user-provided BLAS library, but make sure it is not added to libcoinmumps.a
-save_LIBS="$LIBS"
-AC_COIN_HAS_BLAS
-LIBS="$save_LIBS"
+AC_COIN_HAS_MODULE_BLAS
+AC_COIN_HAS_MODULE(Metis, [coinmetis >= 4.0], [], [../Metis])
 
-# Check if Metis is available
-AC_COIN_HAS_METIS
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
 fi
 
-## Check if Mumps is already provided by user
-AC_COIN_HAS_MUMPS
-
 #Mumps needs pthreads
 AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
 
 # Verify that we can compile Fortran 90 code
-if test "$use_mumps" = BUILD; then
-  AC_MSG_CHECKING([whether we can compile Fortran 90 code])
-  AC_LANG_PUSH(Fortran 77)
-  AC_COMPILE_IFELSE([        MODULE BLA
-        DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
-        END MODULE BLA],[can_f90=yes],[can_f90=no])
-  AC_MSG_RESULT([$can_f90])
-  AC_LANG_POP(Fortran 77)
-  if test $can_f90 = no; then
-    AC_MSG_WARN([Your Fortran compiler can't compile Fortran 90, I will not compile MUMPS])
-    use_mumps=
-  fi
+AC_MSG_CHECKING([whether we can compile Fortran 90 code])
+AC_LANG_PUSH(Fortran 77)
+AC_COMPILE_IFELSE([        MODULE BLA
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: BLUBB
+      END MODULE BLA],[can_f90=yes],[can_f90=no])
+AC_MSG_RESULT([$can_f90])
+AC_LANG_POP(Fortran 77)
+if test $can_f90 = no; then
+  AC_MSG_ERROR([Your Fortran compiler can't compile Fortran 90, I cannot compile MUMPS])
 fi
-
-rm -f $MAKEOKFILE
-if test $coin_has_mumps = yes && test "$use_mumps" != BUILD; then
-  AC_MSG_NOTICE([The Mumps sources don't need to be compiled])
-  MAKEOKFILE=
-else
-  touch $MAKEOKFILE
-fi
-AC_SUBST(MAKEOKFILE)
-AM_CONDITIONAL(SKIPMAKE, test -z "$MAKEOKFILE")
 
 MUMPSDIR=MUMPS
+MUMPSOBJDIR=`pwd`
+MUMPSSRCDIR=$abs_source_dir/$coin_mumpsobjdir/$MUMPSDIR
+
 AC_SUBST(MUMPSDIR)
+AC_SUBST(MUMPSOBJDIR)
+AC_SUBST(MUMPSSRCDIR)
 
 # Fix Fortran preprocessor flags
 case $F77 in
@@ -155,6 +143,6 @@ AC_MSG_RESULT([$MY_DEFS])
 AC_MSG_CHECKING([for additional preprocessor Fortran flags])
 AC_MSG_RESULT([$MY_FDEFS])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile coinmumps.pc coinmumps-uninstalled.pc])
 
 AC_COIN_FINALIZE

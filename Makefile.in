@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# Copyright (C) 2007, 2010 International Business Machines and others.
+# Copyright (C) 2007-2010 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -27,6 +27,8 @@
 ########################################################################
 #                    Documentation installation                        #
 ########################################################################
+
+
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -52,8 +54,10 @@ build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = $(am__configure_deps) \
 	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/configure config.guess \
-	config.sub depcomp install-sh ltmain.sh missing
+	$(srcdir)/Makefile.in $(srcdir)/coinmumps-uninstalled.pc.in \
+	$(srcdir)/coinmumps.pc.in $(thirdpartyinclude_HEADERS) \
+	$(top_srcdir)/configure config.guess config.sub depcomp \
+	install-sh ltmain.sh missing
 @HAVE_EXTERNALS_TRUE@am__append_1 = Externals
 @HAVE_EXTERNALS_TRUE@am__append_2 = .Externals-stamp
 subdir = .
@@ -65,8 +69,18 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES =
-LTLIBRARIES = $(noinst_LTLIBRARIES)
+CONFIG_CLEAN_FILES = coinmumps.pc coinmumps-uninstalled.pc
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
+	"$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)" \
+	"$(DESTDIR)$(thirdpartyincludedir)"
+thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
+LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
 libcoinmumps_la_LIBADD =
 nodist_libcoinmumps_la_OBJECTS = tools_common_mod.lo \
 	dmumps_comm_buffer.lo dmumps_struc_def.lo mumps_ooc_common.lo \
@@ -78,7 +92,6 @@ nodist_libcoinmumps_la_OBJECTS = tools_common_mod.lo \
 	mumps_io_basic.lo mumps_io_thread.lo mumps_io_err.lo \
 	mumps_size.lo mpi.lo mpic.lo elapse.lo
 libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
-@SKIPMAKE_FALSE@am_libcoinmumps_la_rpath =
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 PPF77COMPILE = $(F77) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -102,6 +115,11 @@ LTF77COMPILE = $(LIBTOOL) --tag=F77 --mode=compile $(F77) $(AM_FFLAGS) \
 	$(FFLAGS)
 SOURCES = $(nodist_libcoinmumps_la_SOURCES)
 DIST_SOURCES =
+addlibsDATA_INSTALL = $(INSTALL_DATA)
+pkgconfiglibDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(addlibs_DATA) $(pkgconfiglib_DATA)
+thirdpartyincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+HEADERS = $(thirdpartyinclude_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -115,6 +133,7 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
+ABSBUILDDIR = @ABSBUILDDIR@
 ACLOCAL = @ACLOCAL@
 ADDLIBS = @ADDLIBS@
 ADD_CFLAGS = @ADD_CFLAGS@
@@ -130,21 +149,21 @@ AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AUX_DIR = @AUX_DIR@
 AWK = @AWK@
+BLAS_CFLAGS = @BLAS_CFLAGS@
+BLAS_DATA = @BLAS_DATA@
+BLAS_LIBS = @BLAS_LIBS@
 BUILDTOOLSDIR = @BUILDTOOLSDIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CDEFS = @CDEFS@
 CFLAGS = @CFLAGS@ $(MY_DEFS)
-COIN_BUILD_BLAS_FALSE = @COIN_BUILD_BLAS_FALSE@
-COIN_BUILD_BLAS_TRUE = @COIN_BUILD_BLAS_TRUE@
-COIN_BUILD_MUMPS_FALSE = @COIN_BUILD_MUMPS_FALSE@
-COIN_BUILD_MUMPS_TRUE = @COIN_BUILD_MUMPS_TRUE@
 COIN_HAS_BLAS_FALSE = @COIN_HAS_BLAS_FALSE@
 COIN_HAS_BLAS_TRUE = @COIN_HAS_BLAS_TRUE@
 COIN_HAS_METIS_FALSE = @COIN_HAS_METIS_FALSE@
 COIN_HAS_METIS_TRUE = @COIN_HAS_METIS_TRUE@
-COIN_HAS_MUMPS_FALSE = @COIN_HAS_MUMPS_FALSE@
-COIN_HAS_MUMPS_TRUE = @COIN_HAS_MUMPS_TRUE@
+COIN_HAS_PKGCONFIG_FALSE = @COIN_HAS_PKGCONFIG_FALSE@
+COIN_HAS_PKGCONFIG_TRUE = @COIN_HAS_PKGCONFIG_TRUE@
+COIN_PKG_CONFIG_PATH = @COIN_PKG_CONFIG_PATH@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -187,13 +206,14 @@ MAINT = @MAINT@
 MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
 MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
-MAKEOKFILE = @MAKEOKFILE@
+METIS_CFLAGS = @METIS_CFLAGS@
+METIS_DATA = @METIS_DATA@
+METIS_LIBS = @METIS_LIBS@
 MPICC = @MPICC@
 MPIF77 = @MPIF77@
 MUMPSDIR = @MUMPSDIR@
-MUMPSINCDIR = @MUMPSINCDIR@
-MUMPSLIB = @MUMPSLIB@
-MUMPS_INCFLAGS = @MUMPS_INCFLAGS@
+MUMPSOBJDIR = @MUMPSOBJDIR@
+MUMPSSRCDIR = @MUMPSSRCDIR@
 MY_DEFS = @MY_DEFS@
 MY_FDEFS = @MY_FDEFS@
 OBJEXT = @OBJEXT@
@@ -206,12 +226,12 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
+REQUIREDPACKAGES = @REQUIREDPACKAGES@
 RPATH_FLAGS = @RPATH_FLAGS@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SKIPMAKE_FALSE = @SKIPMAKE_FALSE@
-SKIPMAKE_TRUE = @SKIPMAKE_TRUE@
 STRIP = @STRIP@
 VERSION = @VERSION@
 VPATH_DISTCLEANFILES = @VPATH_DISTCLEANFILES@
@@ -228,6 +248,7 @@ ac_ct_F77 = @ac_ct_F77@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
 ac_cxx_preproc_warn_flag = @ac_cxx_preproc_warn_flag@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -272,8 +293,8 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = get.mumps INSTALL.MUMPS $(am__append_1)
-@SKIPMAKE_FALSE@noinst_LTLIBRARIES = libcoinmumps.la
-@SKIPMAKE_TRUE@noinst_LTLIBRARIES = 
+thirdpartylibdir = $(libdir)/coin/ThirdParty
+thirdpartylib_LTLIBRARIES = libcoinmumps.la
 nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/tools_common_mod.F \
 	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
@@ -314,7 +335,18 @@ libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 
 # Module files that need to be deleted
 MODEXT = mod
-CLEANFILES = *.$(MODEXT)
+CLEANFILES = *.$(MODEXT)  mumps_addlibs.txt
+thirdpartyincludedir = $(includedir)/coin/ThirdParty
+thirdpartyinclude_HEADERS = \
+  $(MUMPSDIR)/include/dmumps_c.h \
+  $(MUMPSDIR)/include/mumps_compat.h \
+  $(MUMPSDIR)/include/mumps_c_types.h \
+  $(MUMPSDIR)/libseq/mpi.h
+
+@COIN_HAS_PKGCONFIG_TRUE@addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
+@COIN_HAS_PKGCONFIG_TRUE@addlibs_DATA = mumps_addlibs.txt
+pkgconfiglibdir = $(libdir)/pkgconfig
+pkgconfiglib_DATA = coinmumps.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #
@@ -323,7 +355,7 @@ CLEANFILES = *.$(MODEXT)
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = $(MAKEOKFILE) $(am__append_2) $(VPATH_DISTCLEANFILES)
 DocFiles = README AUTHORS LICENSE
-DocInstallDir = $(prefix)/share/doc/coin/$(PACKAGE_NAME)
+DocInstallDir = $(datadir)/coin/doc/$(PACKAGE_NAME)
 all: all-am
 
 .SUFFIXES:
@@ -361,17 +393,39 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(srcdir) && $(AUTOCONF)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+coinmumps.pc: $(top_builddir)/config.status $(srcdir)/coinmumps.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+coinmumps-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinmumps-uninstalled.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+install-thirdpartylibLTLIBRARIES: $(thirdpartylib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	test -z "$(thirdpartylibdir)" || $(mkdir_p) "$(DESTDIR)$(thirdpartylibdir)"
+	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    f=$(am__strip_dir) \
+	    echo " $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(thirdpartylibdir)/$$f'"; \
+	    $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(thirdpartylibdir)/$$f"; \
+	  else :; fi; \
+	done
 
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; for p in $$list; do \
+uninstall-thirdpartylibLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@set -x; list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+	  p=$(am__strip_dir) \
+	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(thirdpartylibdir)/$$p'"; \
+	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(thirdpartylibdir)/$$p"; \
+	done
+
+clean-thirdpartylibLTLIBRARIES:
+	-test -z "$(thirdpartylib_LTLIBRARIES)" || rm -f $(thirdpartylib_LTLIBRARIES)
+	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
 libcoinmumps.la: $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_DEPENDENCIES) 
-	$(F77LINK) $(am_libcoinmumps_la_rpath) $(libcoinmumps_la_LDFLAGS) $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_LIBADD) $(LIBS)
+	$(F77LINK) -rpath $(thirdpartylibdir) $(libcoinmumps_la_LDFLAGS) $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -564,6 +618,57 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+install-addlibsDATA: $(addlibs_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(addlibsdir)" || $(mkdir_p) "$(DESTDIR)$(addlibsdir)"
+	@list='$(addlibs_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(addlibsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(addlibsdir)/$$f'"; \
+	  $(addlibsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(addlibsdir)/$$f"; \
+	done
+
+uninstall-addlibsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(addlibs_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(addlibsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(addlibsdir)/$$f"; \
+	done
+install-pkgconfiglibDATA: $(pkgconfiglib_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(pkgconfiglibdir)" || $(mkdir_p) "$(DESTDIR)$(pkgconfiglibdir)"
+	@list='$(pkgconfiglib_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(pkgconfiglibDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(pkgconfiglibdir)/$$f'"; \
+	  $(pkgconfiglibDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(pkgconfiglibdir)/$$f"; \
+	done
+
+uninstall-pkgconfiglibDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgconfiglib_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(pkgconfiglibdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(pkgconfiglibdir)/$$f"; \
+	done
+install-thirdpartyincludeHEADERS: $(thirdpartyinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	test -z "$(thirdpartyincludedir)" || $(mkdir_p) "$(DESTDIR)$(thirdpartyincludedir)"
+	@list='$(thirdpartyinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(thirdpartyincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(thirdpartyincludedir)/$$f'"; \
+	  $(thirdpartyincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(thirdpartyincludedir)/$$f"; \
+	done
+
+uninstall-thirdpartyincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(thirdpartyinclude_HEADERS)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(thirdpartyincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(thirdpartyincludedir)/$$f"; \
+	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -616,7 +721,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/../../BuildTools
+	$(mkdir_p) $(distdir)/$(MUMPSDIR)/include $(distdir)/$(MUMPSDIR)/libseq $(distdir)/. $(distdir)/../../BuildTools
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -742,8 +847,11 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
+	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(addlibsdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
+	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
+	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -772,7 +880,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
+clean-am: clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -792,7 +900,9 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-addlibsDATA install-pkgconfiglibDATA \
+	install-thirdpartyincludeHEADERS \
+	install-thirdpartylibLTLIBRARIES
 
 install-exec-am:
 
@@ -822,21 +932,28 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-addlibsDATA uninstall-info-am \
+	uninstall-pkgconfiglibDATA uninstall-thirdpartyincludeHEADERS \
+	uninstall-thirdpartylibLTLIBRARIES
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
-	clean-generic clean-libtool clean-noinstLTLIBRARIES ctags dist \
-	dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ dist-zip \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
-	uninstall-info-am
+	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
+	ctags dist dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ \
+	dist-zip distcheck distclean distclean-compile \
+	distclean-generic distclean-libtool distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-addlibsDATA install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man \
+	install-pkgconfiglibDATA install-strip \
+	install-thirdpartyincludeHEADERS \
+	install-thirdpartylibLTLIBRARIES installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
+	uninstall-addlibsDATA uninstall-am uninstall-info-am \
+	uninstall-pkgconfiglibDATA uninstall-thirdpartyincludeHEADERS \
+	uninstall-thirdpartylibLTLIBRARIES
 
 
 # Some dependecies for modules:
@@ -864,6 +981,9 @@ dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
 dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 
 dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
+
+@COIN_HAS_PKGCONFIG_TRUE@mumps_addlibs.txt : coinmumps.pc
+@COIN_HAS_PKGCONFIG_TRUE@	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"

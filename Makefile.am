@@ -1,4 +1,4 @@
-# Copyright (C) 2007, 2010 International Business Machines and others.
+# Copyright (C) 2007-2010 International Business Machines and others.
 # All Rights Reserved.
 # This file is distributed under the Common Public License.
 
@@ -8,11 +8,8 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = get.mumps INSTALL.MUMPS
 
-if SKIPMAKE
-  noinst_LTLIBRARIES =
-else
-  noinst_LTLIBRARIES = libcoinmumps.la
-endif
+thirdpartylibdir = $(libdir)/coin/ThirdParty
+thirdpartylib_LTLIBRARIES = libcoinmumps.la
 
 MUMPSDIR = @MUMPSDIR@
 
@@ -85,12 +82,30 @@ dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 
 # Module files that need to be deleted
 MODEXT = mod
-CLEANFILES = *.$(MODEXT)
+CLEANFILES = *.$(MODEXT)  mumps_addlibs.txt
 
 # Reset DEFS to that they don't show up for the Fortran compiler
 DEFS =
 CFLAGS += $(MY_DEFS)
 FFLAGS += $(MY_FDEFS)
+
+thirdpartyincludedir = $(includedir)/coin/ThirdParty
+thirdpartyinclude_HEADERS = \
+  $(MUMPSDIR)/include/dmumps_c.h \
+  $(MUMPSDIR)/include/mumps_compat.h \
+  $(MUMPSDIR)/include/mumps_c_types.h \
+  $(MUMPSDIR)/libseq/mpi.h
+
+if COIN_HAS_PKGCONFIG
+addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
+addlibs_DATA = mumps_addlibs.txt
+
+mumps_addlibs.txt : coinmumps.pc
+	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
+endif
+
+pkgconfiglibdir = $(libdir)/pkgconfig
+pkgconfiglib_DATA = coinmumps.pc
 
 ########################################################################
 #                         Maintainer Stuff                             #
