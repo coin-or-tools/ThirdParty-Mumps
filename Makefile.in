@@ -52,9 +52,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-DIST_COMMON = $(am__configure_deps) \
-	$(srcdir)/../../BuildTools/Makemain.inc $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/coinmumps-uninstalled.pc.in \
+DIST_COMMON = $(am__configure_deps) $(srcdir)/BuildTools/Makemain.inc \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/coinmumps-uninstalled.pc.in \
 	$(srcdir)/coinmumps.pc.in $(thirdpartyinclude_HEADERS) \
 	$(top_srcdir)/configure config.guess config.sub depcomp \
 	install-sh ltmain.sh missing
@@ -362,7 +362,7 @@ all: all-am
 .SUFFIXES: .F .c .f .lo .o .obj
 am--refresh:
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../../BuildTools/Makemain.inc $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/BuildTools/Makemain.inc $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -721,7 +721,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/$(MUMPSDIR)/include $(distdir)/$(MUMPSDIR)/libseq $(distdir)/. $(distdir)/../../BuildTools
+	$(mkdir_p) $(distdir)/$(MUMPSDIR)/include $(distdir)/$(MUMPSDIR)/libseq $(distdir)/. $(distdir)/BuildTools
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
