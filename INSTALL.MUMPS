@@ -27,7 +27,7 @@ beginning of the get.Mumps script.
 
 If you don't have wget available, follow those instructions:
 
-Check the Mumps home page for the most recent version number (say, 4.9).
+Check the Mumps home page for the most recent version of the 4.9 branch.
 You may then download
 
 http://mumps.enseeiht.fr/MUMPS_4.9.tar.gz (or try
