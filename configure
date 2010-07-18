@@ -23788,7 +23788,7 @@ if test "${with_blas_lib+set}" = set; then
   withval="$with_blas_lib"
   coin_has_blas=yes
        BLAS_LIBS="$withval"
-       ADDLIBS="$ADDLIBS $withval"
+       ADDLIBS="$withval $ADDLIBS"
 
 fi;
 
@@ -23902,7 +23902,7 @@ if test $coin_has_blas != "skipping" ; then
     fi
     BLAS_DATA=`sed -n -e 's/datadir=//gp' $blasdir/coinblas-uninstalled.pc`
 
-    ADDLIBS="$ADDLIBS $BLAS_LIBS"
+    ADDLIBS="$BLAS_LIBS $ADDLIBS"
        REQUIREDPACKAGES="coinblas $REQUIREDPACKAGES"
 
 
@@ -24057,7 +24057,7 @@ if test "${with_metis_lib+set}" = set; then
   withval="$with_metis_lib"
   coin_has_metis=yes
        METIS_LIBS="$withval"
-       ADDLIBS="$ADDLIBS $withval"
+       ADDLIBS="$withval $ADDLIBS"
 
 fi;
 
@@ -24171,7 +24171,7 @@ if test $coin_has_metis != "skipping" ; then
     fi
     METIS_DATA=`sed -n -e 's/datadir=//gp' ../Metis/coinmetis-uninstalled.pc`
 
-    ADDLIBS="$ADDLIBS $METIS_LIBS"
+    ADDLIBS="$METIS_LIBS $ADDLIBS"
        REQUIREDPACKAGES="coinmetis $REQUIREDPACKAGES"
 
 
