@@ -96,16 +96,17 @@ thirdpartyinclude_HEADERS = \
   $(MUMPSDIR)/include/mumps_c_types.h \
   $(MUMPSDIR)/libseq/mpi.h
 
-if COIN_HAS_PKGCONFIG
-addlibsdir = $(datadir)/coin/doc/ThirdParty/Mumps
-addlibs_DATA = mumps_addlibs.txt
-
-mumps_addlibs.txt : coinmumps.pc
-	PKG_CONFIG_PATH=.:@COIN_PKG_CONFIG_PATH@ $(PKG_CONFIG) --libs coinmumps > mumps_addlibs.txt
-endif
-
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
+
+if COIN_HAS_PKGCONFIG
+addlibsdir = $(DESTDIR)$(datadir)/coin/doc/ThirdParty/Mumps
+	
+install-data-hook:
+	@$(mkdir_p) "$(addlibsdir)"
+	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ PKG_CONFIG_DISABLE_UNINSTALLED= \
+	$(PKG_CONFIG) --libs coinmumps > $(addlibsdir)/mumps_addlibs.txt
+endif
 
 ########################################################################
 #                         Maintainer Stuff                             #
