@@ -82,7 +82,7 @@ dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 
 # Module files that need to be deleted
 MODEXT = mod
-CLEANFILES = *.$(MODEXT)  mumps_addlibs.txt
+CLEANFILES = *.$(MODEXT)
 
 # Reset DEFS to that they don't show up for the Fortran compiler
 DEFS =
@@ -106,6 +106,9 @@ install-data-hook:
 	@$(mkdir_p) "$(addlibsdir)"
 	PKG_CONFIG_PATH=@COIN_PKG_CONFIG_PATH@ \
 	$(PKG_CONFIG) --libs coinmumps > $(addlibsdir)/mumps_addlibs.txt
+
+uninstall-hook:
+	rm -f $(addlibsdir)/mumps_addlibs.txt
 endif
 
 ########################################################################
