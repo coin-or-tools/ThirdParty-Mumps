@@ -96,7 +96,7 @@ AC_SUBST(MY_DEFS)
 AC_COIN_INIT_AUTO_TOOLS
 
 AC_COIN_HAS_MODULE_BLAS
-AC_COIN_HAS_MODULE(Metis, [coinmetis >= 4.0], [], [../Metis])
+AC_COIN_HAS_MODULE(Metis, [coinmetis >= 4.0])
 
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
