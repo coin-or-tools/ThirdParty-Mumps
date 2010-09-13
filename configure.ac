@@ -56,8 +56,8 @@ AC_COIN_PROG_F77
 # Find out how to call Fortran from C and determine Fortran runtime libraries
 AC_COIN_F77_WRAPPERS
 
-# Tell FINALIZE to add FLIBS to ADDLIBS, so that they get into the .pc files
-coin_need_flibs=yes
+# Add FLIBS to MUMPS_PCLIBS, so that they get into the .pc files
+MUMPS_PCLIBS="$FLIBS"
 
 # We need to translate the result from autoconf to what MUMPS wants
 case "$ac_cv_f77_mangling" in
@@ -95,16 +95,16 @@ AC_SUBST(MY_DEFS)
 # Initialize automake
 AC_COIN_INIT_AUTO_TOOLS
 
-AC_COIN_HAS_MODULE_BLAS
-AC_COIN_HAS_MODULE(Metis, [coinmetis >= 4.0])
+AC_COIN_HAS_PACKAGE_BLAS(MUMPS)
+AC_COIN_HAS_PACKAGE(Metis, [coinmetis >= 4.0], MUMPS)
 
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
 fi
 
-#Mumps needs pthreads
-AC_CHECK_LIB([pthread],[pthread_create],[ADDLIBS="-lpthread $ADDLIBS"])
+# Mumps can make use of pthreads
+AC_CHECK_LIB([pthread],[pthread_create],[MUMPS_PCLIBS="-lpthread $MUMPS_PCLIBS"])
 
 # Verify that we can compile Fortran 90 code
 AC_MSG_CHECKING([whether we can compile Fortran 90 code])

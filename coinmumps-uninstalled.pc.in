@@ -4,6 +4,6 @@ libdir=@ABSBUILDDIR@
 Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
 Version: 4.9
-Libs: -L${libdir} -lcoinmumps @PCADDLIBS@
+Libs: -L${libdir} -lcoinmumps @MUMPS_PCLIBS@
 Cflags: -I@abs_source_dir@/MUMPS/libseq -I@abs_source_dir@/MUMPS/include
-Requires: @REQUIREDPACKAGES@
+Requires: @MUMPS_PCREQUIRES@
