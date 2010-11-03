@@ -111,6 +111,9 @@ uninstall-hook:
 	rm -f $(addlibsdir)/mumps_addlibs.txt
 endif
 
+test: $(libampl)
+	@echo "No test available for Mumps."
+
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################

@@ -982,6 +982,9 @@ dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
 @COIN_HAS_PKGCONFIG_TRUE@uninstall-hook:
 @COIN_HAS_PKGCONFIG_TRUE@	rm -f $(addlibsdir)/mumps_addlibs.txt
 
+test: $(libampl)
+	@echo "No test available for Mumps."
+
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
 	for file in $(DocFiles); do \
