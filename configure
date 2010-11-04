@@ -1704,7 +1704,7 @@ _ACEOF
 fi
 
 # Capture libtool library version, if given.
-coin_libversion=4:0:4
+coin_libversion=4:0:3
 
 
 

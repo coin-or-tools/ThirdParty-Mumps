@@ -30,7 +30,7 @@ AC_CONFIG_SRCDIR(MUMPS/src/dmumps_part1.F)
 # /usr/local.
 AC_PREFIX_DEFAULT([`pwd`])
 
-AC_COIN_PROJECTDIR_INIT(Mumps,4:0:4)
+AC_COIN_PROJECTDIR_INIT(Mumps,4:0:3)
 
 #############################################################################
 #                         Standard build tool stuff                         #
