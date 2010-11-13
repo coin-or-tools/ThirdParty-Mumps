@@ -21817,6 +21817,7 @@ if test x"$use_blas" != x; then
   elif test "$use_blas" != "no"; then
     echo "$as_me:$LINENO: checking whether user supplied BLASLIB=\"$use_blas\" works" >&5
 echo $ECHO_N "checking whether user supplied BLASLIB=\"$use_blas\" works... $ECHO_C" >&6
+    coin_need_flibs=no
     coin_save_LIBS="$LIBS"
     LIBS="$use_blas $LIBS"
     case $ac_ext in
@@ -21866,8 +21867,11 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
+  if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+                       echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -21960,8 +21964,11 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
+      if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+                       echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -22012,9 +22019,13 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
                      coin_need_flibs=yes
+                     if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+                       echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22116,8 +22127,11 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
+      if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+                       echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -22168,9 +22182,13 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
                      coin_need_flibs=yes
+                     if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+                       echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22205,6 +22223,7 @@ else
     *-sgi-*)
       echo "$as_me:$LINENO: checking whether -lcomplib.sgimath has BLAS" >&5
 echo $ECHO_N "checking whether -lcomplib.sgimath has BLAS... $ECHO_C" >&6
+      coin_need_flibs=no
       coin_save_LIBS="$LIBS"
       LIBS="-lcomplib.sgimath $LIBS"
       case $ac_ext in
@@ -22254,9 +22273,13 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas="-lcomplib.sgimath"
+  use_blas="-lcomplib.sgimath"
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22346,9 +22369,13 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas="-lcomplib.sgimath"
+      use_blas="-lcomplib.sgimath"
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -22399,10 +22426,15 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas="-lcomplib.sgimath"
                      coin_need_flibs=yes
+                     use_blas="-lcomplib.sgimath"
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22498,9 +22530,13 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas="-lcomplib.sgimath"
+      use_blas="-lcomplib.sgimath"
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -22551,10 +22587,15 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas="-lcomplib.sgimath"
                      coin_need_flibs=yes
+                     use_blas="-lcomplib.sgimath"
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22585,6 +22626,7 @@ esac
     *-*-solaris*)
       echo "$as_me:$LINENO: checking for BLAS in libsunperf" >&5
 echo $ECHO_N "checking for BLAS in libsunperf... $ECHO_C" >&6
+      coin_need_flibs=no
       coin_save_LIBS="$LIBS"
       LIBS="-lsunperf $FLIBS $LIBS"
       case $ac_ext in
@@ -22634,10 +22676,13 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas='-lsunperf'
-			 coin_need_flibs=yes
+  use_blas='-lsunperf'
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22727,10 +22772,13 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas='-lsunperf'
-			 coin_need_flibs=yes
+      use_blas='-lsunperf'
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -22781,11 +22829,15 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas='-lsunperf'
-			 coin_need_flibs=yes
                      coin_need_flibs=yes
+                     use_blas='-lsunperf'
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22881,10 +22933,13 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas='-lsunperf'
-			 coin_need_flibs=yes
+      use_blas='-lsunperf'
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -22935,11 +22990,15 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                         use_blas='-lsunperf'
-			 coin_need_flibs=yes
                      coin_need_flibs=yes
+                     use_blas='-lsunperf'
+                         if test $coin_need_flibs = yes ; then
+                           use_blas="$use_blas $FLIBS"
+                         fi
+                         echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22964,7 +23023,7 @@ esac
 # On cygwin, consider -lblas only if doscompile is disabled. The prebuilt
 # library will want to link with cygwin, hence won't run standalone in DOS.
       if test "$enable_doscompile" = mingw; then
-	skip_lblas_check=yes
+        skip_lblas_check=yes
       fi
       case "$CC" in
         cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
@@ -23019,9 +23078,10 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
-  echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                             use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+  use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+                             echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -23111,9 +23171,10 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                             use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+      use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+                             echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -23164,10 +23225,12 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                             use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
                      coin_need_flibs=yes
+                     use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+                             echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -23263,9 +23326,10 @@ rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
     fi
     if test $flink_try = yes; then
-      echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                             use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+      use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+                             echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -23316,10 +23380,12 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
-                     echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-                             use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
                      coin_need_flibs=yes
+                     use_blas='mkl_intel_c.lib mkl_sequential.lib mkl_core.lib'
+                             echo "$as_me:$LINENO: result: yes: $use_blas" >&5
+echo "${ECHO_T}yes: $use_blas" >&6
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -23347,6 +23413,7 @@ esac
   if test -z "$use_blas" && test $skip_lblas_check = no; then
     echo "$as_me:$LINENO: checking whether -lblas has BLAS" >&5
 echo $ECHO_N "checking whether -lblas has BLAS... $ECHO_C" >&6
+    coin_need_flibs=no
     coin_save_LIBS="$LIBS"
     LIBS="-lblas $LIBS"
     case $ac_ext in
@@ -23398,7 +23465,11 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   (exit $ac_status); }; }; then
   echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-		       use_blas='-lblas'
+                       use_blas='-lblas'
+                       if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -23490,7 +23561,11 @@ rm -f conftest.err conftest.$ac_objext \
     if test $flink_try = yes; then
       echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-		       use_blas='-lblas'
+                       use_blas='-lblas'
+                       if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -23541,10 +23616,15 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
+                     coin_need_flibs=yes
                      echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-		       use_blas='-lblas'
-                     coin_need_flibs=yes
+                       use_blas='-lblas'
+                       if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -23642,7 +23722,11 @@ rm -f conftest.err conftest.$ac_objext \
     if test $flink_try = yes; then
       echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-		       use_blas='-lblas'
+                       use_blas='-lblas'
+                       if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+
     else
       if test x"$FLIBS" != x; then
         flink_save_libs="$LIBS"
@@ -23693,10 +23777,15 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; }; then
   LIBS="$flink_save_libs"
+                     coin_need_flibs=yes
                      echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-		       use_blas='-lblas'
-                     coin_need_flibs=yes
+                       use_blas='-lblas'
+                       if test $coin_need_flibs = yes ; then
+                         use_blas="$use_blas $FLIBS"
+                       fi
+
+
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
