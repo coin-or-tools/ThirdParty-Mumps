@@ -21800,7 +21800,7 @@ else
   use_blas=
 fi;
 
-# if user specified --with-blas-lib, then we should give COIN_HAS_PACKAGE
+# if user specified --with-blas-lib, then we should give COIN_CHECK_PACKAGE
 # preference
 
 # Check whether --with-blas-lib or --without-blas-lib was given.
