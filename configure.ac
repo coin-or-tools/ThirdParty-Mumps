@@ -12,7 +12,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyMumps],[1.3.1],[http://projects.coin-or.org/BuildTools/newticket])
+AC_INIT([ThirdPartyMumps],[1.3],[http://projects.coin-or.org/BuildTools/newticket])
 
 AC_COPYRIGHT([
 Copyright 2007-2009 International Business Machines and others.
@@ -30,7 +30,7 @@ AC_CONFIG_SRCDIR(MUMPS/src/dmumps_part1.F)
 # /usr/local.
 AC_PREFIX_DEFAULT([`pwd`])
 
-AC_COIN_PROJECTDIR_INIT(Mumps,4:1:3)
+AC_COIN_PROJECTDIR_INIT(Mumps)
 
 #############################################################################
 #                         Standard build tool stuff                         #
