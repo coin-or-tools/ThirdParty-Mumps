@@ -8,8 +8,7 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = get.mumps INSTALL.MUMPS
 
-thirdpartylibdir = $(libdir)/coin/ThirdParty
-thirdpartylib_LTLIBRARIES = libcoinmumps.la
+lib_LTLIBRARIES = libcoinmumps.la
 
 MUMPSDIR = @MUMPSDIR@
 

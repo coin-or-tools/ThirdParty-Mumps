@@ -76,11 +76,10 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(thirdpartylibdir)" \
-	"$(DESTDIR)$(pkgconfiglibdir)" \
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" \
 	"$(DESTDIR)$(thirdpartyincludedir)"
-thirdpartylibLTLIBRARIES_INSTALL = $(INSTALL)
-LTLIBRARIES = $(thirdpartylib_LTLIBRARIES)
+libLTLIBRARIES_INSTALL = $(INSTALL)
+LTLIBRARIES = $(lib_LTLIBRARIES)
 libcoinmumps_la_LIBADD =
 nodist_libcoinmumps_la_OBJECTS = tools_common_mod.lo \
 	dmumps_comm_buffer.lo dmumps_struc_def.lo mumps_ooc_common.lo \
@@ -310,8 +309,7 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = get.mumps INSTALL.MUMPS $(am__append_1)
-thirdpartylibdir = $(libdir)/coin/ThirdParty
-thirdpartylib_LTLIBRARIES = libcoinmumps.la
+lib_LTLIBRARIES = libcoinmumps.la
 nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/tools_common_mod.F \
 	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
@@ -413,35 +411,35 @@ coinmumps.pc: $(top_builddir)/config.status $(srcdir)/coinmumps.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 coinmumps-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coinmumps-uninstalled.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-install-thirdpartylibLTLIBRARIES: $(thirdpartylib_LTLIBRARIES)
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	test -z "$(thirdpartylibdir)" || $(mkdir_p) "$(DESTDIR)$(thirdpartylibdir)"
-	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+	test -z "$(libdir)" || $(mkdir_p) "$(DESTDIR)$(libdir)"
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    f=$(am__strip_dir) \
-	    echo " $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(thirdpartylibdir)/$$f'"; \
-	    $(LIBTOOL) --mode=install $(thirdpartylibLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(thirdpartylibdir)/$$f"; \
+	    echo " $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(libdir)/$$f'"; \
+	    $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
 	  else :; fi; \
 	done
 
-uninstall-thirdpartylibLTLIBRARIES:
+uninstall-libLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@set -x; list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+	@set -x; list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  p=$(am__strip_dir) \
-	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(thirdpartylibdir)/$$p'"; \
-	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(thirdpartylibdir)/$$p"; \
+	  echo " $(LIBTOOL) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$p'"; \
+	  $(LIBTOOL) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$p"; \
 	done
 
-clean-thirdpartylibLTLIBRARIES:
-	-test -z "$(thirdpartylib_LTLIBRARIES)" || rm -f $(thirdpartylib_LTLIBRARIES)
-	@list='$(thirdpartylib_LTLIBRARIES)'; for p in $$list; do \
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
 libcoinmumps.la: $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_DEPENDENCIES) 
-	$(F77LINK) -rpath $(thirdpartylibdir) $(libcoinmumps_la_LDFLAGS) $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_LIBADD) $(LIBS)
+	$(F77LINK) -rpath $(libdir) $(libcoinmumps_la_LDFLAGS) $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -848,7 +846,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(thirdpartylibdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -881,7 +879,7 @@ maintainer-clean-generic:
 @COIN_HAS_PKGCONFIG_FALSE@uninstall-hook:
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -902,12 +900,11 @@ info: info-am
 info-am:
 
 install-data-am: install-pkgconfiglibDATA \
-	install-thirdpartyincludeHEADERS \
-	install-thirdpartylibLTLIBRARIES
+	install-thirdpartyincludeHEADERS
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
-install-exec-am:
+install-exec-am: install-libLTLIBRARIES
 
 install-info: install-info-am
 
@@ -935,30 +932,28 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am uninstall-pkgconfiglibDATA \
-	uninstall-thirdpartyincludeHEADERS \
-	uninstall-thirdpartylibLTLIBRARIES
+uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
+	uninstall-pkgconfiglibDATA uninstall-thirdpartyincludeHEADERS
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
 
 .PHONY: CTAGS GTAGS all all-am am--refresh check check-am clean \
-	clean-generic clean-libtool clean-thirdpartylibLTLIBRARIES \
-	ctags dist dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ \
-	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags \
-	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-data-hook install-exec install-exec-am \
-	install-info install-info-am install-man \
+	clean-generic clean-libLTLIBRARIES clean-libtool ctags dist \
+	dist-all dist-bzip2 dist-gzip dist-shar dist-tarZ dist-zip \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am \
+	install-data-hook install-exec install-exec-am install-info \
+	install-info-am install-libLTLIBRARIES install-man \
 	install-pkgconfiglibDATA install-strip \
-	install-thirdpartyincludeHEADERS \
-	install-thirdpartylibLTLIBRARIES installcheck installcheck-am \
+	install-thirdpartyincludeHEADERS installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-hook uninstall-info-am \
-	uninstall-pkgconfiglibDATA uninstall-thirdpartyincludeHEADERS \
-	uninstall-thirdpartylibLTLIBRARIES
+	uninstall-libLTLIBRARIES uninstall-pkgconfiglibDATA \
+	uninstall-thirdpartyincludeHEADERS
 
 
 # Some dependecies for modules:
