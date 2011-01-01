@@ -3,7 +3,8 @@ libdir=@ABSBUILDDIR@
 
 Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
-Version: 4.9
+URL: https://projects.coin-or.org/BuildTools
+Version: 4.9.2
 Libs: ${libdir}/libcoinmumps.la @MUMPS_PCLIBS@
 Cflags: -I@abs_source_dir@/MUMPS/libseq -I@abs_source_dir@/MUMPS/include
 Requires: @MUMPS_PCREQUIRES@
