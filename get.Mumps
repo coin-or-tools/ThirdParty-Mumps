@@ -7,8 +7,8 @@ mumps_ver=4.9.2
 set -e
 
 wgetcmd=wget
-whichwget=`which wget 2>/dev/null`
-if test -z "$whichwget" ; then
+wgetcount=`which wget 2>/dev/null | wc -l`
+if test ! $wgetcount = 1; then
   echo "Utility wget not found in your PATH."
   if test `uname` = Darwin; then
     wgetcmd=ftp
