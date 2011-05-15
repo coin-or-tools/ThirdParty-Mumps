@@ -2,7 +2,7 @@
 
 # Set the following to the latest MUMPS version.
 #  THERE MUST BE NO SPACE BEFORE AND AFTER THE EQUAL (=) OPERATOR.
-mumps_ver=4.9.2
+mumps_ver=4.10.0
 
 set -e
 
@@ -42,12 +42,6 @@ mv MUMPS_${mumps_ver} MUMPS
 echo " "
 echo "Done downloading the source code for MUMPS."
 echo " "
-
-echo " "
-echo "Applying patch."
-echo " "
-
-patch -p0 < mumps.patch
 
 echo " "
 echo "Verify that there are no error message in the output above."

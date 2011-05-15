@@ -30,6 +30,7 @@ nodist_libcoinmumps_la_SOURCES = \
 	$(MUMPSDIR)/src/dmumps_part7.F \
 	$(MUMPSDIR)/src/dmumps_part8.F \
 	$(MUMPSDIR)/src/mumps_part9.F \
+	$(MUMPSDIR)/src/mumps_sol_es.F \
 	$(MUMPSDIR)/src/mumps_c.c \
 	$(MUMPSDIR)/src/mumps_common.c\
 	$(MUMPSDIR)/src/mumps_orderings.c\
@@ -77,7 +78,11 @@ dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
 
 dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
 
-dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo
+dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo mumps_sol_es.lo
+
+# actually only dmumps_part8.lo depends on mumps_sol_es.lo, but having only one target
+# on the left side makes automake think that we provide a rule how to build this target
+dmumps_part2.lo dmumps_part8.lo: mumps_sol_es.lo
 
 # Module files that need to be deleted
 MODEXT = mod
