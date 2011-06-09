@@ -2817,7 +2817,7 @@ if test x"$CFLAGS" = x; then
       *)
         coin_opt_cflags="-O3"
         coin_add_cflags="-pipe"
-        coin_dbg_cflags="-g"
+        coin_dbg_cflags="-g -O0"
         coin_warn_cflags="-Wimplicit -Wparentheses -Wsequence-point -Wreturn-type -Wcast-qual -Wall -Wno-unknown-pragmas -Wno-long-long"
         case $build in
           *-darwin*)
@@ -3582,7 +3582,7 @@ if test "$F77" != "unavailable" && test x"$FFLAGS" = x ; then
   if test "$G77" = "yes"; then
     coin_opt_fflags="-O3"
     coin_add_fflags="-pipe"
-    coin_dbg_fflags="-g"
+    coin_dbg_fflags="-g -O0"
     case $enable_doscompile in
       mingw)
 	FFLAGS="-mno-cygwin"
@@ -24686,6 +24686,10 @@ fi
 BLAS_LIBS=
 BLAS_CFLAGS=
 BLAS_DATA=
+BLAS_DEPENDENCIES=
+BLAS_PCLIBS=
+BLAS_PCREQUIRES=
+BLAS_DATA=
 
 
 
@@ -24714,6 +24718,7 @@ if test "${with_blas_lib+set}" = set; then
      else
        coin_has_blas=yes
        BLAS_LIBS="$withval"
+       BLAS_PCLIBS="$withval"
 
          MUMPS_PCLIBS="$withval $MUMPS_PCLIBS"
          MUMPS_LIBS="$withval $MUMPS_LIBS"
@@ -24804,6 +24809,7 @@ echo "${ECHO_T}yes: $BLAS_VERSIONS" >&6
         then
           BLAS_LIBS=`echo " $BLAS_LIBS " | sed -e 's/ \(\/[^ ]*\/\)\([^ ]*\)\.lib / \`$(CYGPATH_W) \1 | sed -e "s|\\\\\\\\\\\\\\\\\\\\|\/|g"\`\2.lib /g'`
         fi
+        BLAS_PCREQUIRES="coinblas"
 
         # augment X_PCREQUIRES, X_CFLAGS, and X_LIBS for each build target X in MUMPS
 
@@ -24847,8 +24853,10 @@ BLAS_CFLAGS=
 BLAS_CFLAGS_INSTALLED=
 BLAS_DATA=
 BLAS_DATA_INSTALLED=
+BLAS_PCLIBS=
+BLAS_PCREQUIRES=
 
-# initial list of dependencies is "coinblas", but we need to filter out version number specifications (= x, <= x, >= x)
+# initial list of dependencies is "coinblas", but we need to filter out version number specifications (= x, <= x, >= x, != x)
 projtoprocess="coinblas"
 
 # we first expand the list of projects to process by adding all dependencies just behind the project which depends on it
@@ -25044,6 +25052,7 @@ _ACEOF
     BLAS_LIBS_INSTALLED=`echo " $BLAS_LIBS_INSTALLED" | sed -e 's/ \(\/[^ ]*\/\)/ \`$(CYGPATH_W) \1\`/g' -e 's/ -L\([^ ]*\)/ \/libpath:\`$(CYGPATH_W) \1\`/g' -e 's/ -l\([^ ]*\)/ lib\1.lib/g'`
   fi
 
+  BLAS_PCREQUIRES="coinblas"
 
     MUMPS_PCREQUIRES="coinblas $MUMPS_PCREQUIRES"
     MUMPS_CFLAGS="$BLAS_CFLAGS $MUMPS_CFLAGS"
@@ -25119,9 +25128,13 @@ echo "$as_me: Blas DEPENDENCIES are $BLAS_DEPENDENCIES" >&6;}
       { echo "$as_me:$LINENO: Blas DATA   is  $BLAS_DATA" >&5
 echo "$as_me: Blas DATA   is  $BLAS_DATA" >&6;}
     fi
-    if test -n "$BLAS_CFLAGS" ; then
-      { echo "$as_me:$LINENO: Blas CFLAGS are $BLAS_CFLAGS" >&5
-echo "$as_me: Blas CFLAGS are $BLAS_CFLAGS" >&6;}
+    if test -n "$BLAS_PCLIBS" ; then
+      { echo "$as_me:$LINENO: Blas PCLIBS are $BLAS_PCLIBS" >&5
+echo "$as_me: Blas PCLIBS are $BLAS_PCLIBS" >&6;}
+    fi
+    if test -n "$BLAS_PCREQUIRES" ; then
+      { echo "$as_me:$LINENO: Blas PCREQUIRES are $BLAS_PCREQUIRES" >&5
+echo "$as_me: Blas PCREQUIRES are $BLAS_PCREQUIRES" >&6;}
     fi
 
       { echo "$as_me:$LINENO: MUMPS CFLAGS are $MUMPS_CFLAGS" >&5
@@ -25229,6 +25242,10 @@ fi
 METIS_LIBS=
 METIS_CFLAGS=
 METIS_DATA=
+METIS_DEPENDENCIES=
+METIS_PCLIBS=
+METIS_PCREQUIRES=
+METIS_DATA=
 
 
 
@@ -25257,6 +25274,7 @@ if test "${with_metis_lib+set}" = set; then
      else
        coin_has_metis=yes
        METIS_LIBS="$withval"
+       METIS_PCLIBS="$withval"
 
          MUMPS_PCLIBS="$withval $MUMPS_PCLIBS"
          MUMPS_LIBS="$withval $MUMPS_LIBS"
@@ -25347,6 +25365,7 @@ echo "${ECHO_T}yes: $METIS_VERSIONS" >&6
         then
           METIS_LIBS=`echo " $METIS_LIBS " | sed -e 's/ \(\/[^ ]*\/\)\([^ ]*\)\.lib / \`$(CYGPATH_W) \1 | sed -e "s|\\\\\\\\\\\\\\\\\\\\|\/|g"\`\2.lib /g'`
         fi
+        METIS_PCREQUIRES="coinmetis >= 4.0"
 
         # augment X_PCREQUIRES, X_CFLAGS, and X_LIBS for each build target X in MUMPS
 
@@ -25390,8 +25409,10 @@ METIS_CFLAGS=
 METIS_CFLAGS_INSTALLED=
 METIS_DATA=
 METIS_DATA_INSTALLED=
+METIS_PCLIBS=
+METIS_PCREQUIRES=
 
-# initial list of dependencies is "coinmetis >= 4.0", but we need to filter out version number specifications (= x, <= x, >= x)
+# initial list of dependencies is "coinmetis >= 4.0", but we need to filter out version number specifications (= x, <= x, >= x, != x)
 projtoprocess="coinmetis "
 
 # we first expand the list of projects to process by adding all dependencies just behind the project which depends on it
@@ -25587,6 +25608,7 @@ _ACEOF
     METIS_LIBS_INSTALLED=`echo " $METIS_LIBS_INSTALLED" | sed -e 's/ \(\/[^ ]*\/\)/ \`$(CYGPATH_W) \1\`/g' -e 's/ -L\([^ ]*\)/ \/libpath:\`$(CYGPATH_W) \1\`/g' -e 's/ -l\([^ ]*\)/ lib\1.lib/g'`
   fi
 
+  METIS_PCREQUIRES="coinmetis >= 4.0"
 
     MUMPS_PCREQUIRES="coinmetis >= 4.0 $MUMPS_PCREQUIRES"
     MUMPS_CFLAGS="$METIS_CFLAGS $MUMPS_CFLAGS"
@@ -25662,9 +25684,13 @@ echo "$as_me: Metis DEPENDENCIES are $METIS_DEPENDENCIES" >&6;}
       { echo "$as_me:$LINENO: Metis DATA   is  $METIS_DATA" >&5
 echo "$as_me: Metis DATA   is  $METIS_DATA" >&6;}
     fi
-    if test -n "$METIS_CFLAGS" ; then
-      { echo "$as_me:$LINENO: Metis CFLAGS are $METIS_CFLAGS" >&5
-echo "$as_me: Metis CFLAGS are $METIS_CFLAGS" >&6;}
+    if test -n "$METIS_PCLIBS" ; then
+      { echo "$as_me:$LINENO: Metis PCLIBS are $METIS_PCLIBS" >&5
+echo "$as_me: Metis PCLIBS are $METIS_PCLIBS" >&6;}
+    fi
+    if test -n "$METIS_PCREQUIRES" ; then
+      { echo "$as_me:$LINENO: Metis PCREQUIRES are $METIS_PCREQUIRES" >&5
+echo "$as_me: Metis PCREQUIRES are $METIS_PCREQUIRES" >&6;}
     fi
 
       { echo "$as_me:$LINENO: MUMPS CFLAGS are $MUMPS_CFLAGS" >&5
