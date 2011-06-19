@@ -96,7 +96,7 @@ AC_SUBST(MY_DEFS)
 AC_COIN_INIT_AUTO_TOOLS
 
 AC_COIN_CHECK_PACKAGE_BLAS(MUMPS)
-AC_COIN_CHECK_PACKAGE(Metis, [coinmetis >= 4.0], MUMPS)
+AC_COIN_CHECK_PACKAGE(Metis, [coinmetis], MUMPS)
 
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
