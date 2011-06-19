@@ -27,24 +27,19 @@ beginning of the get.Mumps script.
 
 If you don't have wget available, follow those instructions:
 
-Check the Mumps home page for the most recent version number (say, 4.9).
-You may then download
+Download Mumps 4.10:
 
-http://mumps.enseeiht.fr/MUMPS_4.9.tar.gz (or try
-http://graal.ens-lyon.fr/MUMPS/MUMPS_4.9.tar.gz if first URL doesn't work)
+http://mumps.enseeiht.fr/MUMPS_4.10.0.tar.gz (or try
+http://graal.ens-lyon.fr/MUMPS/MUMPS_4.10.0.tar.gz if first URL doesn't work)
 
 and unpack it in this directory:
 
-gunzip MUMPS_4.9.tar.gz
-tar xf MUMPS_4.9.tar
+gunzip MUMPS_4.10.0.tar.gz
+tar xf MUMPS_4.10.0.tar
 
-Then, rename the MUMPS_4.9 directory just to be MUMPS:
+Then, rename the MUMPS_4.10.0 directory just to be MUMPS:
 
-mv MUMPS_4.9 MUMPS
-
-Further, you may apply a patch that fixes problems with matrices of size 1:
-
-patch -p0 < mumps.patch
+mv MUMPS_4.10.0 MUMPS
 
 **********************************************************************
 Additional instructions for building with Msys and MinGW
