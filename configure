@@ -24833,7 +24833,7 @@ if test $coin_has_blas = notGiven; then
 
 if test -n "$PKG_CONFIG" ; then
   if $PKG_CONFIG --exists "coinblas"; then
-    BLAS_VERSIONS="`$PKG_CONFIG --modversion "coinblas" 2>/dev/null | sed -n -e "1h;2,\\$H;\\${g;s/\n/ /g;p}"`"
+    BLAS_VERSIONS="`$PKG_CONFIG --modversion "coinblas" 2>/dev/null | tr '\n' ' '`"
      cflags=`$PKG_CONFIG --cflags "coinblas" 2>/dev/null`
     # pkg-config cannot handle spaces, so CYGPATH_W cannot be put into .pc files
 	# thus, we modify the cflags extracted from pkg-config by putting CYGPATH_W behind -I's
@@ -25395,7 +25395,7 @@ if test $coin_has_metis = notGiven; then
 
 if test -n "$PKG_CONFIG" ; then
   if $PKG_CONFIG --exists "coinmetis"; then
-    METIS_VERSIONS="`$PKG_CONFIG --modversion "coinmetis" 2>/dev/null | sed -n -e "1h;2,\\$H;\\${g;s/\n/ /g;p}"`"
+    METIS_VERSIONS="`$PKG_CONFIG --modversion "coinmetis" 2>/dev/null | tr '\n' ' '`"
      cflags=`$PKG_CONFIG --cflags "coinmetis" 2>/dev/null`
     # pkg-config cannot handle spaces, so CYGPATH_W cannot be put into .pc files
 	# thus, we modify the cflags extracted from pkg-config by putting CYGPATH_W behind -I's
@@ -25928,9 +25928,11 @@ MUMPSSRCDIR=$abs_source_dir/$coin_mumpsobjdir/$MUMPSDIR
 case $F77 in
   *xlf*)
     fdefs=
-    for flag in "$MY_FDEFS"; do
-      fdefs="$fdefs -WF,$flag"
-    done
+    if test -n "$MY_FDEFS"; then
+      for flag in $MY_FDEFS; do
+        fdefs="$fdefs -WF,$flag"
+      done
+    fi
     MY_FDEFS="$fdefs"
     ;;
 esac
@@ -27356,7 +27358,7 @@ ac_clean_files=$ac_clean_files_save
       *-aix*)
         { echo "$as_me:$LINENO: patching config.status to reduce ac_max_sed_lines to 5" >&5
 echo "$as_me: patching config.status to reduce ac_max_sed_lines to 5" >&6;}
-        sed -e 's/ac_max_sed_lines=48/ac_max_sed_lines=5/g' config.status > config.status.tmp
+        sed -e 's/ac_max_sed_lines=48/ac_max_sed_lines=1/g' config.status > config.status.tmp
         mv config.status.tmp config.status
       ;;
     esac

@@ -130,9 +130,11 @@ AC_SUBST(MUMPSSRCDIR)
 case $F77 in
   *xlf*)
     fdefs=
-    for flag in "$MY_FDEFS"; do
-      fdefs="$fdefs -WF,$flag"
-    done
+    if test -n "$MY_FDEFS"; then
+      for flag in $MY_FDEFS; do
+        fdefs="$fdefs -WF,$flag"
+      done
+    fi
     MY_FDEFS="$fdefs"
     ;;
 esac
