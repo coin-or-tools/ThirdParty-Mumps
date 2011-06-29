@@ -24833,7 +24833,7 @@ if test $coin_has_blas = notGiven; then
 
 if test -n "$PKG_CONFIG" ; then
   if $PKG_CONFIG --exists "coinblas"; then
-    BLAS_VERSIONS="`$PKG_CONFIG --modversion "coinblas" 2>/dev/null | tr '\n' ' '`"
+    BLAS_VERSIONS=`$PKG_CONFIG --modversion "coinblas" 2>/dev/null | tr '\n' ' '`
      cflags=`$PKG_CONFIG --cflags "coinblas" 2>/dev/null`
     # pkg-config cannot handle spaces, so CYGPATH_W cannot be put into .pc files
 	# thus, we modify the cflags extracted from pkg-config by putting CYGPATH_W behind -I's
@@ -25395,7 +25395,7 @@ if test $coin_has_metis = notGiven; then
 
 if test -n "$PKG_CONFIG" ; then
   if $PKG_CONFIG --exists "coinmetis"; then
-    METIS_VERSIONS="`$PKG_CONFIG --modversion "coinmetis" 2>/dev/null | tr '\n' ' '`"
+    METIS_VERSIONS=`$PKG_CONFIG --modversion "coinmetis" 2>/dev/null | tr '\n' ' '`
      cflags=`$PKG_CONFIG --cflags "coinmetis" 2>/dev/null`
     # pkg-config cannot handle spaces, so CYGPATH_W cannot be put into .pc files
 	# thus, we modify the cflags extracted from pkg-config by putting CYGPATH_W behind -I's
