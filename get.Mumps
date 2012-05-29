@@ -13,6 +13,9 @@ if test ! $wgetcount = 1; then
   if test `uname` = Darwin; then
     wgetcmd=ftp
     echo "Using ftp command instead."
+  elif test `uname` = FreeBSD; then
+    wgetcmd=fetch
+    echo "Using fetch command instead."
   else
     exit -1
   fi
