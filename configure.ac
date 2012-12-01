@@ -86,8 +86,23 @@ case "$ac_cv_f77_mangling" in
   ;;
 esac
 
-# check for pthread.h header file
-AC_COIN_CHECK_HEADER([pthread.h],,[MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"])
+# Mumps can make use of pthreads
+# check for pthread.h header file and library
+AC_ARG_ENABLE([pthread-mumps],
+  [AC_HELP_STRING([--disable-pthread-mumps],[disable use of pthread library])],
+  [enable_pthread_mumps=$enableval],
+  [enable_pthread_mumps=yes])
+if test $enable_pthread_mumps = yes ; then
+  AC_COIN_CHECK_HEADER([pthread.h],[],[enable_pthread_mumps=no])
+fi
+if test $enable_pthread_mumps = yes ; then
+  AC_CHECK_LIB([pthread],[pthread_create],
+    [MUMPS_PCLIBS="-lpthread $MUMPS_PCLIBS"],
+    [enable_pthread_mumps=no])
+fi
+if test $enable_pthread_mumps = no ; then
+  MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"
+fi
 
 MY_DEFS="$MY_DEFS -DALLOW_NON_INIT -DMUMPS_ARITH=MUMPS_ARITH_d"
 AC_SUBST(MY_DEFS)
@@ -102,9 +117,6 @@ if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
 fi
-
-# Mumps can make use of pthreads
-AC_CHECK_LIB([pthread],[pthread_create],[MUMPS_PCLIBS="-lpthread $MUMPS_PCLIBS"])
 
 # Verify that we can compile Fortran 90 code
 AC_MSG_CHECKING([whether we can compile Fortran 90 code])
