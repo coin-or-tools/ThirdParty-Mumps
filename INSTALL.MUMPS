@@ -41,6 +41,10 @@ Then, rename the MUMPS_4.10.0 directory just to be MUMPS:
 
 mv MUMPS_4.10.0 MUMPS
 
+Finally, apply a small patch to work around a bug in MUMPS:
+
+patch -p0 < mumps.patch
+
 **********************************************************************
 Additional instructions for building with Msys and MinGW
 **********************************************************************
