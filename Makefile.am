@@ -51,6 +51,9 @@ AM_CPPFLAGS = \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/libseq` \
 	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/include`
 
+if DEPENDENCY_LINKING
+libcoinmumps_la_LIBADD = $(MUMPS_LIBS) $(MUMPS_PCLIBS)
+endif
 
 libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 
