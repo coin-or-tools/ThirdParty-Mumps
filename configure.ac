@@ -91,7 +91,7 @@ esac
 AC_ARG_ENABLE([pthread-mumps],
   [AC_HELP_STRING([--disable-pthread-mumps],[disable use of pthread library])],
   [enable_pthread_mumps=$enableval],
-  [enable_pthread_mumps=yes])
+  [enable_pthread_mumps=no])
 if test $enable_pthread_mumps = yes ; then
   AC_COIN_CHECK_HEADER([pthread.h],[],[enable_pthread_mumps=no])
 fi
