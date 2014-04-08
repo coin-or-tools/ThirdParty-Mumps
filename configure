@@ -4810,7 +4810,7 @@ if test "${enable_pthread_mumps+set}" = set; then
   enableval="$enable_pthread_mumps"
   enable_pthread_mumps=$enableval
 else
-  enable_pthread_mumps=yes
+  enable_pthread_mumps=no
 fi;
 if test $enable_pthread_mumps = yes ; then
   ac_ext=c
