@@ -49,6 +49,8 @@ echo "Apply a patch to work around a bug in MUMPS."
 echo " "
 
 patch -p0 < mumps.patch
+patch -p0 < mumps_mpi.patch
+mv MUMPS/libseq/mpi.h MUMPS/libseq/mumps_mpi.h
 
 echo " "
 echo "Verify that there are no error message in the output above."
