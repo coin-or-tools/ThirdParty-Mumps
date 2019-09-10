@@ -2,118 +2,100 @@
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
 
-## $Id$
+AUTOMAKE_OPTIONS = foreign subdir-objects
 
-AUTOMAKE_OPTIONS = foreign
-
-EXTRA_DIST = get.mumps INSTALL.MUMPS
+EXTRA_DIST = get.Mumps INSTALL.MUMPS
 
 lib_LTLIBRARIES = libcoinmumps.la
 
-MUMPSDIR = @MUMPSDIR@
-
 nodist_libcoinmumps_la_SOURCES = \
-	$(MUMPSDIR)/src/tools_common_mod.F \
-	$(MUMPSDIR)/src/dmumps_comm_buffer.F \
-	$(MUMPSDIR)/src/dmumps_struc_def.F \
-	$(MUMPSDIR)/src/mumps_ooc_common.F\
-	$(MUMPSDIR)/src/mumps_static_mapping.F \
-	$(MUMPSDIR)/src/dmumps_ooc_buffer.F \
-	$(MUMPSDIR)/src/dmumps_load.F \
-	$(MUMPSDIR)/src/dmumps_ooc.F \
-	$(MUMPSDIR)/src/dmumps_part1.F \
-	$(MUMPSDIR)/src/dmumps_part2.F \
-	$(MUMPSDIR)/src/dmumps_part3.F \
-	$(MUMPSDIR)/src/dmumps_part4.F \
-	$(MUMPSDIR)/src/dmumps_part5.F \
-	$(MUMPSDIR)/src/dmumps_part6.F \
-	$(MUMPSDIR)/src/dmumps_part7.F \
-	$(MUMPSDIR)/src/dmumps_part8.F \
-	$(MUMPSDIR)/src/mumps_part9.F \
-	$(MUMPSDIR)/src/mumps_sol_es.F \
-	$(MUMPSDIR)/src/mumps_c.c \
-	$(MUMPSDIR)/src/mumps_common.c\
-	$(MUMPSDIR)/src/mumps_orderings.c\
-	$(MUMPSDIR)/src/mumps_io.c\
-	$(MUMPSDIR)/src/mumps_io_basic.c\
-	$(MUMPSDIR)/src/mumps_io_thread.c\
-	$(MUMPSDIR)/src/mumps_io_err.c\
-	$(MUMPSDIR)/src/mumps_size.c\
-	$(MUMPSDIR)/libseq/mpi.f \
-	$(MUMPSDIR)/libseq/mpic.c \
-	$(MUMPSDIR)/libseq/elapse.c
+	MUMPS/src/tools_common_mod.F \
+	MUMPS/src/dmumps_comm_buffer.F \
+	MUMPS/src/dmumps_struc_def.F \
+	MUMPS/src/mumps_ooc_common.F \
+	MUMPS/src/mumps_static_mapping.F \
+	MUMPS/src/dmumps_ooc_buffer.F \
+	MUMPS/src/dmumps_load.F \
+	MUMPS/src/dmumps_ooc.F \
+	MUMPS/src/dmumps_part1.F \
+	MUMPS/src/dmumps_part2.F \
+	MUMPS/src/dmumps_part3.F \
+	MUMPS/src/dmumps_part4.F \
+	MUMPS/src/dmumps_part5.F \
+	MUMPS/src/dmumps_part6.F \
+	MUMPS/src/dmumps_part7.F \
+	MUMPS/src/dmumps_part8.F \
+	MUMPS/src/mumps_part9.F \
+	MUMPS/src/mumps_sol_es.F \
+	MUMPS/src/mumps_c.c \
+	MUMPS/src/mumps_common.c \
+	MUMPS/src/mumps_orderings.c \
+	MUMPS/src/mumps_io.c \
+	MUMPS/src/mumps_io_basic.c \
+	MUMPS/src/mumps_io_thread.c \
+	MUMPS/src/mumps_io_err.c \
+	MUMPS/src/mumps_size.c \
+	MUMPS/libseq/mpi.f \
+	MUMPS/libseq/mpic.c \
+	MUMPS/libseq/elapse.c
 
+AM_CPPFLAGS = -I$(srcdir)/MUMPS/src -I$(srcdir)/MUMPS/libseq -I$(srcdir)/MUMPS/include
 
-DEFAULT_INCLUDES = -I. -I`$(CYGPATH_W) $(srcdir)`
-
-AM_CPPFLAGS = \
-	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/src` \
-	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/libseq` \
-	-I`$(CYGPATH_W) $(srcdir)/$(MUMPSDIR)/include`
-
-if DEPENDENCY_LINKING
-libcoinmumps_la_LIBADD = $(MUMPS_LIBS) $(MUMPS_PCLIBS)
-endif
+libcoinmumps_la_LIBADD = $(MUMPS_LFLAGS)
 
 libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 
 # Some dependecies for modules:
+MUMPS/src/dmumps_load.lo MUMPS/src/dmumps_part1.lo MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part3.lo \
+MUMPS/src/dmumps_part4.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part6.lo MUMPS/src/dmumps_part8.lo: \
+  MUMPS/src/dmumps_comm_buffer.lo
 
-dmumps_load.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
-dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: \
-dmumps_comm_buffer.lo
+MUMPS/src/dmumps_part1.lo MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part3.lo \
+MUMPS/src/dmumps_part4.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part6.lo: MUMPS/src/dmumps_load.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
-dmumps_part4.lo dmumps_part5.lo dmumps_part6.lo: dmumps_load.lo
+MUMPS/src/dmumps_part1.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/dmumps_ooc_buffer.lo
 
-dmumps_part1.lo dmumps_ooc.lo: dmumps_ooc_buffer.lo
+MUMPS/src/dmumps_part1.lo MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part3.lo MUMPS/src/dmumps_part4.lo \
+MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part6.lo MUMPS/src/dmumps_part8.lo: MUMPS/src/dmumps_ooc.lo
 
-dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo dmumps_part4.lo \
-dmumps_part5.lo dmumps_part6.lo dmumps_part8.lo: dmumps_ooc.lo
+MUMPS/src/dmumps_part1.lo MUMPS/src/dmumps_part5.lo: MUMPS/src/dmumps_part2.lo
 
-dmumps_part1.lo dmumps_part5.lo: dmumps_part2.lo
+MUMPS/src/dmumps_load.lo MUMPS/src/dmumps_ooc.lo MUMPS/src/dmumps_part1.lo MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part3.lo \
+MUMPS/src/dmumps_part4.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part7.lo MUMPS/src/dmumps_part8.lo: \
+MUMPS/src/dmumps_struc_def.lo
 
-dmumps_load.lo dmumps_ooc.lo dmumps_part1.lo dmumps_part2.lo dmumps_part3.lo \
-dmumps_part4.lo dmumps_part5.lo dmumps_part7.lo dmumps_part8.lo: \
-dmumps_struc_def.lo
+MUMPS/src/dmumps_ooc_buffer.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/mumps_ooc_common.lo
 
-dmumps_ooc_buffer.lo dmumps_ooc.lo: mumps_ooc_common.lo
+MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/mumps_static_mapping.lo
 
-dmumps_part5.lo dmumps_ooc.lo: mumps_static_mapping.lo
-
-dmumps_part2.lo dmumps_part5.lo dmumps_part8.lo: tools_common_mod.lo mumps_sol_es.lo
-
-# actually only dmumps_part8.lo depends on mumps_sol_es.lo, but having only one target
-# on the left side makes automake think that we provide a rule how to build this target
-dmumps_part2.lo dmumps_part8.lo: mumps_sol_es.lo
+MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: MUMPS/src/tools_common_mod.lo MUMPS/src/mumps_sol_es.lo
 
 # Module files that need to be deleted
-MODEXT = mod
-CLEANFILES = *.$(MODEXT)
+CLEANFILES = *.mod
 
 # Reset DEFS to that they don't show up for the Fortran compiler
 DEFS =
 CFLAGS += $(MY_DEFS)
-FFLAGS += $(MY_FDEFS)
+FCFLAGS += $(MY_FDEFS)
 
-thirdpartyincludedir = $(includedir)/coin/ThirdParty
+# automake thinks that the .F files are F77, not FC, and requires F77 to be set
+# set it to FC, and same for FFLAGS
+F77 = $(FC)
+FFLAGS = $(FCFLAGS)
+
+thirdpartyincludedir = $(includedir)/coin-or/mumps
 thirdpartyinclude_HEADERS = \
-  $(MUMPSDIR)/include/dmumps_c.h \
-  $(MUMPSDIR)/include/mumps_compat.h \
-  $(MUMPSDIR)/include/mumps_c_types.h \
-  $(MUMPSDIR)/libseq/mumps_mpi.h
+  MUMPS/include/dmumps_c.h \
+  MUMPS/include/mumps_compat.h \
+  MUMPS/include/mumps_c_types.h \
+  MUMPS/libseq/mumps_mpi.h
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
-
-test:
-	@echo "No test available for Mumps."
 
 ########################################################################
 #                         Maintainer Stuff                             #
 ########################################################################
 
 # Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES = $(MAKEOKFILE)
-
-include BuildTools/Makemain.inc
+DISTCLEANFILES =

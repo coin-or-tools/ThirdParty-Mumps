@@ -1,7 +1,7 @@
 * text=auto !eol
 /INSTALL.MUMPS -text
-/coinmumps-uninstalled.pc.in -text
 /coinmumps.pc.in -text
+/compile -text
 /config.guess -text
 /config.sub -text
 /configure -text
