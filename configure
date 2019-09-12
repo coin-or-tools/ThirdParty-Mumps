@@ -602,7 +602,7 @@ PACKAGE_STRING='ThirdPartyMumps trunk'
 PACKAGE_BUGREPORT='https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new'
 PACKAGE_URL='https://github.com/coin-or-tools/ThirdParty-Mumps'
 
-ac_unique_file="MUMPS/src/dmumps_part1.F"
+ac_unique_file="MUMPS/src/mumps_common.c"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -16432,6 +16432,7 @@ esac
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
+# TODO enable by default
 # Check whether --enable-pthread-mumps was given.
 if test "${enable_pthread_mumps+set}" = set; then :
   enableval=$enable_pthread_mumps; enable_pthread_mumps=$enableval
@@ -16505,7 +16506,7 @@ if test $enable_pthread_mumps = no ; then
   MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"
 fi
 
-MY_DEFS="$MY_DEFS -DALLOW_NON_INIT -DMUMPS_ARITH=MUMPS_ARITH_d"
+MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_d"
 
 
 
@@ -17760,6 +17761,9 @@ $as_echo "$as_me: WARNING: Unsupported or unknown name-mangling scheme: ${dsyev_
   fi
 
 
+# TODO If the BLAS library includes the GEMMT level-3 BLAS extension, we strongly recommend to use it.
+# -DGEMMT_AVAILABLE should then be added to the OPTF variable of your Makefile.inc.
+
 
 
 
@@ -18015,8 +18019,8 @@ $as_echo "#define COIN_HAS_METIS 1" >>confdefs.h
   fi
 
 if test "$coin_has_metis" = yes; then
-  MY_DEFS="$MY_DEFS -Dmetis"
-  MY_FDEFS="$MY_FDEFS -Dmetis"
+  MY_DEFS="$MY_DEFS -Dmetis4"
+  MY_FDEFS="$MY_FDEFS -Dmetis4"
 fi
 
 # Fix Fortran preprocessor flags

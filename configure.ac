@@ -20,7 +20,7 @@ under the Eclipse Public License.])
 
 # List one file in the package so that the configure script can test
 # whether the package is actually there
-AC_CONFIG_SRCDIR(MUMPS/src/dmumps_part1.F)
+AC_CONFIG_SRCDIR(MUMPS/src/mumps_common.c)
 
 AC_COIN_INITIALIZE(Mumps)
 
@@ -56,6 +56,7 @@ esac
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
+# TODO enable by default
 AC_ARG_ENABLE([pthread-mumps],
   [AC_HELP_STRING([--enable-pthread-mumps],[enable use of pthread library])],
   [enable_pthread_mumps=$enableval],
@@ -72,15 +73,18 @@ if test $enable_pthread_mumps = no ; then
   MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"
 fi
 
-MY_DEFS="$MY_DEFS -DALLOW_NON_INIT -DMUMPS_ARITH=MUMPS_ARITH_d"
+MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_d"
 AC_SUBST(MY_DEFS)
 
 AC_COIN_CHK_LAPACK(MUMPS)
 
+# TODO If the BLAS library includes the GEMMT level-3 BLAS extension, we strongly recommend to use it.
+# -DGEMMT_AVAILABLE should then be added to the OPTF variable of your Makefile.inc. 
+
 AC_COIN_CHK_PKG(Metis,[MUMPS],[coinmetis],[build])
 if test "$coin_has_metis" = yes; then
-  MY_DEFS="$MY_DEFS -Dmetis"
-  MY_FDEFS="$MY_FDEFS -Dmetis"
+  MY_DEFS="$MY_DEFS -Dmetis4"
+  MY_FDEFS="$MY_FDEFS -Dmetis4"
 fi
 
 # Fix Fortran preprocessor flags
