@@ -56,11 +56,10 @@ esac
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
-# TODO enable by default
 AC_ARG_ENABLE([pthread-mumps],
-  [AC_HELP_STRING([--enable-pthread-mumps],[enable use of pthread library])],
+  [AC_HELP_STRING([--disable-pthread-mumps],[disable use of pthread library])],
   [enable_pthread_mumps=$enableval],
-  [enable_pthread_mumps=no])
+  [enable_pthread_mumps=yes])
 if test $enable_pthread_mumps = yes ; then
   AC_CHECK_HEADER([pthread.h],[],[enable_pthread_mumps=no])
 fi

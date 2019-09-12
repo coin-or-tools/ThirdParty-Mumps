@@ -1455,7 +1455,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-pthread-mumps  enable use of pthread library
+  --disable-pthread-mumps disable use of pthread library
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -16432,12 +16432,11 @@ esac
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
-# TODO enable by default
 # Check whether --enable-pthread-mumps was given.
 if test "${enable_pthread_mumps+set}" = set; then :
   enableval=$enable_pthread_mumps; enable_pthread_mumps=$enableval
 else
-  enable_pthread_mumps=no
+  enable_pthread_mumps=yes
 fi
 
 if test $enable_pthread_mumps = yes ; then
