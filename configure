@@ -660,6 +660,7 @@ MUMPS_PCFILES
 MUMPS_LFLAGS
 MUMPS_CFLAGS
 MY_DEFS
+OPENMP_FCFLAGS
 FCLIBS
 LT_LDFLAGS
 CPP
@@ -801,6 +802,7 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_pthread_mumps
+enable_openmp
 with_lapack
 with_lapack_lflags
 with_lapack_cflags
@@ -1458,6 +1460,7 @@ Optional Features:
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --disable-pthread-mumps disable use of pthread library
+  --disable-openmp        do not use OpenMP
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -16799,6 +16802,87 @@ if test $enable_pthread_mumps = no ; then
   MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"
 fi
 
+# Mumps can use OpenMP
+ac_ext=${ac_fc_srcext-f}
+ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
+ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_fc_compiler_gnu
+
+
+  OPENMP_FCFLAGS=
+  # Check whether --enable-openmp was given.
+if test "${enable_openmp+set}" = set; then :
+  enableval=$enable_openmp;
+fi
+
+  if test "$enable_openmp" != no; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $FC option to support OpenMP" >&5
+$as_echo_n "checking for $FC option to support OpenMP... " >&6; }
+if ${ac_cv_prog_fc_openmp+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  cat > conftest.$ac_ext <<_ACEOF
+
+      program main
+      implicit none
+!$    integer tid
+      tid = 42
+      call omp_set_num_threads(2)
+      end
+
+_ACEOF
+if ac_fn_fc_try_link "$LINENO"; then :
+  ac_cv_prog_fc_openmp='none needed'
+else
+  ac_cv_prog_fc_openmp='unsupported'
+	  	  	  	  	  	  	                                	  	  	  	  	  	  for ac_option in -fopenmp -xopenmp -openmp -mp -omp -qsmp=omp -homp \
+                           -Popenmp --openmp; do
+	    ac_save_FCFLAGS=$FCFLAGS
+	    FCFLAGS="$FCFLAGS $ac_option"
+	    cat > conftest.$ac_ext <<_ACEOF
+
+      program main
+      implicit none
+!$    integer tid
+      tid = 42
+      call omp_set_num_threads(2)
+      end
+
+_ACEOF
+if ac_fn_fc_try_link "$LINENO"; then :
+  ac_cv_prog_fc_openmp=$ac_option
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+	    FCFLAGS=$ac_save_FCFLAGS
+	    if test "$ac_cv_prog_fc_openmp" != unsupported; then
+	      break
+	    fi
+	  done
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_fc_openmp" >&5
+$as_echo "$ac_cv_prog_fc_openmp" >&6; }
+    case $ac_cv_prog_fc_openmp in #(
+      "none needed" | unsupported)
+	;; #(
+      *)
+	OPENMP_FCFLAGS=$ac_cv_prog_fc_openmp ;;
+    esac
+  fi
+
+
+FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
+MUMPS_LFLAGS="$MUMPS_LFLAGS $OPENMP_FCFLAGS"
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
 MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_d"
 
 
@@ -18054,7 +18138,7 @@ $as_echo "$as_me: WARNING: Unsupported or unknown name-mangling scheme: ${dsyev_
   fi
 
 
-# If the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it.
+# if the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it
 
   # setup LIBS by adding $lapack_lflags and those from $lapack_pcfiles
   ac_save_LIBS="$LIBS"

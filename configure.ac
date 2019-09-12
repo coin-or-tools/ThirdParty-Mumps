@@ -72,12 +72,19 @@ if test $enable_pthread_mumps = no ; then
   MY_DEFS="$MY_DEFS -DWITHOUT_PTHREAD=1"
 fi
 
+# Mumps can use OpenMP
+AC_LANG_PUSH(Fortran)
+AC_OPENMP
+FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
+MUMPS_LFLAGS="$MUMPS_LFLAGS $OPENMP_FCFLAGS"
+AC_LANG_POP(Fortran)
+
 MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_d"
 AC_SUBST(MY_DEFS)
 
 AC_COIN_CHK_LAPACK(MUMPS)
 
-# If the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it.
+# if the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it
 AC_COIN_TRY_LINK([dgemmt],[$lapack_lflags],[$lapack_pcfiles],[MY_FDEFS="$MY_FDEFS -DGEMMT_AVAILABLE"])
 
 AC_COIN_CHK_PKG(Metis,[MUMPS],[coinmetis],[build])
