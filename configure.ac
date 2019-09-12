@@ -77,8 +77,8 @@ AC_SUBST(MY_DEFS)
 
 AC_COIN_CHK_LAPACK(MUMPS)
 
-# TODO If the BLAS library includes the GEMMT level-3 BLAS extension, we strongly recommend to use it.
-# -DGEMMT_AVAILABLE should then be added to the OPTF variable of your Makefile.inc. 
+# If the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it.
+AC_COIN_TRY_LINK([dgemmt],[$lapack_lflags],[$lapack_pcfiles],[MY_FDEFS="$MY_FDEFS -DGEMMT_AVAILABLE"])
 
 AC_COIN_CHK_PKG(Metis,[MUMPS],[coinmetis],[build])
 if test "$coin_has_metis" = yes; then
