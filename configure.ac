@@ -35,7 +35,7 @@ AC_COIN_PROG_CC
 AC_COIN_PROG_FC
 
 # Initialize libtool
-AC_COIN_PROG_LIBTOOL(no-win32-dll)
+AC_COIN_PROG_LIBTOOL
 
 # Add FLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
 MUMPS_LFLAGS="$MUMPS_LFLAGS $FLIBS"
@@ -100,10 +100,20 @@ case $FC in
 esac
 AC_SUBST(MY_FDEFS)
 
-AC_MSG_NOTICE([additional C preprocessor flags: $MY_DEFS])
-AC_MSG_NOTICE([additional Fortran preprocessor flags: $MY_FDEFS])
-
 AC_CONFIG_FILES([Makefile coinmumps.pc])
 
 AC_COIN_FINALIZE_FLAGS([MUMPS])
+
+# libexport_attribute is set by AC_COIN_FINALIZE_FLAGS, either to __declspec(dllimport) or nothing
+# we want to use this to pass on a define for MUMPS_CALL in the .pc files Cflags
+MUMPS_EXPORT="$libexport_attribute"
+AC_SUBST(MUMPS_EXPORT)
+# and if it is dllimport, then we want dllexport when building Mumps
+if test "$libexport_attribute" = "__declspec(dllimport)" ; then
+  MY_DEFS="$MY_DEFS -DMUMPS_CALL=__declspec(dllexport)"
+fi
+
+AC_MSG_NOTICE([additional C preprocessor flags: $MY_DEFS])
+AC_MSG_NOTICE([additional Fortran preprocessor flags: $MY_FDEFS])
+
 AC_COIN_FINALIZE
