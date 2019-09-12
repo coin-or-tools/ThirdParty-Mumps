@@ -2,7 +2,7 @@
 
 # Set the following to the latest MUMPS version.
 #  THERE MUST BE NO SPACE BEFORE AND AFTER THE EQUAL (=) OPERATOR.
-mumps_ver=4.10.0
+mumps_ver=5.2.1
 
 set -e
 
@@ -45,10 +45,9 @@ mv MUMPS_${mumps_ver} MUMPS
 echo " "
 echo "Done downloading the source code for MUMPS."
 echo " "
-echo "Apply a patch to work around a bug in MUMPS."
+echo "Apply a patch to improve MPI compatibility."
 echo " "
 
-patch -p0 < mumps.patch
 patch -p0 < mumps_mpi.patch
 mv MUMPS/libseq/mpi.h MUMPS/libseq/mumps_mpi.h
 
