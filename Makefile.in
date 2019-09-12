@@ -104,6 +104,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = config.h mumps_compat.h
 CONFIG_CLEAN_FILES = coinmumps.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -326,7 +327,8 @@ am__can_run_installinfo = \
   esac
 DATA = $(pkgconfiglib_DATA)
 HEADERS = $(thirdpartyinclude_HEADERS)
-am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
+am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
+	$(LISP)config.h.in mumps_compat.h.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -363,9 +365,7 @@ COIN_PKG_CONFIG_PATH = @COIN_PKG_CONFIG_PATH@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
-
-# Reset DEFS to that they don't show up for the Fortran compiler
-DEFS = 
+DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
@@ -401,7 +401,6 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MUMPS_CFLAGS = @MUMPS_CFLAGS@
 MUMPS_CFLAGS_NOPC = @MUMPS_CFLAGS_NOPC@
-MUMPS_EXPORT = @MUMPS_EXPORT@
 MUMPS_LFLAGS = @MUMPS_LFLAGS@
 MUMPS_LFLAGS_NOPC = @MUMPS_LFLAGS_NOPC@
 MUMPS_PCFILES = @MUMPS_PCFILES@
@@ -798,9 +797,9 @@ FFLAGS = $(FCFLAGS)
 thirdpartyincludedir = $(includedir)/coin-or/mumps
 thirdpartyinclude_HEADERS = \
   MUMPS/include/dmumps_c.h \
-  MUMPS/include/mumps_compat.h \
   MUMPS/include/mumps_c_types.h \
-  MUMPS/libseq/mumps_mpi.h
+  MUMPS/libseq/mumps_mpi.h \
+  mumps_compat.h
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
@@ -811,7 +810,8 @@ pkgconfiglib_DATA = coinmumps.pc
 
 # Files that are generated and should be cleaned with make distclean
 DISTCLEANFILES = 
-all: all-am
+all: config.h mumps_compat.h
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .F .c .f .lo .o .obj
@@ -848,6 +848,29 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
+
+config.h: stamp-h1
+	@test -f $@ || rm -f stamp-h1
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h1
+
+stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
+$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
+	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
+	rm -f stamp-h1
+	touch $@
+
+mumps_compat.h: stamp-h2
+	@test -f $@ || rm -f stamp-h2
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h2
+
+stamp-h2: $(srcdir)/mumps_compat.h.in $(top_builddir)/config.status
+	@rm -f stamp-h2
+	cd $(top_builddir) && $(SHELL) ./config.status mumps_compat.h
+
+distclean-hdr:
+	-rm -f config.h stamp-h1 mumps_compat.h stamp-h2
 coinmumps.pc: $(top_builddir)/config.status $(srcdir)/coinmumps.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
@@ -1387,7 +1410,8 @@ distclean-tags:
 	-rm -f cscope.out cscope.in.out cscope.po.out cscope.files
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) config.h \
+		mumps_compat.h
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -1459,7 +1483,7 @@ distclean: distclean-am
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_thread_affinity.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-libtool distclean-tags
+	distclean-hdr distclean-libtool distclean-tags
 
 dvi: dvi-am
 
@@ -1546,16 +1570,16 @@ ps-am:
 uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfiglibDATA \
 	uninstall-thirdpartyincludeHEADERS
 
-.MAKE: install-am install-strip
+.MAKE: all install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--depfiles am--refresh check \
 	check-am clean clean-cscope clean-generic clean-libLTLIBRARIES \
 	clean-libtool cscope cscopelist-am ctags ctags-am distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags dvi dvi-am html html-am info info-am install \
-	install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-libtool distclean-tags dvi dvi-am html html-am info \
+	info-am install install-am install-data install-data-am \
+	install-dvi install-dvi-am install-exec install-exec-am \
+	install-html install-html-am install-info install-info-am \
 	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
 	install-pkgconfiglibDATA install-ps install-ps-am \
 	install-strip install-thirdpartyincludeHEADERS installcheck \

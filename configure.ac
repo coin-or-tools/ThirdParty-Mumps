@@ -107,20 +107,22 @@ case $FC in
 esac
 AC_SUBST(MY_FDEFS)
 
-AC_CONFIG_FILES([Makefile coinmumps.pc])
-
 AC_COIN_FINALIZE_FLAGS([MUMPS])
 
-# libexport_attribute is set by AC_COIN_FINALIZE_FLAGS, either to __declspec(dllimport) or nothing
-# we want to use this to pass on a define for MUMPS_CALL in the .pc files Cflags
-MUMPS_EXPORT="$libexport_attribute"
-AC_SUBST(MUMPS_EXPORT)
-# and if it is dllimport, then we want dllexport when building Mumps
+# if libexport_attribute is set by COIN_FINALIZE_FLAGS to __declspec(dllimport)
+# then we want to use MUMPS_CALL=__declspec(dllexport) when building Mumps
+# and users should use __declspec(dllimport), but the parenthesis are difficult
+# to pass on via compiler flags
+# so also create and install our own version of mumps_compat.h instead
 if test "$libexport_attribute" = "__declspec(dllimport)" ; then
-  MY_DEFS="$MY_DEFS -DMUMPS_CALL=__declspec(dllexport)"
+  MY_DEFS="$MY_DEFS -DMUMPS_CALL=\"__declspec(dllexport)\""
 fi
+AC_DEFINE_UNQUOTED(MUMPS_CALL, [$libexport_attribute], [Library Visibility Attribute])
 
 AC_MSG_NOTICE([additional C preprocessor flags: $MY_DEFS])
 AC_MSG_NOTICE([additional Fortran preprocessor flags: $MY_FDEFS])
+
+AC_CONFIG_FILES([Makefile coinmumps.pc])
+AC_CONFIG_HEADER(config.h mumps_compat.h)
 
 AC_COIN_FINALIZE
