@@ -4,7 +4,7 @@ Mumps is a MUltifrontal Massively Parallel sparse direct Solver.
 
 Please visit the home page:
 
-Home page: http://graal.ens-lyon.fr/MUMPS/
+Home page: http://mumps.enseeiht.fr
 
 and make sure you read the conditions on distributing MUMPS
 in Chapter 12 of the MUMPS Users' Guide:
