@@ -73,8 +73,6 @@ MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: M
 # Module files that need to be deleted
 CLEANFILES = *.mod
 
-# Reset DEFS to that they don't show up for the Fortran compiler
-DEFS =
 CFLAGS += $(MY_DEFS)
 FCFLAGS += $(MY_FDEFS)
 
@@ -86,9 +84,9 @@ FFLAGS = $(FCFLAGS)
 thirdpartyincludedir = $(includedir)/coin-or/mumps
 thirdpartyinclude_HEADERS = \
   MUMPS/include/dmumps_c.h \
-  MUMPS/include/mumps_compat.h \
   MUMPS/include/mumps_c_types.h \
-  MUMPS/libseq/mumps_mpi.h
+  MUMPS/libseq/mumps_mpi.h \
+  mumps_compat.h
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc

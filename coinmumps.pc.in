@@ -9,5 +9,5 @@ URL: https://github.com/coin-or-tools/ThirdParty-MUMPS
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lcoinmumps
 Libs.private: @MUMPS_LFLAGS_NOPC@
-Cflags: -I${includedir} -DCOIN_USE_MUMPS_MPI_H
+Cflags: -I${includedir}
 Requires.private: @MUMPS_PCFILES@
