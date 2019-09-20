@@ -1,12 +1,13 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
-includedir=@includedir@/coin/ThirdParty
+includedir=@includedir@/coin-or/mumps
 
 Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
-URL: https://projects.coin-or.org/BuildTools
+URL: https://github.com/coin-or-tools/ThirdParty-MUMPS
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lcoinmumps @MUMPS_PCLIBS@
-Cflags: -I${includedir} -DCOIN_USE_MUMPS_MPI_H
-Requires: @MUMPS_PCREQUIRES@
+Libs: -L${libdir} -lcoinmumps
+Libs.private: @MUMPS_LFLAGS_NOPC@
+Cflags: -I${includedir}
+Requires.private: @MUMPS_PCFILES@
