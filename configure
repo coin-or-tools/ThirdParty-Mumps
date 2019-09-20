@@ -16802,6 +16802,10 @@ if test $enable_pthread_mumps = no ; then
 fi
 
 # Mumps can use OpenMP
+# but if single threaded, then it (5.2.1) seems to become slower, so disable by default
+if test -z "$enable_openmp" ; then
+  enable_openmp=no
+fi
 ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'

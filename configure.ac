@@ -73,6 +73,10 @@ if test $enable_pthread_mumps = no ; then
 fi
 
 # Mumps can use OpenMP
+# but if single threaded, then it (5.2.1) seems to become slower within Ipopt, so disable by default
+if test -z "$enable_openmp" ; then
+  enable_openmp=no
+fi
 AC_LANG_PUSH(Fortran)
 AC_OPENMP
 FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
