@@ -10,7 +10,7 @@
 
 AC_PREREQ(2.59)
 
-AC_INIT([ThirdPartyMumps],[trunk],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],,[https://github.com/coin-or-tools/ThirdParty-Mumps])
+AC_INIT([ThirdPartyMumps],[2.0.0],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],,[https://github.com/coin-or-tools/ThirdParty-Mumps])
 
 AC_COPYRIGHT([
 Copyright 2007-2009 International Business Machines and others.
