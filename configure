@@ -18094,6 +18094,9 @@ $as_echo "$as_me: WARNING: Unsupported or unknown name-mangling scheme: ${dsyev_
 
   fi
 
+if test $coin_has_lapack != yes; then
+  as_fn_error $? "Required package LAPACK not found." "$LINENO" 5
+fi
 
 
 
