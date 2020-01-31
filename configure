@@ -685,9 +685,11 @@ LIBTOOL
 OBJDUMP
 DLLTOOL
 AS
+ADD_FCFLAGS
 ac_ct_FC
 FCFLAGS
 FC
+ADD_CFLAGS
 am__fastdepCC_FALSE
 am__fastdepCC_TRUE
 CCDEPMODE
@@ -703,6 +705,8 @@ ac_ct_CC
 CPPFLAGS
 LDFLAGS
 CFLAGS
+COIN_RELOCATABLE_FALSE
+COIN_RELOCATABLE_TRUE
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -790,6 +794,7 @@ enable_msvc
 enable_debug
 enable_silent_rules
 enable_maintainer_mode
+enable_relocatable
 enable_dependency_tracking
 enable_static
 with_pic
@@ -815,10 +820,13 @@ CFLAGS
 LDFLAGS
 LIBS
 CPPFLAGS
+ADD_CFLAGS
 FC
 FCFLAGS
+ADD_FCFLAGS
 LT_SYS_LIBRARY_PATH
 CPP
+LT_LDFLAGS
 PKG_CONFIG'
 
 
@@ -1447,6 +1455,8 @@ Optional Features:
   --enable-maintainer-mode
                           enable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
+  --enable-relocatable    whether prefix in installed .pc files should be
+                          setup relative to pcfiledir
   --enable-dependency-tracking
                           do not reject slow dependency extractors
   --disable-dependency-tracking
@@ -1497,11 +1507,15 @@ Some influential environment variables:
   LIBS        libraries to pass to the linker, e.g. -l<library>
   CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
               you have headers in a nonstandard directory <include dir>
+  ADD_CFLAGS  Additional C compiler options (if not overwriting CFLAGS)
   FC          Fortran compiler command
   FCFLAGS     Fortran compiler flags
+  ADD_FCFLAGS Additional Fortran compiler options (if not overwriting FCFLAGS)
   LT_SYS_LIBRARY_PATH
               User-defined run-time library search path.
   CPP         C preprocessor
+  LT_LDFLAGS  Flags passed to libtool when building libraries or executables
+              that are installed
   PKG_CONFIG  path to pkg-config utility
 
 Use these variables to override the choices made by `configure' or to help
@@ -2537,31 +2551,31 @@ fi
 
   if test "$enable_debug" = yes ; then
     if test "$enable_msvc" = yes ; then
-      : ${FFLAGS:="-nologo -fpp -Z7 -MDd"}
-      : ${FCFLAGS:="-nologo -fpp -Z7 -MDd"}
-      : ${CFLAGS:="-nologo -Z7 -MDd"}
-      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd"}
+      : ${FFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FFLAGS"}
+      : ${FCFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FCFLAGS"}
+      : ${CFLAGS:="-nologo -Z7 -MDd $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd $ADD_CXXFLAGS"}
       : ${AR:="lib"}
       : ${AR_FLAGS:="-nologo -out:"}
     else
-      : ${FFLAGS:="-g"}
-      : ${FCFLAGS:="-g"}
-      : ${CFLAGS:="-g"}
-      : ${CXXFLAGS:="-g"}
+      : ${FFLAGS:="-g $ADD_FFLAGS"}
+      : ${FCFLAGS:="-g $ADD_FCFLAGS"}
+      : ${CFLAGS:="-g $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-g $ADD_CXXFLAGS"}
     fi
   else
     if test "$enable_msvc" = yes ; then
-      : ${FFLAGS:="-nologo -fpp -O2 -MD"}
-      : ${FCFLAGS:="-nologo -fpp -O2 -MD"}
-      : ${CFLAGS:="-nologo -DNDEBUG -O2 -MD"}
-      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD"}
+      : ${FFLAGS:="-nologo -fpp -O2 -MD $ADD_FFLAGS"}
+      : ${FCFLAGS:="-nologo -fpp -O2 -MD $ADD_FCFLAGS"}
+      : ${CFLAGS:="-nologo -DNDEBUG -O2 -MD $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD $ADD_CXXFLAGS"}
       : ${AR:="lib"}
       : ${AR_FLAGS:="-nologo -out:"}
     else
-      : ${FFLAGS:="-O2"}
-      : ${FCFLAGS:="-O2"}
-      : ${CFLAGS:="-O2 -DNDEBUG"}
-      : ${CXXFLAGS:="-O2 -DNDEBUG"}
+      : ${FFLAGS:="-O2 $ADD_FFLAGS"}
+      : ${FCFLAGS:="-O2 $ADD_FCFLAGS"}
+      : ${CFLAGS:="-O2 -DNDEBUG $ADD_CFLAGS"}
+      : ${CXXFLAGS:="-O2 -DNDEBUG $ADD_CXXFLAGS"}
     fi
   fi
 
@@ -3301,6 +3315,24 @@ fi
   prefix=$save_prefix
   exec_prefix=$save_exec_prefix
 
+# add a configure flag to indicate whether .pc files should be made relocatable
+# off by default, as it creates libtool warnings
+  # Check whether --enable-relocatable was given.
+if test "${enable_relocatable+set}" = set; then :
+  enableval=$enable_relocatable; coin_enable_relocatable=$enableval
+else
+  coin_enable_relocatable=no
+fi
+
+   if test $coin_enable_relocatable = yes; then
+  COIN_RELOCATABLE_TRUE=
+  COIN_RELOCATABLE_FALSE='#'
+else
+  COIN_RELOCATABLE_TRUE='#'
+  COIN_RELOCATABLE_FALSE=
+fi
+
+
 
 #############################################################################
 #                         Standard build tool stuff                         #
@@ -3378,10 +3410,13 @@ fi
 
 
   # If enable-msvc, then test for Intel (on Windows) and MS C compiler
-  # explicitly and add compile-wrapper before AC_PROG_CC, because
-  # the compile-wrapper work around issues when having the wrong link.exe
-  # in the PATH first, which would upset tests in AC_PROG_CC.
-  # Further, if CC unset and not set by user, then stop with error.
+  # explicitly and add the compile wrapper before AC_PROG_CC. The compile
+  # wrapper works around issues related to finding MS link.exe. (Unix link.exe
+  # occurs first in PATH, which causes compile and link checks to fail.) For
+  # the same reason, set LD to use the compile wrapper. If CC remains unset
+  # (neither icl or cl was found, and CC was not set by the user), stop with
+  # an error.
+
   if test $enable_msvc = yes ; then
     for ac_prog in icl cl
 do
@@ -3427,14 +3462,18 @@ done
 
     if test -n "$CC" ; then
       CC="$am_aux_dir/compile $CC"
+      ac_cv_prog_CC="$CC"
+      LD="$CC"
     else
       as_fn_error $? "Neither MS nor Intel C compiler found in PATH and CC is unset." "$LINENO" 5
     fi
   fi
 
-  # look for some C compiler and check whether it works
-  # if user has set CC or we found icl/cl above, this shouldn't overwrite CC
-  # other than CXX of F77, this macro also takes care of adding the compile-wrapper
+  # Look for some C compiler and check that it works. If the user has set CC
+  # or we found icl/cl above, this shouldn't overwrite CC. Unlike the macros
+  # that establish C++ or Fortran compilers, PROG_CC also takes care of adding
+  # the compile wrapper if needed.
+
   ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -4220,6 +4259,9 @@ fi
 
 
 
+  # Declare precious variable for additional compiler flags
+
+
 
 # Get the name of the Fortran compiler and appropriate compiler options
 
@@ -4558,6 +4600,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
       FC="$am_aux_dir/compile $FC"
     fi
   fi
+
+  # Declare precious variable for additional compiler flags
+
 
 
 # Initialize libtool
@@ -15988,7 +16033,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 #    and explicitly dll-exporting them, leading to warnings about duplicates
 #    regarding those that are properly marked for dll-export in the source.
 #
-# Patch libtool also to circumbent some issues when using MinGW (Msys+GCC).
+# Patch libtool also to circumvent some issues when using MinGW (Msys+GCC).
 # 1. Relax check which libraries can be used when linking a DLL.
 #    libtool's func_mode_link() would reject linking MinGW system libraries,
 #    e.g., -lmingw32, when building a DLL, because it does not find this
@@ -16011,7 +16056,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
       ;;
   esac
 
-  # Set up LT_LDFLAGS.
+  # Set up LT_LDFLAGS, user can initialize and we augment below
 
 
   # Use the libtool library info, if defined, otherwise use the project version info,
@@ -18055,6 +18100,9 @@ $as_echo "$as_me: WARNING: Unsupported or unknown name-mangling scheme: ${dsyev_
 
   fi
 
+if test $coin_has_lapack != yes; then
+  as_fn_error $? "Required package LAPACK not found." "$LINENO" 5
+fi
 
 
 
@@ -18536,6 +18584,10 @@ fi
 
 if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_RELOCATABLE_TRUE}" && test -z "${COIN_RELOCATABLE_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_RELOCATABLE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then

@@ -76,6 +76,9 @@ MY_DEFS="$MY_DEFS -DALLOW_NON_INIT -DMUMPS_ARITH=MUMPS_ARITH_d"
 AC_SUBST(MY_DEFS)
 
 AC_COIN_CHK_LAPACK(MUMPS)
+if test $coin_has_lapack != yes; then
+  AC_MSG_ERROR([Required package LAPACK not found.])
+fi
 
 AC_COIN_CHK_PKG(Metis,[MUMPS],[coinmetis],[build])
 if test "$coin_has_metis" = yes; then

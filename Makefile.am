@@ -73,7 +73,7 @@ MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: M
 # Module files that need to be deleted
 CLEANFILES = *.mod
 
-CFLAGS += $(MY_DEFS)
+CFLAGS += $(MY_DEFS) $(MUMPS_CFLAGS)
 FCFLAGS += $(MY_FDEFS)
 
 # automake thinks that the .F files are F77, not FC, and requires F77 to be set
