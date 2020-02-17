@@ -451,13 +451,6 @@ thirdpartyinclude_HEADERS = \
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
-
-########################################################################
-#                         Maintainer Stuff                             #
-########################################################################
-
-# Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES = 
 all: config.h mumps_compat.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -851,7 +844,6 @@ distclean-generic:
 	-rm -f MUMPS/libseq/$(am__dirstamp)
 	-rm -f MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 	-rm -f MUMPS/src/$(am__dirstamp)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -996,6 +988,9 @@ MUMPS/src/dmumps_ooc_buffer.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/mumps_ooc_comm
 MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/mumps_static_mapping.lo
 
 MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: MUMPS/src/tools_common_mod.lo MUMPS/src/mumps_sol_es.lo
+
+test:
+	@echo "No test available for Mumps."
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
