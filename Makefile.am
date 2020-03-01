@@ -91,9 +91,5 @@ thirdpartyinclude_HEADERS = \
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
 
-########################################################################
-#                         Maintainer Stuff                             #
-########################################################################
-
-# Files that are generated and should be cleaned with make distclean
-DISTCLEANFILES =
+test:
+	@echo "No test available for Mumps."
