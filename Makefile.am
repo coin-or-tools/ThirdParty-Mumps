@@ -363,7 +363,7 @@ OBJS_COMMON_MOD = \
   MUMPS/src/mumps_mpitoomp_m.lo \
   MUMPS/src/mumps_ooc_common.lo \
   MUMPS/src/mumps_static_mapping.lo \
-  MUMPS/src/omp_tps_common_m.o
+  MUMPS/src/omp_tps_common_m.lo
 OBJS_COMMON_OTHER = \
   MUMPS/src/ana_orderings.lo \
   MUMPS/src/ana_set_ordering.lo \
