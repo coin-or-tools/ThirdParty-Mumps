@@ -2,8 +2,6 @@
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
 
-AUTOMAKE_OPTIONS = foreign subdir-objects
-
 EXTRA_DIST = get.Mumps INSTALL.MUMPS
 
 lib_LTLIBRARIES = libcoinmumps.la
@@ -73,10 +71,10 @@ MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: M
 # Module files that need to be deleted
 CLEANFILES = *.mod
 
-CFLAGS += $(MY_DEFS) $(MUMPS_CFLAGS)
+AM_CFLAGS = $(MY_DEFS) $(MUMPS_CFLAGS)
 FCFLAGS += $(MY_FDEFS)
 
-# automake thinks that the .F files are F77, not FC, and requires F77 to be set
+# automake thinks that the .F files are F77, not F95, and requires F77 to be set
 # set it to FC, and same for FFLAGS
 F77 = $(FC)
 FFLAGS = $(FCFLAGS)

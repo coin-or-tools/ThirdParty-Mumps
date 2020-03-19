@@ -276,7 +276,7 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
-CFLAGS = @CFLAGS@ $(MY_DEFS) $(MUMPS_CFLAGS)
+CFLAGS = @CFLAGS@
 COIN_PKG_CONFIG_PATH = @COIN_PKG_CONFIG_PATH@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
@@ -397,7 +397,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AUTOMAKE_OPTIONS = foreign subdir-objects
 EXTRA_DIST = get.Mumps INSTALL.MUMPS
 lib_LTLIBRARIES = libcoinmumps.la
 nodist_libcoinmumps_la_SOURCES = \
@@ -437,6 +436,7 @@ libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 
 # Module files that need to be deleted
 CLEANFILES = *.mod
+AM_CFLAGS = $(MY_DEFS) $(MUMPS_CFLAGS)
 
 # automake thinks that the .F files are F77, not FC, and requires F77 to be set
 # set it to FC, and same for FFLAGS

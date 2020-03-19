@@ -1,6 +1,7 @@
 * text=auto !eol
 /INSTALL.MUMPS -text
 /LICENSE -text
+/ar-lib -text
 /coinmumps.pc.in -text
 /compile -text
 /config.guess -text
