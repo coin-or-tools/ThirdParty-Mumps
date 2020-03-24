@@ -3046,25 +3046,23 @@ rmdir .tst 2>/dev/null
   # ac-define AC_PACKAGE_VERSION macros, use 9999 for missing values
 
 cat >>confdefs.h <<_ACEOF
-#define MUMPS_VERSION "trunk"
+#define THIRDPARTYMUMPS_VERSION "trunk"
 _ACEOF
 
 
 cat >>confdefs.h <<_ACEOF
-#define MUMPS_VERSION_MAJOR 9999
+#define THIRDPARTYMUMPS_VERSION_MAJOR 9999
 _ACEOF
 
 
 cat >>confdefs.h <<_ACEOF
-#define MUMPS_VERSION_MINOR 9999
+#define THIRDPARTYMUMPS_VERSION_MINOR 9999
 _ACEOF
 
 
 cat >>confdefs.h <<_ACEOF
-#define MUMPS_VERSION_RELEASE 9999
+#define THIRDPARTYMUMPS_VERSION_RELEASE 9999
 _ACEOF
-
-
 
 
 
@@ -18028,7 +18026,8 @@ $as_echo "$ac_success" >&6; }
   if test $ac_success = yes ; then
     coin_has_lapack=yes
          lapack_pcfiles="lapack blas"
-    else as_fn_error $? "Could not find dsyev in Lapack from lapack.pc blas.pc." "$LINENO" 5
+    else { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: lapack.pc and blas.pc present, but could not find dsyev when trying to link with it." >&5
+$as_echo "$as_me: WARNING: lapack.pc and blas.pc present, but could not find dsyev when trying to link with it." >&2;}
   fi
 
     else
@@ -18140,51 +18139,51 @@ fi
 # and COIN_LAPACK_FUNC[_] and augment the necessary variables for the client packages.
   if test $coin_has_lapack = yes ; then
 
-$as_echo "#define COIN_HAS_LAPACK 1" >>confdefs.h
+$as_echo "#define THIRDPARTYMUMPS_HAS_LAPACK 1" >>confdefs.h
 
 
 
 
   case "${dsyev_namemangling}" in
    "lower case, no underscore, no extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) name" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) name" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) name" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) name" >>confdefs.h
  ;;
    "lower case, no underscore, extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) name" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) name" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) name ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) name ## _" >>confdefs.h
  ;;
    "lower case, underscore, no extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) name ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) name ## _" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) name ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) name ## _" >>confdefs.h
  ;;
    "lower case, underscore, extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) name ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) name ## _" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) name ## __" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) name ## __" >>confdefs.h
  ;;
    "upper case, no underscore, no extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) NAME" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) NAME" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) NAME" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) NAME" >>confdefs.h
  ;;
    "upper case, no underscore, extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) NAME" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) NAME" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) NAME ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) NAME ## _" >>confdefs.h
  ;;
    "upper case, underscore, no extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) NAME ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) NAME ## _" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) NAME ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) NAME ## _" >>confdefs.h
  ;;
    "upper case, underscore, extra underscore")
-      $as_echo "#define COIN_LAPACK_FUNC(name,NAME) NAME ## _" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC(name,NAME) NAME ## _" >>confdefs.h
 
-      $as_echo "#define COIN_LAPACK_FUNC_(name,NAME) NAME ## __" >>confdefs.h
+      $as_echo "#define THIRDPARTYMUMPS_LAPACK_FUNC_(name,NAME) NAME ## __" >>confdefs.h
  ;;
    *)
       { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Unsupported or unknown name-mangling scheme: ${dsyev_namemangling}" >&5
@@ -18444,7 +18443,7 @@ fi
 
   if test $coin_has_metis = yes ; then
 
-$as_echo "#define COIN_HAS_METIS 1" >>confdefs.h
+$as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
 
     if test -n "$metis_pcfiles" ; then MUMPS_PCFILES="$metis_pcfiles $MUMPS_PCFILES" ; fi
        MUMPS_LFLAGS="$metis_lflags $MUMPS_LFLAGS"
@@ -18508,6 +18507,9 @@ cat >>confdefs.h <<_ACEOF
 #define MUMPS_EXPORT $libexport_attribute
 _ACEOF
 
+
+      # add -DXYZ_BUILD to XYZ_CFLAGS
+      MUMPS_CFLAGS="${MUMPS_CFLAGS} -DMUMPS_BUILD"
 
 # Define BUILDTOOLS_DEBUG to enable debugging output
 

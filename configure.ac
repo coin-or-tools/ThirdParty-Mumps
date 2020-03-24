@@ -22,7 +22,7 @@ under the Eclipse Public License.])
 # whether the package is actually there
 AC_CONFIG_SRCDIR(MUMPS/src/dmumps_part1.F)
 
-AC_COIN_INITIALIZE(Mumps)
+AC_COIN_INITIALIZE
 
 #############################################################################
 #                         Standard build tool stuff                         #
