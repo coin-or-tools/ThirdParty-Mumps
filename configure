@@ -18715,7 +18715,7 @@ $as_echo "$as_me: additional Fortran preprocessor flags: $MY_FDEFS" >&6;}
 
 ac_config_files="$ac_config_files Makefile coinmumps.pc"
 
-ac_config_headers="$ac_config_headers config.h mumps_compat.h"
+ac_config_headers="$ac_config_headers config.h mumps_compat.h mumps_int_def.h"
 
 
 
@@ -19860,6 +19860,7 @@ do
     "coinmumps.pc") CONFIG_FILES="$CONFIG_FILES coinmumps.pc" ;;
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "mumps_compat.h") CONFIG_HEADERS="$CONFIG_HEADERS mumps_compat.h" ;;
+    "mumps_int_def.h") CONFIG_HEADERS="$CONFIG_HEADERS mumps_int_def.h" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

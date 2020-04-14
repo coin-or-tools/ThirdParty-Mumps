@@ -8,6 +8,8 @@ lib_LTLIBRARIES = libcoinmumps.la
 
 nodist_libcoinmumps_la_SOURCES = \
   MUMPS/src/ana_AMDMF.F \
+  MUMPS/src/ana_blk.F \
+  MUMPS/src/ana_blk_m.F \
   MUMPS/src/ana_omp_m.F \
   MUMPS/src/ana_orderings.F \
   MUMPS/src/ana_orderings_wrappers_m.F \
@@ -69,6 +71,8 @@ nodist_libcoinmumps_la_SOURCES = \
   MUMPS/src/dfac_scalings.F \
   MUMPS/src/dfac_scalings_simScaleAbs.F \
   MUMPS/src/dfac_scalings_simScale_util.F \
+  MUMPS/src/dfac_sispointers_m.F \
+  MUMPS/src/dfac_sol_l0omp_m.F \
   MUMPS/src/dfac_sol_pool.F \
   MUMPS/src/dfac_type3_symmetrize.F \
   MUMPS/src/dini_defaults.F \
@@ -104,6 +108,7 @@ nodist_libcoinmumps_la_SOURCES = \
   MUMPS/src/dsol_fwd.F \
   MUMPS/src/dsol_lr.F \
   MUMPS/src/dsol_matvec.F \
+  MUMPS/src/dsol_omp_m.F \
   MUMPS/src/dsol_root_parallel.F \
   MUMPS/src/dstatic_ptr_m.F \
   MUMPS/src/dtools.F \
@@ -164,6 +169,7 @@ libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
 MUMPS/src/dana_aux.lo: \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/mumps_static_mapping.lo \
+  MUMPS/src/ana_blk_m.lo \
   MUMPS/src/ana_orderings_wrappers_m.lo
 MUMPS/src/dana_aux_par.lo: \
   MUMPS/src/dmumps_struc_def.lo \
@@ -199,6 +205,8 @@ MUMPS/src/dfac_asm_master_m.lo: \
   MUMPS/src/domp_tps_m.lo \
   MUMPS/src/dmumps_comm_buffer.lo \
   MUMPS/src/dmumps_load.lo
+MUMPS/src/dfac_b.lo: \
+  MUMPS/src/dfac_sispointers_m.lo
 MUMPS/src/dfac_front_aux.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dlr_stats.lo \
@@ -322,6 +330,7 @@ MUMPS/src/dmumps_sol_es.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dmumps_lr_data_m.lo
 MUMPS/src/dmumps_save_restore.lo: \
+  MUMPS/src/dfac_sol_l0omp_m.lo \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/dmumps_save_restore_files.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
@@ -508,7 +517,8 @@ thirdpartyinclude_HEADERS = \
   MUMPS/include/dmumps_c.h \
   MUMPS/include/mumps_c_types.h \
   MUMPS/libseq/mumps_mpi.h \
-  mumps_compat.h
+  mumps_compat.h \
+  mumps_int_def.h
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc

@@ -9,7 +9,7 @@ Home page: http://mumps.enseeiht.fr
 and make sure you read the conditions on distributing MUMPS
 in Chapter 12 of the MUMPS Users' Guide:
 
-http://mumps.enseeiht.fr/doc/userguide_5.2.1.pdf
+http://mumps.enseeiht.fr/index.php?page=doc
 
 **********************************************************************
 Note: It is YOUR RESPONSIBILITY to ensure that you are entitled to

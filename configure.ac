@@ -130,6 +130,6 @@ AC_MSG_NOTICE([additional C preprocessor flags: $MY_DEFS])
 AC_MSG_NOTICE([additional Fortran preprocessor flags: $MY_FDEFS])
 
 AC_CONFIG_FILES([Makefile coinmumps.pc])
-AC_CONFIG_HEADER(config.h mumps_compat.h)
+AC_CONFIG_HEADER(config.h mumps_compat.h mumps_int_def.h)
 
 AC_COIN_FINALIZE

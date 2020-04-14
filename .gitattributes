@@ -13,4 +13,5 @@
 /ltmain.sh -text
 /missing -text
 /mumps_compat.h.in -text
+/mumps_int_def.h.in -text
 /mumps_mpi.patch -text

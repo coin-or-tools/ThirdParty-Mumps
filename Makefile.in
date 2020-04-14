@@ -104,7 +104,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = config.h mumps_compat.h
+CONFIG_HEADER = config.h mumps_compat.h mumps_int_def.h
 CONFIG_CLEAN_FILES = coinmumps.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -141,6 +141,7 @@ am__DEPENDENCIES_1 =
 libcoinmumps_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
 nodist_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
+	MUMPS/src/ana_blk.lo MUMPS/src/ana_blk_m.lo \
 	MUMPS/src/ana_omp_m.lo MUMPS/src/ana_orderings.lo \
 	MUMPS/src/ana_orderings_wrappers_m.lo \
 	MUMPS/src/ana_set_ordering.lo MUMPS/src/bcast_errors.lo \
@@ -185,6 +186,7 @@ nodist_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
 	MUMPS/src/dfac_root_parallel.lo MUMPS/src/dfac_scalings.lo \
 	MUMPS/src/dfac_scalings_simScaleAbs.lo \
 	MUMPS/src/dfac_scalings_simScale_util.lo \
+	MUMPS/src/dfac_sispointers_m.lo MUMPS/src/dfac_sol_l0omp_m.lo \
 	MUMPS/src/dfac_sol_pool.lo MUMPS/src/dfac_type3_symmetrize.lo \
 	MUMPS/src/dini_defaults.lo MUMPS/src/dini_driver.lo \
 	MUMPS/src/dlr_core.lo MUMPS/src/dlr_stats.lo \
@@ -203,9 +205,9 @@ nodist_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
 	MUMPS/src/dsol_distrhs.lo MUMPS/src/dsol_driver.lo \
 	MUMPS/src/dsol_fwd_aux.lo MUMPS/src/dsol_fwd.lo \
 	MUMPS/src/dsol_lr.lo MUMPS/src/dsol_matvec.lo \
-	MUMPS/src/dsol_root_parallel.lo MUMPS/src/dstatic_ptr_m.lo \
-	MUMPS/src/dtools.lo MUMPS/src/dtype3_root.lo \
-	MUMPS/src/estim_flops.lo \
+	MUMPS/src/dsol_omp_m.lo MUMPS/src/dsol_root_parallel.lo \
+	MUMPS/src/dstatic_ptr_m.lo MUMPS/src/dtools.lo \
+	MUMPS/src/dtype3_root.lo MUMPS/src/estim_flops.lo \
 	MUMPS/src/fac_asm_build_sort_index_ELT_m.lo \
 	MUMPS/src/fac_asm_build_sort_index_m.lo \
 	MUMPS/src/fac_descband_data_m.lo \
@@ -328,7 +330,7 @@ am__can_run_installinfo = \
 DATA = $(pkgconfiglib_DATA)
 HEADERS = $(thirdpartyinclude_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
-	$(LISP)config.h.in mumps_compat.h.in
+	$(LISP)config.h.in mumps_compat.h.in mumps_int_def.h.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -488,6 +490,8 @@ EXTRA_DIST = get.Mumps INSTALL.MUMPS
 lib_LTLIBRARIES = libcoinmumps.la
 nodist_libcoinmumps_la_SOURCES = \
   MUMPS/src/ana_AMDMF.F \
+  MUMPS/src/ana_blk.F \
+  MUMPS/src/ana_blk_m.F \
   MUMPS/src/ana_omp_m.F \
   MUMPS/src/ana_orderings.F \
   MUMPS/src/ana_orderings_wrappers_m.F \
@@ -549,6 +553,8 @@ nodist_libcoinmumps_la_SOURCES = \
   MUMPS/src/dfac_scalings.F \
   MUMPS/src/dfac_scalings_simScaleAbs.F \
   MUMPS/src/dfac_scalings_simScale_util.F \
+  MUMPS/src/dfac_sispointers_m.F \
+  MUMPS/src/dfac_sol_l0omp_m.F \
   MUMPS/src/dfac_sol_pool.F \
   MUMPS/src/dfac_type3_symmetrize.F \
   MUMPS/src/dini_defaults.F \
@@ -584,6 +590,7 @@ nodist_libcoinmumps_la_SOURCES = \
   MUMPS/src/dsol_fwd.F \
   MUMPS/src/dsol_lr.F \
   MUMPS/src/dsol_matvec.F \
+  MUMPS/src/dsol_omp_m.F \
   MUMPS/src/dsol_root_parallel.F \
   MUMPS/src/dstatic_ptr_m.F \
   MUMPS/src/dtools.F \
@@ -801,11 +808,12 @@ thirdpartyinclude_HEADERS = \
   MUMPS/include/dmumps_c.h \
   MUMPS/include/mumps_c_types.h \
   MUMPS/libseq/mumps_mpi.h \
-  mumps_compat.h
+  mumps_compat.h \
+  mumps_int_def.h
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coinmumps.pc
-all: config.h mumps_compat.h
+all: config.h mumps_compat.h mumps_int_def.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
@@ -864,8 +872,16 @@ stamp-h2: $(srcdir)/mumps_compat.h.in $(top_builddir)/config.status
 	@rm -f stamp-h2
 	cd $(top_builddir) && $(SHELL) ./config.status mumps_compat.h
 
+mumps_int_def.h: stamp-h3
+	@test -f $@ || rm -f stamp-h3
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h3
+
+stamp-h3: $(srcdir)/mumps_int_def.h.in $(top_builddir)/config.status
+	@rm -f stamp-h3
+	cd $(top_builddir) && $(SHELL) ./config.status mumps_int_def.h
+
 distclean-hdr:
-	-rm -f config.h stamp-h1 mumps_compat.h stamp-h2
+	-rm -f config.h stamp-h1 mumps_compat.h stamp-h2 mumps_int_def.h stamp-h3
 coinmumps.pc: $(top_builddir)/config.status $(srcdir)/coinmumps.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
@@ -910,6 +926,10 @@ MUMPS/src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) MUMPS/src/$(DEPDIR)
 	@: > MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/ana_AMDMF.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/ana_blk.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/ana_blk_m.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/ana_omp_m.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
@@ -1033,6 +1053,10 @@ MUMPS/src/dfac_scalings_simScaleAbs.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/dfac_scalings_simScale_util.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/dfac_sispointers_m.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/dfac_sol_l0omp_m.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/dfac_sol_pool.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/dfac_type3_symmetrize.lo: MUMPS/src/$(am__dirstamp) \
@@ -1102,6 +1126,8 @@ MUMPS/src/dsol_fwd.lo: MUMPS/src/$(am__dirstamp) \
 MUMPS/src/dsol_lr.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/dsol_matvec.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/dsol_omp_m.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/dsol_root_parallel.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
@@ -1406,7 +1432,7 @@ distclean-tags:
 check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS) config.h \
-		mumps_compat.h
+		mumps_compat.h mumps_int_def.h
 installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfiglibdir)" "$(DESTDIR)$(thirdpartyincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -1591,6 +1617,7 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfiglibDATA \
 MUMPS/src/dana_aux.lo: \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/mumps_static_mapping.lo \
+  MUMPS/src/ana_blk_m.lo \
   MUMPS/src/ana_orderings_wrappers_m.lo
 MUMPS/src/dana_aux_par.lo: \
   MUMPS/src/dmumps_struc_def.lo \
@@ -1626,6 +1653,8 @@ MUMPS/src/dfac_asm_master_m.lo: \
   MUMPS/src/domp_tps_m.lo \
   MUMPS/src/dmumps_comm_buffer.lo \
   MUMPS/src/dmumps_load.lo
+MUMPS/src/dfac_b.lo: \
+  MUMPS/src/dfac_sispointers_m.lo
 MUMPS/src/dfac_front_aux.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dlr_stats.lo \
@@ -1749,6 +1778,7 @@ MUMPS/src/dmumps_sol_es.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dmumps_lr_data_m.lo
 MUMPS/src/dmumps_save_restore.lo: \
+  MUMPS/src/dfac_sol_l0omp_m.lo \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/dmumps_save_restore_files.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
