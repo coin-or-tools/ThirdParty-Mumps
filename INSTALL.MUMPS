@@ -22,18 +22,18 @@ required source code for MUMPS by executing the included script
 
 If using that script doesn't work for you, follow those instructions:
 
-Download Mumps 5.2.1:
+Download Mumps 5.3.1:
 
-http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
+http://mumps.enseeiht.fr/MUMPS_5.3.1.tar.gz
 
 and unpack it in this directory:
 
-gunzip MUMPS_5.2.1.tar.gz
-tar xf MUMPS_5.2.1.tar
+gunzip MUMPS_5.3.1.tar.gz
+tar xf MUMPS_5.3.1.tar
 
-Then, rename the MUMPS_5.2.1 directory just to be MUMPS:
+Then, rename the MUMPS_5.3.1 directory just to be MUMPS:
 
-mv MUMPS_5.2.1 MUMPS
+mv MUMPS_5.3.1 MUMPS
 
 Finally, apply some changes to improve MPI compatibility of MUMPS:
 
