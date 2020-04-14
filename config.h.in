@@ -1,18 +1,5 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define to 1 if the LAPACK package is available */
-#undef COIN_HAS_LAPACK
-
-/* Define to 1 if Metis is available. */
-#undef COIN_HAS_METIS
-
-/* Define to a macro mangling the given C identifier (in lower and upper
-   case). */
-#undef COIN_LAPACK_FUNC
-
-/* As COIN_LAPACK_FUNC, but for C identifiers containing underscores. */
-#undef COIN_LAPACK_FUNC_
-
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
 #undef FC_DUMMY_MAIN
@@ -69,18 +56,6 @@
 /* Library Visibility Attribute */
 #undef MUMPS_EXPORT
 
-/* Version number of project */
-#undef MUMPS_VERSION
-
-/* Major version number of project. */
-#undef MUMPS_VERSION_MAJOR
-
-/* Minor version number of project. */
-#undef MUMPS_VERSION_MINOR
-
-/* Release version number of project. */
-#undef MUMPS_VERSION_RELEASE
-
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
@@ -101,3 +76,29 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define to 1 if the LAPACK package is available */
+#undef THIRDPARTYMUMPS_HAS_LAPACK
+
+/* Define to 1 if Metis is available. */
+#undef THIRDPARTYMUMPS_HAS_METIS
+
+/* Define to a macro mangling the given C identifier (in lower and upper
+   case). */
+#undef THIRDPARTYMUMPS_LAPACK_FUNC
+
+/* As THIRDPARTYMUMPS_LAPACK_FUNC, but for C identifiers containing
+   underscores. */
+#undef THIRDPARTYMUMPS_LAPACK_FUNC_
+
+/* Version number of project */
+#undef THIRDPARTYMUMPS_VERSION
+
+/* Major version number of project. */
+#undef THIRDPARTYMUMPS_VERSION_MAJOR
+
+/* Minor version number of project. */
+#undef THIRDPARTYMUMPS_VERSION_MINOR
+
+/* Release version number of project. */
+#undef THIRDPARTYMUMPS_VERSION_RELEASE
