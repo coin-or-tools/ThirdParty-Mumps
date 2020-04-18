@@ -94,11 +94,23 @@ fi
 # if the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it
 AC_COIN_TRY_LINK([dgemmt],[$lapack_lflags],[$lapack_pcfiles],[MY_FDEFS="$MY_FDEFS -DGEMMT_AVAILABLE"])
 
-AC_COIN_CHK_PKG(Metis,[MUMPS],[coinmetis],[build])
+AC_COIN_CHK_LIBM(METISCHECK)
+AC_LANG_PUSH(C)
+
+# check for metis5: METIS_SetDefaultOptions does not exist in Metis 4
+AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[METIS_SetDefaultOptions])
 if test "$coin_has_metis" = yes; then
-  MY_DEFS="$MY_DEFS -Dmetis4"
-  MY_FDEFS="$MY_FDEFS -Dmetis4"
+  MY_DEFS="$MY_DEFS -Dmetis"
+  MY_FDEFS="$MY_FDEFS -Dmetis"
+else
+  # check for metis4: metis_nodewnd does not exist in Metis 5 anymore
+  AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodewnd])
+  if test "$coin_has_metis" = yes; then
+    MY_DEFS="$MY_DEFS -Dmetis4"
+    MY_FDEFS="$MY_FDEFS -Dmetis4"
+  fi
 fi
+AC_LANG_POP(C)
 
 # Fix Fortran preprocessor flags
 case $FC in

@@ -80,7 +80,7 @@
 /* Define to 1 if the LAPACK package is available */
 #undef THIRDPARTYMUMPS_HAS_LAPACK
 
-/* Define to 1 if Metis is available. */
+/* Define to 1 if the Metis package is available */
 #undef THIRDPARTYMUMPS_HAS_METIS
 
 /* Define to a macro mangling the given C identifier (in lower and upper

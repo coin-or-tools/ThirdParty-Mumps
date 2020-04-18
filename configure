@@ -648,6 +648,7 @@ MUMPS_LFLAGS_NOPC
 MY_FDEFS
 COIN_HAS_METIS_FALSE
 COIN_HAS_METIS_TRUE
+METISCHECK_LFLAGS
 COIN_HAS_LAPACK_FALSE
 COIN_HAS_LAPACK_TRUE
 COIN_PKG_CONFIG_PATH
@@ -1489,8 +1490,7 @@ Optional Packages:
                           environment. (Most often, -l specs for libraries.)
   --with-metis            Use Metis. If an argument is given, 'yes' is
                           equivalent to --with-metis, 'no' is
-                          equivalent to --without-metis, 'build' will look for
-                          a COIN ThirdParty package. Any other argument is
+                          equivalent to --without-metis. Any other argument is
                           applied as for --with-metis-lflags
   --with-metis-lflags     Linker flags for Metis appropriate for your
                           environment. (Most often, -l specs for libraries.)
@@ -18370,8 +18370,90 @@ $as_echo "$ac_success" >&6; }
 
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis" >&5
-$as_echo_n "checking for package Metis... " >&6; }
+
+
+  coin_save_LIBS="$LIBS"
+  LIBS=
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing cos" >&5
+$as_echo_n "checking for library containing cos... " >&6; }
+if ${ac_cv_search_cos+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char cos ();
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
+#endif
+#endif
+int
+main ()
+{
+return cos ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' m; do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_search_cos=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext
+  if ${ac_cv_search_cos+:} false; then :
+  break
+fi
+done
+if ${ac_cv_search_cos+:} false; then :
+
+else
+  ac_cv_search_cos=no
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_cos" >&5
+$as_echo "$ac_cv_search_cos" >&6; }
+ac_res=$ac_cv_search_cos
+if test "$ac_res" != no; then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+  if test "$ac_cv_search_cos" != 'none required' ; then
+       METISCHECK_LFLAGS="$ac_cv_search_cos $METISCHECK_LFLAGS"
+
+     fi
+fi
+
+  LIBS="$coin_save_LIBS"
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+# check for metis5: METIS_SetDefaultOptions does not exist in Metis 4
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis with function METIS_SetDefaultOptions" >&5
+$as_echo_n "checking for package Metis with function METIS_SetDefaultOptions... " >&6; }
 
 # Make sure the necessary variables exist for each client package.
 
@@ -18379,8 +18461,8 @@ $as_echo_n "checking for package Metis... " >&6; }
 
 
 
-
-# Check to see if the user has set an override to skip this primary.
+# Check to see if the user has overridden configure parameters from the
+# environment.
 
   coin_has_metis=noInfo
   if test x"$COIN_SKIP_PROJECTS" != x ; then
@@ -18391,7 +18473,7 @@ $as_echo_n "checking for package Metis... " >&6; }
     done
   fi
 
-# If we're not skipping this primary, define and process the command line
+# If we're not skipping this project, define and process the command line
 # options according to the cmdopts parameter. Then invoke FIND_PRIM_PKG to do
 # the heavy lifting.
 
@@ -18423,17 +18505,14 @@ fi
 
 
 
+  dflt_action=yes
 
-
-  dflt_action=build
-
-# Initialize variables for the primary package.
+# Initialize variables for the primary library.
 
   coin_has_metis=noInfo
   metis_lflags=
   metis_cflags=
   metis_data=
-  metis_pcfiles=
 
 # --with-prim is always present. If the client specified dataonly, its value
 # is assigned to prim_data.
@@ -18457,9 +18536,9 @@ fi
     esac
   fi
 
-# --with-prim-libs and --with-prim-cflags are present unless the client
+# --with-prim-lflags and --with-prim-cflags are present unless the client
 # specified dataonly. Specifying --with-prim=no overrides the individual
-# options for libs and cflags.
+# options for lflags and cflags.
 
   if test "$coin_has_metis" != skipping ; then
        withval="$with_metis_lflags"
@@ -18518,66 +18597,86 @@ fi
     esac
   fi
 
-# Now coin_has_prim can be one of skipping, yes, requested, or build. For
-# requested or build, try pkgconf, if it's available. If it's not available,
-# well, hope that the user knows their system and prim can be used with no
-# additional flags.
+# Now coin_has_prim can be one of skipping, yes, build, or requested. For
+# build or requested, use the parameter values or invent some.
 
   case $coin_has_metis in
-    requested | build )
-      if test -n "$PKG_CONFIG" -a "coinmetis" != skip ; then
-        pcfile="coinmetis"
+    build | requested)
+      metis_lflags="-lmetis "$METISCHECK_LFLAGS""
+         if test "$coin_has_metis" = build ; then
+              metis_cflags="-I\$(pkgincludedir)/ThirdParty"
+            fi
 
-
-
-  if test -n "$PKG_CONFIG" ; then
-    if PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --exists "$pcfile" ; then
-      METIS_VERSIONS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --modversion "$pcfile" 2>/dev/null | tr '\n' ' '`
       coin_has_metis=yes
-           metis_data=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --variable=datadir "$pcfile" 2>/dev/null`
-           metis_pcfiles="$pcfile"
-    else
-      METIS_PKG_ERRORS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG $pkg_short_errors --errors-to-stdout --print-errors "$pcfile"`
-      coin_has_metis=no
-    fi
-  else
-    as_fn_error $? "\"Cannot check for existence of module metis without pkgconf\"" "$LINENO" 5
-  fi
-
-      else
-        coin_has_metis=no
-        # AC_MSG_WARN([skipped check via pkgconf as no pkgconf available])
-      fi
       ;;
     skipping | yes )
       ;;
     * )
-      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_PKG" >&5
-$as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_PKG" >&2;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_LIB" >&5
+$as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_LIB" >&2;}
       ;;
   esac
 
-# The final value of coin_has_prim will be yes, no, or skipping. No means
-# we looked (with pkgconfig) and didn't find anything. Skipping means the
-# user said `don't use.' Yes means we have something, from the user or
-# from pkgconfig. Note that we haven't run a useability test!
+# At this point, coin_has_prim is yes or skipping.  Time to run a link check,
+# if we have a function (METIS_SetDefaultOptions). Use whatever we've collected for lflags, plus
+# other libraries () as the other libraries parameter to AC_SEARCH_LIBS,
+# leaving the library parameter blank.
+
+  if test $coin_has_metis != skipping ; then
+    ac_save_LIBS=$LIBS
+       LIBS="$metis_lflags "
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#ifdef __cplusplus
+             extern "C"
+           #endif
+           void METIS_SetDefaultOptions();
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
+#endif
+#endif
+int
+main ()
+{
+METIS_SetDefaultOptions()
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+else
+  coin_has_metis=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+       LIBS=$ac_save_LIBS
+  fi
+
+# The final value of coin_has_prim will be yes, no, or skipping. No means that
+# the link check failed. Yes means that we passed the link check, or no link
+# check was performed. Skipping means the user said `don't use.'
 
 # Define BUILDTOOLS_DEBUG to enable debugging output
 
-  if test "$BUILDTOOLS_DEBUG" = 1 ; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for metis: \"$coin_has_metis\"" >&5
-$as_echo "$as_me: FIND_PRIM_PKG result for metis: \"$coin_has_metis\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
+    if test "$BUILDTOOLS_DEBUG" = 1 ; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&5
+$as_echo "$as_me: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
 $as_echo "$as_me: Collected values for package 'metis'" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
 $as_echo "$as_me: metis_lflags is \"$metis_lflags\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
 $as_echo "$as_me: metis_cflags is \"$metis_cflags\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
 $as_echo "$as_me: metis_data is \"$metis_data\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
 $as_echo "$as_me: metis_pcfiles is \"$metis_pcfiles\"" >&6;}
-  fi
+    fi
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis" >&5
@@ -18587,7 +18686,7 @@ $as_echo "$coin_has_metis" >&6; }
 $as_echo "$coin_has_metis due to COIN_SKIP_PROJECTS" >&6; }
   fi
 
-# Possibilities are `yes', 'no', or `skipping'. Normalise to `yes' or `no'.
+# Possibilities are `yes', `no', or `skipping'. Normalise to `yes' or `no'.
 
   if test "$coin_has_metis" != yes ; then
     coin_has_metis=no
@@ -18604,15 +18703,14 @@ else
 fi
 
 
-# If we've located the package, define preprocessor symbol COIN_HAS_PRIM and
-# augment the necessary variables for the client packages.
+# If we've located the package, define preprocessor symbol COIN_HAS_PRIM
+# and augment the necessary variables for the client packages.
 
   if test $coin_has_metis = yes ; then
 
 $as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
 
-    if test -n "$metis_pcfiles" ; then MUMPS_PCFILES="$metis_pcfiles $MUMPS_PCFILES" ; fi
-       MUMPS_LFLAGS="$metis_lflags $MUMPS_LFLAGS"
+    MUMPS_LFLAGS="$metis_lflags $MUMPS_LFLAGS"
        MUMPS_CFLAGS="$metis_cflags $MUMPS_CFLAGS"
 
 
@@ -18622,9 +18720,289 @@ $as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
   fi
 
 if test "$coin_has_metis" = yes; then
-  MY_DEFS="$MY_DEFS -Dmetis4"
-  MY_FDEFS="$MY_FDEFS -Dmetis4"
+  MY_DEFS="$MY_DEFS -Dmetis"
+  MY_FDEFS="$MY_FDEFS -Dmetis"
+else
+  # check for metis4: metis_nodewnd does not exist in Metis 5 anymore
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis with function metis_nodewnd" >&5
+$as_echo_n "checking for package Metis with function metis_nodewnd... " >&6; }
+
+# Make sure the necessary variables exist for each client package.
+
+
+
+
+
+# Check to see if the user has overridden configure parameters from the
+# environment.
+
+  coin_has_metis=noInfo
+  if test x"$COIN_SKIP_PROJECTS" != x ; then
+    for pkg in $COIN_SKIP_PROJECTS ; do
+      if test "$pkg" = "$metis" ; then
+        coin_has_metis=skipping
+      fi
+    done
+  fi
+
+# If we're not skipping this project, define and process the command line
+# options according to the cmdopts parameter. Then invoke FIND_PRIM_PKG to do
+# the heavy lifting.
+
+  if test "$coin_has_metis" != skipping ; then
+
+
+
+
+# Check whether --with-metis was given.
+if test "${with_metis+set}" = set; then :
+  withval=$with_metis;
 fi
+
+
+
+# Check whether --with-metis-lflags was given.
+if test "${with_metis_lflags+set}" = set; then :
+  withval=$with_metis_lflags;
+fi
+
+
+
+# Check whether --with-metis-cflags was given.
+if test "${with_metis_cflags+set}" = set; then :
+  withval=$with_metis_cflags;
+fi
+
+
+
+
+
+  dflt_action=yes
+
+# Initialize variables for the primary library.
+
+  coin_has_metis=noInfo
+  metis_lflags=
+  metis_cflags=
+  metis_data=
+
+# --with-prim is always present. If the client specified dataonly, its value
+# is assigned to prim_data.
+
+  withval="$with_metis"
+  if test -n "$withval" ; then
+    case "$withval" in
+      no )
+        coin_has_metis=skipping
+        ;;
+      yes )
+        coin_has_metis=requested
+        ;;
+      build )
+        coin_has_metis=build
+        ;;
+      * )
+        coin_has_metis=yes
+        metis_lflags="$withval"
+        ;;
+    esac
+  fi
+
+# --with-prim-lflags and --with-prim-cflags are present unless the client
+# specified dataonly. Specifying --with-prim=no overrides the individual
+# options for lflags and cflags.
+
+  if test "$coin_has_metis" != skipping ; then
+       withval="$with_metis_lflags"
+       if test -n "$withval" ; then
+         case "$withval" in
+           build | no | yes )
+             as_fn_error $? "\"$withval\" is not valid here; please specify linker flags appropriate for your environment." "$LINENO" 5
+             ;;
+           * )
+             coin_has_metis=yes
+             metis_lflags="$withval"
+             ;;
+         esac
+       fi
+
+       withval="$with_metis_cflags"
+       if test -n "$withval" ; then
+         case "$withval" in
+           build | no | yes )
+             as_fn_error $? "\"$withval\" is not valid here; please specify compiler flags appropriate for your environment." "$LINENO" 5
+             ;;
+           * )
+             coin_has_metis=yes
+             metis_cflags="$withval"
+             ;;
+         esac
+       fi
+     fi
+
+# --with-prim-data will be present unless the client specified nodata.
+# Specifying --with-prim=no overrides the individual option for data.
+
+
+
+# At this point, coin_has_prim can be one of noInfo (no user options
+# specified), skipping (user said no), requested or build (user said yes
+# or build and gave no further guidance), or yes (user specified one or
+# more --with-prim options). If we're already at yes or skipping, we're
+# done looking.
+
+# If there are no user options (noInfo) and the default is no, we're skipping.
+# Otherwise, the default must be yes or build; consider the package requested.
+# A default action we don't recognise defaults to yes.
+
+  if test "$coin_has_metis" = noInfo ; then
+    case $dflt_action in
+      no )
+        coin_has_metis=skipping
+        ;;
+      build )
+        coin_has_metis=build
+        ;;
+      * )
+        coin_has_metis=requested
+        ;;
+    esac
+  fi
+
+# Now coin_has_prim can be one of skipping, yes, build, or requested. For
+# build or requested, use the parameter values or invent some.
+
+  case $coin_has_metis in
+    build | requested)
+      metis_lflags="-lmetis "$METISCHECK_LFLAGS""
+         if test "$coin_has_metis" = build ; then
+              metis_cflags="-I\$(pkgincludedir)/ThirdParty"
+            fi
+
+      coin_has_metis=yes
+      ;;
+    skipping | yes )
+      ;;
+    * )
+      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_LIB" >&5
+$as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_LIB" >&2;}
+      ;;
+  esac
+
+# At this point, coin_has_prim is yes or skipping.  Time to run a link check,
+# if we have a function (metis_nodewnd). Use whatever we've collected for lflags, plus
+# other libraries () as the other libraries parameter to AC_SEARCH_LIBS,
+# leaving the library parameter blank.
+
+  if test $coin_has_metis != skipping ; then
+    ac_save_LIBS=$LIBS
+       LIBS="$metis_lflags "
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#ifdef __cplusplus
+             extern "C"
+           #endif
+           void metis_nodewnd();
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
+#endif
+#endif
+int
+main ()
+{
+metis_nodewnd()
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+else
+  coin_has_metis=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+       LIBS=$ac_save_LIBS
+  fi
+
+# The final value of coin_has_prim will be yes, no, or skipping. No means that
+# the link check failed. Yes means that we passed the link check, or no link
+# check was performed. Skipping means the user said `don't use.'
+
+# Define BUILDTOOLS_DEBUG to enable debugging output
+
+    if test "$BUILDTOOLS_DEBUG" = 1 ; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&5
+$as_echo "$as_me: FIND_PRIM_LIB result for metis: \"$coin_has_metis\"" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'metis'" >&5
+$as_echo "$as_me: Collected values for package 'metis'" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_lflags is \"$metis_lflags\"" >&5
+$as_echo "$as_me: metis_lflags is \"$metis_lflags\"" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_cflags is \"$metis_cflags\"" >&5
+$as_echo "$as_me: metis_cflags is \"$metis_cflags\"" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_data is \"$metis_data\"" >&5
+$as_echo "$as_me: metis_data is \"$metis_data\"" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}: metis_pcfiles is \"$metis_pcfiles\"" >&5
+$as_echo "$as_me: metis_pcfiles is \"$metis_pcfiles\"" >&6;}
+    fi
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis" >&5
+$as_echo "$coin_has_metis" >&6; }
+  else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis due to COIN_SKIP_PROJECTS" >&5
+$as_echo "$coin_has_metis due to COIN_SKIP_PROJECTS" >&6; }
+  fi
+
+# Possibilities are `yes', `no', or `skipping'. Normalise to `yes' or `no'.
+
+  if test "$coin_has_metis" != yes ; then
+    coin_has_metis=no
+  fi
+
+# Create an automake conditional COIN_HAS_PRIM.
+
+   if test $coin_has_metis = yes; then
+  COIN_HAS_METIS_TRUE=
+  COIN_HAS_METIS_FALSE='#'
+else
+  COIN_HAS_METIS_TRUE='#'
+  COIN_HAS_METIS_FALSE=
+fi
+
+
+# If we've located the package, define preprocessor symbol COIN_HAS_PRIM
+# and augment the necessary variables for the client packages.
+
+  if test $coin_has_metis = yes ; then
+
+$as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
+
+    MUMPS_LFLAGS="$metis_lflags $MUMPS_LFLAGS"
+       MUMPS_CFLAGS="$metis_cflags $MUMPS_CFLAGS"
+
+
+# Finally, set up PRIM_DATA, unless the user specified nodata.
+
+
+  fi
+
+  if test "$coin_has_metis" = yes; then
+    MY_DEFS="$MY_DEFS -Dmetis4"
+    MY_FDEFS="$MY_FDEFS -Dmetis4"
+  fi
+fi
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
 
 # Fix Fortran preprocessor flags
 case $FC in
@@ -18870,6 +19248,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_LAPACK_TRUE}" && test -z "${COIN_HAS_LAPACK_FALSE}"; then
   as_fn_error $? "conditional \"COIN_HAS_LAPACK\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COIN_HAS_METIS_TRUE}" && test -z "${COIN_HAS_METIS_FALSE}"; then
+  as_fn_error $? "conditional \"COIN_HAS_METIS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_METIS_TRUE}" && test -z "${COIN_HAS_METIS_FALSE}"; then
