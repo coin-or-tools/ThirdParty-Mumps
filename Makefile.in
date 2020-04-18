@@ -95,7 +95,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 @COIN_HAS_METIS_TRUE@am__append_1 = metis_adapter.c
-@COIN_HAS_METIS_TRUE@am__append_2 = $(FC_DEFINE)METIS_NODEND=CMETS_NODEND
+@COIN_HAS_METIS_TRUE@am__append_2 = $(FC_DEFINE)METIS_NODEND=CMETS_NODEND $(FC_DEFINE)METIS_NODEWND=CMETS_NODEWND
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac

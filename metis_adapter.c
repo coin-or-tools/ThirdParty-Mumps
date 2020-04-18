@@ -9,13 +9,18 @@
 #define METIS_VER_MAJOR 4
 #endif
 
-/* wrapper to map CMETS_NODEND to METIS_NODEND from Metis 4 or 5 */
+/* wrapper to map CMETS_NODE(W)ND to METIS_NODEND from Metis 4 or 5 */
 typedef int idxtype;
 
 extern void CMETS_NODEND(int *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
 extern void cmets_nodend(int *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
 extern void cmets_nodend_(int *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
 extern void cmets_nodend__(int *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
+
+extern void CMETS_NODEWND(int *, idxtype *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
+extern void cmets_nodewnd(int *, idxtype *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
+extern void cmets_nodewnd_(int *, idxtype *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
+extern void cmets_nodewnd__(int *, idxtype *, idxtype *, idxtype *, int *, int *, idxtype *, idxtype *);
 
 #if METIS_VER_MAJOR < 5
 
@@ -67,9 +72,61 @@ void cmets_nodend__(
    metis_nodend__(nvtxs, xadj, adjncy, numflag, options, perm, iperm);
 }
 
+void CMETS_NODEWND(
+   int*   nvtxs,
+   idxtype* xadj,
+   idxtype* adjncy,
+   idxtype* vwgt,
+   int*   numflag,
+   int*   options,
+   idxtype* perm,
+   idxtype* iperm)
+{
+   METIS_NODEWND(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
+void cmets_nodewnd(
+   int*   nvtxs,
+   idxtype* xadj,
+   idxtype* adjncy,
+   idxtype* vwgt,
+   int*   numflag,
+   int*   options,
+   idxtype* perm,
+   idxtype* iperm)
+{
+   metis_nodewnd(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
+void cmets_nodewnd_(
+   int*   nvtxs,
+   idxtype* xadj,
+   idxtype* adjncy,
+   idxtype* vwgt,
+   int*   numflag,
+   int*   options,
+   idxtype* perm,
+   idxtype* iperm)
+{
+   metis_nodewnd_(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
+void cmets_nodewnd__(
+   int*   nvtxs,
+   idxtype* xadj,
+   idxtype* adjncy,
+   idxtype* vwgt,
+   int*   numflag,
+   int*   options,
+   idxtype* perm,
+   idxtype* iperm)
+{
+   metis_nodewnd__(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
 #else /* METIS_VER_MAJOR >= 5 */
 
-#if 1
+#if 0
 #include <stdio.h>
 #endif
 
@@ -78,6 +135,7 @@ void CMETS_NodeND(
    int*   nvtxs,
    idx_t* xadj,
    idx_t* adjncy,
+   idx_t* vwgt,
    int*   numflag,
    int*   options,
    idx_t* perm,
@@ -85,10 +143,10 @@ void CMETS_NodeND(
 {
    idx_t options5[METIS_NOPTIONS];
 
-#if 1
+#if 0
    {
       int i;
-      printf("METIS_NodeND called with nvtxs = %d numflag=%d\n", *nvtxs, *numflag);
+      printf("METIS_Node(W)ND called with nvtxs = %d numflag=%d\n", *nvtxs, *numflag);
 
       printf("xadj:");
       for( i = 0; i < *nvtxs; ++i )
@@ -167,9 +225,9 @@ void CMETS_NodeND(
       options5[METIS_OPTION_NSEPS] = options[7];
    }
 
-   METIS_NodeND(nvtxs, xadj, adjncy, (void*)0, options5, perm, iperm);
+   METIS_NodeND(nvtxs, xadj, adjncy, vwgt, options5, perm, iperm);
 
-#if 1
+#if 0
    {
       int i;
       printf("perm:");
@@ -192,7 +250,7 @@ void CMETS_NODEND(
    idx_t* perm,
    idx_t* iperm)
 {
-   CMETS_NodeND(nvtxs, xadj, adjncy, numflag, options, perm, iperm);
+   CMETS_NodeND(nvtxs, xadj, adjncy, (void*)0, numflag, options, perm, iperm);
 }
 
 void cmets_nodend(
@@ -204,7 +262,7 @@ void cmets_nodend(
    idx_t* perm,
    idx_t* iperm)
 {
-   CMETS_NodeND(nvtxs, xadj, adjncy, numflag, options, perm, iperm);
+   CMETS_NodeND(nvtxs, xadj, adjncy, (void*)0, numflag, options, perm, iperm);
 }
 
 void cmets_nodend_(
@@ -216,7 +274,7 @@ void cmets_nodend_(
    idx_t* perm,
    idx_t* iperm)
 {
-   CMETS_NodeND(nvtxs, xadj, adjncy, numflag, options, perm, iperm);
+   CMETS_NodeND(nvtxs, xadj, adjncy, (void*)0, numflag, options, perm, iperm);
 }
 
 void cmets_nodend__(
@@ -228,7 +286,59 @@ void cmets_nodend__(
    idx_t* perm,
    idx_t* iperm)
 {
-   CMETS_NodeND(nvtxs, xadj, adjncy, numflag, options, perm, iperm);
+   CMETS_NodeND(nvtxs, xadj, adjncy, (void*)0, numflag, options, perm, iperm);
+}
+
+void CMETS_NODEWND(
+   int*   nvtxs,
+   idx_t* xadj,
+   idx_t* adjncy,
+   idx_t* vwgt,
+   int*   numflag,
+   int*   options,
+   idx_t* perm,
+   idx_t* iperm)
+{
+   CMETS_NodeND(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
+void cmets_nodewnd(
+   int*   nvtxs,
+   idx_t* xadj,
+   idx_t* adjncy,
+   idx_t* vwgt,
+   int*   numflag,
+   int*   options,
+   idx_t* perm,
+   idx_t* iperm)
+{
+   CMETS_NodeND(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
+void cmets_nodewnd_(
+   int*   nvtxs,
+   idx_t* xadj,
+   idx_t* adjncy,
+   idx_t* vwgt,
+   int*   numflag,
+   int*   options,
+   idx_t* perm,
+   idx_t* iperm)
+{
+   CMETS_NodeND(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
+}
+
+void cmets_nodewnd__(
+   int*   nvtxs,
+   idx_t* xadj,
+   idx_t* adjncy,
+   idx_t* vwgt,
+   int*   numflag,
+   int*   options,
+   idx_t* perm,
+   idx_t* iperm)
+{
+   CMETS_NodeND(nvtxs, xadj, adjncy, vwgt, numflag, options, perm, iperm);
 }
 
 #endif /* METIS_VER_MAJOR */ 
