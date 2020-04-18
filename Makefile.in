@@ -140,7 +140,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libcoinmumps_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
-nodist_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
+am_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
 	MUMPS/src/ana_blk.lo MUMPS/src/ana_blk_m.lo \
 	MUMPS/src/ana_omp_m.lo MUMPS/src/ana_orderings.lo \
 	MUMPS/src/ana_orderings_wrappers_m.lo \
@@ -232,7 +232,7 @@ nodist_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
 	MUMPS/src/sol_common.lo MUMPS/src/tools_common.lo \
 	MUMPS/libseq/mpi.lo MUMPS/libseq/mpic.lo \
 	MUMPS/libseq/elapse.lo
-libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
+libcoinmumps_la_OBJECTS = $(am_libcoinmumps_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -321,7 +321,7 @@ AM_V_F77 = $(am__v_F77_@AM_V@)
 am__v_F77_ = $(am__v_F77_@AM_DEFAULT_V@)
 am__v_F77_0 = @echo "  F77     " $@;
 am__v_F77_1 = 
-SOURCES = $(nodist_libcoinmumps_la_SOURCES)
+SOURCES = $(libcoinmumps_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -489,7 +489,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = get.Mumps INSTALL.MUMPS
 lib_LTLIBRARIES = libcoinmumps.la
-nodist_libcoinmumps_la_SOURCES = \
+libcoinmumps_la_SOURCES = \
   MUMPS/src/ana_AMDMF.F \
   MUMPS/src/ana_blk.F \
   MUMPS/src/ana_blk_m.F \

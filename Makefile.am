@@ -6,7 +6,7 @@ EXTRA_DIST = get.Mumps INSTALL.MUMPS
 
 lib_LTLIBRARIES = libcoinmumps.la
 
-nodist_libcoinmumps_la_SOURCES = \
+libcoinmumps_la_SOURCES = \
   MUMPS/src/ana_AMDMF.F \
   MUMPS/src/ana_blk.F \
   MUMPS/src/ana_blk_m.F \
