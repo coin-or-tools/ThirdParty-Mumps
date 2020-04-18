@@ -18286,8 +18286,8 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis" >&5
-$as_echo_n "checking for package Metis... " >&6; }
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis with function metis_nodend" >&5
+$as_echo_n "checking for package Metis with function metis_nodend... " >&6; }
 
 # Make sure the necessary variables exist for each client package.
 
@@ -18351,7 +18351,7 @@ fi
 # --with-prim is always present. If the client specified dataonly, its value
 # is assigned to prim_data.
 
-  withval=$with_metis
+  withval="$with_metis"
   if test -n "$withval" ; then
     case "$withval" in
       no )
@@ -18365,7 +18365,7 @@ fi
         ;;
       * )
         coin_has_metis=yes
-        metis_lflags=$withval
+        metis_lflags="$withval"
         ;;
     esac
   fi
@@ -18375,7 +18375,7 @@ fi
 # options for lflags and cflags.
 
   if test "$coin_has_metis" != skipping ; then
-       withval=$with_metis_lflags
+       withval="$with_metis_lflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )
@@ -18383,12 +18383,12 @@ fi
              ;;
            * )
              coin_has_metis=yes
-             metis_lflags=$withval
+             metis_lflags="$withval"
              ;;
          esac
        fi
 
-       withval=$with_metis_cflags
+       withval="$with_metis_cflags"
        if test -n "$withval" ; then
          case "$withval" in
            build | no | yes )

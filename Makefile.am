@@ -6,7 +6,7 @@ EXTRA_DIST = get.Mumps INSTALL.MUMPS
 
 lib_LTLIBRARIES = libcoinmumps.la
 
-nodist_libcoinmumps_la_SOURCES = \
+libcoinmumps_la_SOURCES = \
 	MUMPS/src/tools_common_mod.F \
 	MUMPS/src/dmumps_comm_buffer.F \
 	MUMPS/src/dmumps_struc_def.F \
@@ -72,7 +72,7 @@ MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: M
 CLEANFILES = *.mod
 
 if COIN_HAS_METIS
-  nodist_libcoinmumps_la_SOURCES += metis_adapter.c
+  libcoinmumps_la_SOURCES += metis_adapter.c
   # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND
   FCFLAGS += $(FC_DEFINE)METIS_NODEND=CMETS_NODEND $(FC_DEFINE)METIS_NODEWND=CMETS_NODEWND
 endif

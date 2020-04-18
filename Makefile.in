@@ -143,7 +143,7 @@ am__DEPENDENCIES_1 =
 libcoinmumps_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
 @COIN_HAS_METIS_TRUE@am__objects_1 = metis_adapter.lo
-nodist_libcoinmumps_la_OBJECTS = MUMPS/src/tools_common_mod.lo \
+am_libcoinmumps_la_OBJECTS = MUMPS/src/tools_common_mod.lo \
 	MUMPS/src/dmumps_comm_buffer.lo MUMPS/src/dmumps_struc_def.lo \
 	MUMPS/src/mumps_ooc_common.lo \
 	MUMPS/src/mumps_static_mapping.lo \
@@ -159,7 +159,7 @@ nodist_libcoinmumps_la_OBJECTS = MUMPS/src/tools_common_mod.lo \
 	MUMPS/src/mumps_io_thread.lo MUMPS/src/mumps_io_err.lo \
 	MUMPS/src/mumps_size.lo MUMPS/libseq/mpi.lo \
 	MUMPS/libseq/mpic.lo MUMPS/libseq/elapse.lo $(am__objects_1)
-libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
+libcoinmumps_la_OBJECTS = $(am_libcoinmumps_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -237,7 +237,7 @@ AM_V_F77 = $(am__v_F77_@AM_V@)
 am__v_F77_ = $(am__v_F77_@AM_DEFAULT_V@)
 am__v_F77_0 = @echo "  F77     " $@;
 am__v_F77_1 = 
-SOURCES = $(nodist_libcoinmumps_la_SOURCES)
+SOURCES = $(libcoinmumps_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -406,7 +406,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = get.Mumps INSTALL.MUMPS
 lib_LTLIBRARIES = libcoinmumps.la
-nodist_libcoinmumps_la_SOURCES = MUMPS/src/tools_common_mod.F \
+libcoinmumps_la_SOURCES = MUMPS/src/tools_common_mod.F \
 	MUMPS/src/dmumps_comm_buffer.F MUMPS/src/dmumps_struc_def.F \
 	MUMPS/src/mumps_ooc_common.F MUMPS/src/mumps_static_mapping.F \
 	MUMPS/src/dmumps_ooc_buffer.F MUMPS/src/dmumps_load.F \
