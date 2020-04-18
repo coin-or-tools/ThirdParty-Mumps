@@ -80,7 +80,17 @@ if test $coin_has_lapack != yes; then
   AC_MSG_ERROR([Required package LAPACK not found.])
 fi
 
-AC_COIN_CHK_PKG(Metis,[MUMPS],[coinmetis],[build])
+AC_COIN_CHK_LIBM(METISCHECK)
+AC_LANG_PUSH(C)
+AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])
+AC_LANG_POP(C)
+
+# check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_DEFINE([],[coin_has_metis=no])
+fi
+AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
+
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"

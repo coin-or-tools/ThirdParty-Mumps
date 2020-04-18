@@ -94,6 +94,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@COIN_HAS_METIS_TRUE@am__append_1 = metis_adapter.c
+@COIN_HAS_METIS_TRUE@am__append_2 = $(FC_DEFINE)METIS_NODEND=CMETS_NODEND
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -140,6 +142,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libcoinmumps_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
+@COIN_HAS_METIS_TRUE@am__objects_1 = metis_adapter.lo
 nodist_libcoinmumps_la_OBJECTS = MUMPS/src/tools_common_mod.lo \
 	MUMPS/src/dmumps_comm_buffer.lo MUMPS/src/dmumps_struc_def.lo \
 	MUMPS/src/mumps_ooc_common.lo \
@@ -155,7 +158,7 @@ nodist_libcoinmumps_la_OBJECTS = MUMPS/src/tools_common_mod.lo \
 	MUMPS/src/mumps_io.lo MUMPS/src/mumps_io_basic.lo \
 	MUMPS/src/mumps_io_thread.lo MUMPS/src/mumps_io_err.lo \
 	MUMPS/src/mumps_size.lo MUMPS/libseq/mpi.lo \
-	MUMPS/libseq/mpic.lo MUMPS/libseq/elapse.lo
+	MUMPS/libseq/mpic.lo MUMPS/libseq/elapse.lo $(am__objects_1)
 libcoinmumps_la_OBJECTS = $(nodist_libcoinmumps_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -179,7 +182,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = MUMPS/libseq/$(DEPDIR)/elapse.Plo \
+am__depfiles_remade = ./$(DEPDIR)/metis_adapter.Plo \
+	MUMPS/libseq/$(DEPDIR)/elapse.Plo \
 	MUMPS/libseq/$(DEPDIR)/mpic.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_c.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_common.Plo \
@@ -292,8 +296,10 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FC = @FC@
-FCFLAGS = @FCFLAGS@ $(MY_FDEFS)
+FCFLAGS = @FCFLAGS@ $(am__append_2) $(MY_FDEFS)
+FCFLAGS_F = @FCFLAGS_F@
 FCLIBS = @FCLIBS@
+FC_DEFINE = @FC_DEFINE@
 FGREP = @FGREP@
 GREP = @GREP@
 INSTALL = @INSTALL@
@@ -314,6 +320,7 @@ LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
+METISCHECK_LFLAGS = @METISCHECK_LFLAGS@
 MKDIR_P = @MKDIR_P@
 MUMPS_CFLAGS = @MUMPS_CFLAGS@
 MUMPS_CFLAGS_NOPC = @MUMPS_CFLAGS_NOPC@
@@ -399,37 +406,21 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 EXTRA_DIST = get.Mumps INSTALL.MUMPS
 lib_LTLIBRARIES = libcoinmumps.la
-nodist_libcoinmumps_la_SOURCES = \
-	MUMPS/src/tools_common_mod.F \
-	MUMPS/src/dmumps_comm_buffer.F \
-	MUMPS/src/dmumps_struc_def.F \
-	MUMPS/src/mumps_ooc_common.F \
-	MUMPS/src/mumps_static_mapping.F \
-	MUMPS/src/dmumps_ooc_buffer.F \
-	MUMPS/src/dmumps_load.F \
-	MUMPS/src/dmumps_ooc.F \
-	MUMPS/src/dmumps_part1.F \
-	MUMPS/src/dmumps_part2.F \
-	MUMPS/src/dmumps_part3.F \
-	MUMPS/src/dmumps_part4.F \
-	MUMPS/src/dmumps_part5.F \
-	MUMPS/src/dmumps_part6.F \
-	MUMPS/src/dmumps_part7.F \
-	MUMPS/src/dmumps_part8.F \
-	MUMPS/src/mumps_part9.F \
-	MUMPS/src/mumps_sol_es.F \
-	MUMPS/src/mumps_c.c \
-	MUMPS/src/mumps_common.c \
-	MUMPS/src/mumps_orderings.c \
-	MUMPS/src/mumps_io.c \
-	MUMPS/src/mumps_io_basic.c \
-	MUMPS/src/mumps_io_thread.c \
-	MUMPS/src/mumps_io_err.c \
-	MUMPS/src/mumps_size.c \
-	MUMPS/libseq/mpi.f \
-	MUMPS/libseq/mpic.c \
-	MUMPS/libseq/elapse.c
-
+nodist_libcoinmumps_la_SOURCES = MUMPS/src/tools_common_mod.F \
+	MUMPS/src/dmumps_comm_buffer.F MUMPS/src/dmumps_struc_def.F \
+	MUMPS/src/mumps_ooc_common.F MUMPS/src/mumps_static_mapping.F \
+	MUMPS/src/dmumps_ooc_buffer.F MUMPS/src/dmumps_load.F \
+	MUMPS/src/dmumps_ooc.F MUMPS/src/dmumps_part1.F \
+	MUMPS/src/dmumps_part2.F MUMPS/src/dmumps_part3.F \
+	MUMPS/src/dmumps_part4.F MUMPS/src/dmumps_part5.F \
+	MUMPS/src/dmumps_part6.F MUMPS/src/dmumps_part7.F \
+	MUMPS/src/dmumps_part8.F MUMPS/src/mumps_part9.F \
+	MUMPS/src/mumps_sol_es.F MUMPS/src/mumps_c.c \
+	MUMPS/src/mumps_common.c MUMPS/src/mumps_orderings.c \
+	MUMPS/src/mumps_io.c MUMPS/src/mumps_io_basic.c \
+	MUMPS/src/mumps_io_thread.c MUMPS/src/mumps_io_err.c \
+	MUMPS/src/mumps_size.c MUMPS/libseq/mpi.f MUMPS/libseq/mpic.c \
+	MUMPS/libseq/elapse.c $(am__append_1)
 AM_CPPFLAGS = -I$(srcdir)/MUMPS/src -I$(srcdir)/MUMPS/libseq -I$(srcdir)/MUMPS/include
 libcoinmumps_la_LIBADD = $(MUMPS_LFLAGS)
 libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
@@ -633,6 +624,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metis_adapter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/libseq/$(DEPDIR)/elapse.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/libseq/$(DEPDIR)/mpic.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_c.Plo@am__quote@ # am--include-marker
@@ -855,7 +847,8 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f MUMPS/libseq/$(DEPDIR)/elapse.Plo
+		-rm -f ./$(DEPDIR)/metis_adapter.Plo
+	-rm -f MUMPS/libseq/$(DEPDIR)/elapse.Plo
 	-rm -f MUMPS/libseq/$(DEPDIR)/mpic.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_c.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_common.Plo
@@ -913,7 +906,8 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f MUMPS/libseq/$(DEPDIR)/elapse.Plo
+		-rm -f ./$(DEPDIR)/metis_adapter.Plo
+	-rm -f MUMPS/libseq/$(DEPDIR)/elapse.Plo
 	-rm -f MUMPS/libseq/$(DEPDIR)/mpic.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_c.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_common.Plo
@@ -988,6 +982,7 @@ MUMPS/src/dmumps_ooc_buffer.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/mumps_ooc_comm
 MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_ooc.lo: MUMPS/src/mumps_static_mapping.lo
 
 MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: MUMPS/src/tools_common_mod.lo MUMPS/src/mumps_sol_es.lo
+@COIN_HAS_METIS_TRUE@  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND
 
 test:
 	@echo "No test available for Mumps."

@@ -71,6 +71,12 @@ MUMPS/src/dmumps_part2.lo MUMPS/src/dmumps_part5.lo MUMPS/src/dmumps_part8.lo: M
 # Module files that need to be deleted
 CLEANFILES = *.mod
 
+if COIN_HAS_METIS
+  nodist_libcoinmumps_la_SOURCES += metis_adapter.c
+  # call COINMETIS_NODEND from metis_adapter.c instead of METIS_NODEND
+  FCFLAGS += $(FC_DEFINE)METIS_NODEND=CMETS_NODEND
+endif
+
 AM_CFLAGS = $(MY_DEFS) $(MUMPS_CFLAGS)
 FCFLAGS += $(MY_FDEFS)
 
