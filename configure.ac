@@ -95,8 +95,7 @@ fi
 AC_COIN_TRY_LINK([dgemmt],[$lapack_lflags],[$lapack_pcfiles],[MY_FDEFS="$MY_FDEFS -DGEMMT_AVAILABLE"])
 
 AC_COIN_CHK_LIBM(METISCHECK)
-AC_LANG_PUSH(C)
-
+AC_LANG_PUSH(Fortran)
 # check for metis5: METIS_SetDefaultOptions does not exist in Metis 4
 AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[METIS_SetDefaultOptions])
 if test "$coin_has_metis" = yes; then
@@ -110,7 +109,7 @@ else
     MY_FDEFS="$MY_FDEFS -Dmetis4"
   fi
 fi
-AC_LANG_POP(C)
+AC_LANG_POP(Fortran)
 
 # Fix Fortran preprocessor flags
 case $FC in
