@@ -81,9 +81,9 @@ if test $coin_has_lapack != yes; then
 fi
 
 AC_COIN_CHK_LIBM(METISCHECK)
-AC_LANG_PUSH(C)
+AC_LANG_PUSH(Fortran)
 AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])
-AC_LANG_POP(C)
+AC_LANG_POP(Fortran)
 
 # check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
 if test $coin_has_metis = yes ; then
