@@ -8,7 +8,8 @@ Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
 URL: https://github.com/coin-or-tools/ThirdParty-MUMPS
 Version: @PACKAGE_VERSION@
-Libs: -L${libdir} -lcoinmumps
-Libs.private: @MUMPS_LFLAGS_NOPC@
 Cflags: -I${includedir}
-Requires.private: @MUMPS_PCFILES@
+@COIN_STATIC_BUILD_FALSE@Libs: -L${libdir} -lcoinmumps
+@COIN_STATIC_BUILD_FALSE@Requires.private: @MUMPS_PCFILES@
+@COIN_STATIC_BUILD_TRUE@Libs: -L${libdir} -lcoinmumps @MUMPS_LFLAGS_NOPC@
+@COIN_STATIC_BUILD_TRUE@Requires: @MUMPS_PCFILES@
