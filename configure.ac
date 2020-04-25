@@ -85,6 +85,12 @@ AC_LANG_PUSH(Fortran)
 AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodend])
 AC_LANG_POP(Fortran)
 
+if test $coin_has_metis = yes ; then
+  AC_LANG_PUSH(C)
+  AC_CHECK_HEADER([metis.h],,[coin_has_metis=no],[$metis_cflags])
+  AC_LANG_POP(C)
+fi
+
 # check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
 if test $coin_has_metis = yes ; then
   AC_FC_PP_DEFINE([],[coin_has_metis=no])
