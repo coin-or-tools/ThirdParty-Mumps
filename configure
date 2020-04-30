@@ -18588,8 +18588,9 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-  ac_fn_c_check_header_compile "$LINENO" "metis.h" "ac_cv_header_metis_h" "$metis_cflags
-"
+  coin_CPPFLAGS="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $metis_cflags"
+  ac_fn_c_check_header_mongrel "$LINENO" "metis.h" "ac_cv_header_metis_h" "$ac_includes_default"
 if test "x$ac_cv_header_metis_h" = xyes; then :
 
 else
@@ -18597,6 +18598,7 @@ else
 fi
 
 
+  CPPFLAGS="$coin_CPPFLAGS"
   ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'

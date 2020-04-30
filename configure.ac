@@ -87,7 +87,10 @@ AC_LANG_POP(Fortran)
 
 if test $coin_has_metis = yes ; then
   AC_LANG_PUSH(C)
-  AC_CHECK_HEADER([metis.h],,[coin_has_metis=no],[$metis_cflags])
+  coin_CPPFLAGS="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $metis_cflags"
+  AC_CHECK_HEADER([metis.h],,[coin_has_metis=no])
+  CPPFLAGS="$coin_CPPFLAGS"
   AC_LANG_POP(C)
 fi
 
