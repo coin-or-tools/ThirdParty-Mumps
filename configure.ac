@@ -37,11 +37,8 @@ AC_COIN_PROG_FC
 # Initialize libtool
 AC_COIN_PROG_LIBTOOL
 
-# Add FLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
-MUMPS_LFLAGS="$MUMPS_LFLAGS $FLIBS"
-
 # Figure out name mangling that Fortran objects will have and translate
-# them to what MUMPS wants
+# them to what MUMPS wants, this also includes AC_FC_LIBRARY_LDFLAGS
 AC_FC_WRAPPERS
 case "$ac_cv_fc_mangling" in
   "lower case, no underscore, no extra underscore" ) ;;
@@ -53,6 +50,9 @@ case "$ac_cv_fc_mangling" in
   "upper case, underscore, no extra underscore" )    MY_DEFS="-DUPPER" ;;
   "upper case, underscore, extra underscore" )       MY_DEFS="-DUPPER" ;;
 esac
+
+# Add FCLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
+MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
