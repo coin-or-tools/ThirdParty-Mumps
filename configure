@@ -16237,11 +16237,8 @@ fi
 
 
 
-# Add FLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
-MUMPS_LFLAGS="$MUMPS_LFLAGS $FLIBS"
-
 # Figure out name mangling that Fortran objects will have and translate
-# them to what MUMPS wants
+# them to what MUMPS wants, this also includes AC_FC_LIBRARY_LDFLAGS
 ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
@@ -16936,6 +16933,9 @@ case "$ac_cv_fc_mangling" in
   "upper case, underscore, no extra underscore" )    MY_DEFS="-DUPPER" ;;
   "upper case, underscore, extra underscore" )       MY_DEFS="-DUPPER" ;;
 esac
+
+# Add FCLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
+MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
