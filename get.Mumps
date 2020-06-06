@@ -6,19 +6,22 @@ mumps_ver=5.3.1
 
 set -e
 
-wgetcmd=wget
 wgetcount=`which wget 2>/dev/null | wc -l`
 if test ! $wgetcount = 1; then
-  echo "Utility wget not found in your PATH."
-  if test `uname` = Darwin; then
-    wgetcmd="curl -L -O"
-    echo "Using curl instead."
-  elif test `uname` = FreeBSD; then
-    wgetcmd=fetch
-    echo "Using fetch instead."
+  curlcount=`which curl 2>/dev/null | wc -l`
+  if test ! $curlcount = 1; then
+    fetchcount=`which fetch 2>/dev/null | wc -l`
+    if test ! $fetchcount = 1; then
+      echo "None of the utilities, wget, curl, or fetch found in PATH. Cannot download source."
+      exit -1
+    else
+      wgetcmd=fetch
+    fi
   else
-    exit -1
+    wgetcmd="curl -L -O"
   fi
+else
+wgetcmd="wget"
 fi
 
 echo " "
