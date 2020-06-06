@@ -4,11 +4,7 @@ This is an autotools-based build system to build and install
 [MUltifrontal Massively Parallel sparse direct Solver](http://mumps.enseeiht.fr/) (MUMPS).
 This installation of MUMPS is used by some other COIN-OR projects.
 
-This version of ThirdParty-Mumps retrieves and builds MUMPS 4.10.0,
-which is at the moment still the MUMPS version that is prefered by
-COIN-OR projects like [Ipopt](https://github.com/coin-or/Ipopt).
-The [branch `mumps5`](https://github.com/coin-or-tools/ThirdParty-Mumps/tree/mumps5)
-includes a system to build some recent MUMPS 5.x version.
+This version of ThirdParty-Mumps retrieves and builds MUMPS 5.3.1.
 
 ## NOTE for GFortran 10 users
 
