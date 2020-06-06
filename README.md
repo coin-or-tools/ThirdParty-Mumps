@@ -12,11 +12,26 @@ includes a system to build some recent MUMPS 5.x version.
 
 ## NOTE for GFortran 10 users
 
-- MUMPS source does not compile out of the box when using GFortran 10, probably
-  due to some incompatibilities between assumed Fortran language standards,
-  see also [issue #4](https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4).
-  A possible workaround is to call `configure` with the additional
-  argument `ADD_FCFLAGS=-fallow-argument-mismatch`.
+MUMPS source does not compile out of the box when using GFortran 10, probably
+due to some incompatibilities between assumed Fortran language standards,
+see also [issue #4](https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4).
+
+A possible workaround is to call `configure` with the additional
+argument `ADD_FCFLAGS=-fallow-argument-mismatch`.
+
+## Dependencies
+
+- MUMPS source requires a Fortran 90 compiler.
+
+- MUMPS requires LAPACK to be available. `configure` will look for a Lapack
+  installation, but if that does not succeed, the flags to link with Lapack
+  should be specified with the `--with-lapack-lflags` argument of `configure`.
+
+- MUMPS can make use of METIS. `configure` will look for a METIS library and
+  header, but if that does not succeed, the arguments `--with-metis-lflags`
+  and `--with-metis-cflags` can be specified for `configure`.
+
+  Both Metis 4 and Metis 5 can be used with ThirdParty-Mumps.
 
 ## Installation steps
 
