@@ -2,7 +2,7 @@ diff -ur MUMPS_5.2.1/libseq/mpic.c MUMPS/libseq/mpic.c
 --- MUMPS_5.2.1/libseq/mpic.c	2019-06-14 16:46:08.000000000 +0200
 +++ MUMPS/libseq/mpic.c	2019-09-12 10:28:06.358911237 +0200
 @@ -12,7 +12,7 @@
-  *  http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+  *  https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
   *
   */
 -#include "mpi.h"
