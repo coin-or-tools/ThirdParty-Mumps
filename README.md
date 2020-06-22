@@ -10,15 +10,6 @@ COIN-OR projects like [Ipopt](https://github.com/coin-or/Ipopt).
 The [branch `mumps5`](https://github.com/coin-or-tools/ThirdParty-Mumps/tree/mumps5)
 includes a system to build some recent MUMPS 5.x version.
 
-## NOTE for GFortran 10 users
-
-MUMPS source does not compile out of the box when using GFortran 10, probably
-due to some incompatibilities between assumed Fortran language standards,
-see also [issue #4](https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4).
-
-A possible workaround is to call `configure` with the additional
-argument `ADD_FCFLAGS=-fallow-argument-mismatch`.
-
 ## Dependencies
 
 - MUMPS source requires a Fortran 90 compiler.
@@ -57,3 +48,12 @@ argument `ADD_FCFLAGS=-fallow-argument-mismatch`.
 3. Run `make` to build the MUMPS library.
 
 4. Run `make install` to install the MUMPS library and header files.
+
+## NOTE for GFortran users
+
+MUMPS source does not compile out of the box when using GFortran 10, probably
+due to some incompatibilities between assumed Fortran language standards,
+see also [issue #4](https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4).
+
+As a workaround, `configure` adds `-std=legacy` to the Fortran compiler flags
+if `$FC` matches `*gfortran*`.
