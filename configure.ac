@@ -112,6 +112,7 @@ fi
 AC_LANG_POP(Fortran)
 
 # Fix Fortran preprocessor flags
+# Add workaround for incompatibility with Fortran 2003 (https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4)
 case $FC in
   *xlf*)
     fdefs=
@@ -121,6 +122,9 @@ case $FC in
       done
     fi
     MY_FDEFS="$fdefs"
+    ;;
+  *gfortran*)
+    MY_FDEFS="$MY_FDEFS -std=legacy"
     ;;
 esac
 AC_SUBST(MY_FDEFS)
