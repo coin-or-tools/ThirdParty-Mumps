@@ -1,14 +1,12 @@
 # Copyright (C) 2007-2009 International Business Machines.
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
-
+#
 # Author:  Andreas Waechter            IBM    2006-04-13
 
 #############################################################################
 #                       Names and other basic things                        #
 #############################################################################
-
-AC_PREREQ(2.59)
 
 AC_INIT([ThirdPartyMumps],[2.1.0],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],,[https://github.com/coin-or-tools/ThirdParty-Mumps])
 

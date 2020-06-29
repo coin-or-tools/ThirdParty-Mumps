@@ -164,9 +164,6 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libcoinmumps_la_LINK = $(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(F77LD) $(AM_FFLAGS) $(FFLAGS) \
-	$(libcoinmumps_la_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -404,7 +401,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = get.Mumps INSTALL.MUMPS
 lib_LTLIBRARIES = libcoinmumps.la
 libcoinmumps_la_SOURCES = MUMPS/src/tools_common_mod.F \
 	MUMPS/src/dmumps_comm_buffer.F MUMPS/src/dmumps_struc_def.F \
@@ -421,9 +417,9 @@ libcoinmumps_la_SOURCES = MUMPS/src/tools_common_mod.F \
 	MUMPS/src/mumps_io_thread.c MUMPS/src/mumps_io_err.c \
 	MUMPS/src/mumps_size.c MUMPS/libseq/mpi.f MUMPS/libseq/mpic.c \
 	MUMPS/libseq/elapse.c $(am__append_1)
-AM_CPPFLAGS = -I$(srcdir)/MUMPS/src -I$(srcdir)/MUMPS/libseq -I$(srcdir)/MUMPS/include
 libcoinmumps_la_LIBADD = $(MUMPS_LFLAGS)
-libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
+AM_CPPFLAGS = -I$(srcdir)/MUMPS/src -I$(srcdir)/MUMPS/libseq -I$(srcdir)/MUMPS/include
+AM_LDFLAGS = $(LT_LDFLAGS)
 
 # Module files that need to be deleted
 CLEANFILES = *.mod
@@ -612,7 +608,7 @@ MUMPS/libseq/elapse.lo: MUMPS/libseq/$(am__dirstamp) \
 	MUMPS/libseq/$(DEPDIR)/$(am__dirstamp)
 
 libcoinmumps.la: $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_DEPENDENCIES) $(EXTRA_libcoinmumps_la_DEPENDENCIES) 
-	$(AM_V_F77LD)$(libcoinmumps_la_LINK) -rpath $(libdir) $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_LIBADD) $(LIBS)
+	$(AM_V_F77LD)$(F77LINK) -rpath $(libdir) $(libcoinmumps_la_OBJECTS) $(libcoinmumps_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
