@@ -6,7 +6,7 @@ includedir=@includedir@/coin-or/mumps
 
 Name: Mumps
 Description: Multifrontal Massively Parallel sparse direct Solver
-URL: https://github.com/coin-or-tools/ThirdParty-MUMPS
+URL: @PACKAGE_URL@
 Version: @PACKAGE_VERSION@
 Cflags: -I${includedir}
 @COIN_STATIC_BUILD_FALSE@Libs: -L${libdir} -lcoinmumps

@@ -2,8 +2,6 @@
 # All Rights Reserved.
 # This file is distributed under the Eclipse Public License.
 
-EXTRA_DIST = get.Mumps INSTALL.MUMPS
-
 lib_LTLIBRARIES = libcoinmumps.la
 
 libcoinmumps_la_SOURCES = \
@@ -158,11 +156,11 @@ libcoinmumps_la_SOURCES = \
   MUMPS/libseq/mpic.c \
   MUMPS/libseq/elapse.c
 
-AM_CPPFLAGS = -I$(srcdir)/MUMPS/src -I$(srcdir)/MUMPS/libseq -I$(srcdir)/MUMPS/include
-
 libcoinmumps_la_LIBADD = $(MUMPS_LFLAGS)
 
-libcoinmumps_la_LDFLAGS = $(LT_LDFLAGS)
+AM_CPPFLAGS = -I$(srcdir)/MUMPS/src -I$(srcdir)/MUMPS/libseq -I$(srcdir)/MUMPS/include
+
+AM_LDFLAGS = $(LT_LDFLAGS)
 
 # Dependencies between modules:
 # i) arithmetic-dependent modules:
