@@ -17050,6 +17050,12 @@ $as_echo "no" >&6; }
     pkg_short_errors=""
   fi
 
+  # Check whether -static option of pkg-config should be used when requesting libs
+  pkg_static=
+  if test -n "$PKG_CONFIG" ; then
+    case "$LDFLAGS" in "-static" | "* -static*" ) pkg_static=--static ;; esac
+  fi
+
    if test -n "$PKG_CONFIG"; then
   COIN_HAS_PKGCONFIG_TRUE=
   COIN_HAS_PKGCONFIG_FALSE='#'
@@ -17261,7 +17267,7 @@ $as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
   LIBS="$lapack_lflags $LIBS"
   if test -n "$lapack_pcfiles" ; then
 
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $lapack_pcfiles`
+      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static $lapack_pcfiles`
       LIBS="$temp_LFLAGS $LIBS"
     fi
 
@@ -17572,6 +17578,7 @@ $as_echo "$ac_success" >&6; }
         # check for 64-bit sequential MKL in $LIB
         old_IFS="$IFS"
         IFS=";"
+        coin_mkl=""
         for d in $LIB ; do
           # turn $d into unix-style short path (no spaces); cannot do -us, so first do -ws, then -u
           d=`cygpath -ws "$d"`
@@ -17589,6 +17596,7 @@ $as_echo "$ac_success" >&6; }
           fi
         done
         IFS="$old_IFS"
+        if test -n "$coin_mkl" ; then
 
   ac_save_LIBS="$LIBS"
   LIBS="$coin_mkl $LIBS"
@@ -17658,10 +17666,11 @@ $as_echo "$ac_success" >&6; }
 
   if test $ac_success = yes ; then
     coin_has_lapack=yes
-             lapack_lflags="$coin_mkl"
+                lapack_lflags="$coin_mkl"
 
   fi
 
+        fi
       ;;
 
       *-darwin*)
@@ -17838,7 +17847,7 @@ $as_echo "yes" >&6; }
 
   if test -n "lapack" ; then
 
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs lapack`
+      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static lapack`
       LIBS="$temp_LFLAGS $LIBS"
     fi
 
@@ -18589,7 +18598,7 @@ $as_echo "$as_me: FINALIZE_FLAGS for MUMPS:" >&6;}
 
       if test -n "${MUMPS_PCFILES}" ; then
         temp_CFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --cflags ${MUMPS_PCFILES}`
-        temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs ${MUMPS_PCFILES}`
+        temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static ${MUMPS_PCFILES}`
         MUMPS_CFLAGS="$temp_CFLAGS ${MUMPS_CFLAGS}"
         MUMPS_LFLAGS="$temp_LFLAGS ${MUMPS_LFLAGS}"
       fi
