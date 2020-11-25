@@ -4,7 +4,7 @@ This is an autotools-based build system to build and install
 [MUltifrontal Massively Parallel sparse direct Solver](http://mumps.enseeiht.fr/) (MUMPS).
 This installation of MUMPS is used by some other COIN-OR projects.
 
-This version of ThirdParty-Mumps retrieves and builds MUMPS 5.3.3.
+This version of ThirdParty-Mumps retrieves and builds MUMPS 5.3.5.
 
 ## Dependencies
 
