@@ -48,9 +48,22 @@ case "$ac_cv_fc_mangling" in
   "upper case, underscore, no extra underscore" )    MY_DEFS="-DUPPER" ;;
   "upper case, underscore, extra underscore" )       MY_DEFS="-DUPPER" ;;
 esac
+AC_SUBST(MY_DEFS)
 
 # Add FCLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
 MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
+
+# check which floating-point precision to build
+AC_ARG_WITH([precision],
+            [AC_HELP_STRING([--with-precision],[floating-point precision to build: single, double (default), or all])],
+            [case "$precision" in
+               single | double | all ) ;;
+               *) AC_MSG_ERROR([unsupported value $precision for option --with-precision]) ;;
+             esac
+             precision=$withval],
+            [precision=double])
+AM_CONDITIONAL([MUMPS_SINGLE],[test "$precision" = single || test "$precision" = all])
+AM_CONDITIONAL([MUMPS_DOUBLE],[test "$precision" = double || test "$precision" = all])
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
@@ -80,9 +93,6 @@ AC_OPENMP
 FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
 MUMPS_LFLAGS="$MUMPS_LFLAGS $OPENMP_FCFLAGS"
 AC_LANG_POP(Fortran)
-
-MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_d"
-AC_SUBST(MY_DEFS)
 
 AC_COIN_CHK_LAPACK(MUMPS)
 if test $coin_has_lapack != yes; then

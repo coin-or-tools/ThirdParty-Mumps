@@ -53,3 +53,11 @@ see also [issue #4](https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4).
 
 As a workaround, `configure` adds `-std=legacy` to the Fortran compiler flags
 if `$FC` matches `*gfortran*`.
+
+## Single-precision codes
+
+This buildsystem can also build a single-precision version of MUMPS.
+To do so, use the configure option `--with-precision=single`.
+
+It is also possible to build both single- and double-precision variants
+of MUMPS into the same library by using `--with-precision=all`.

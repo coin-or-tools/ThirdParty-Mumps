@@ -659,8 +659,12 @@ PKG_CONFIG
 MUMPS_PCFILES
 MUMPS_LFLAGS
 MUMPS_CFLAGS
-MY_DEFS
 OPENMP_FCFLAGS
+MUMPS_DOUBLE_FALSE
+MUMPS_DOUBLE_TRUE
+MUMPS_SINGLE_FALSE
+MUMPS_SINGLE_TRUE
+MY_DEFS
 FCLIBS
 COIN_STATIC_BUILD_FALSE
 COIN_STATIC_BUILD_TRUE
@@ -806,6 +810,7 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
+with_precision
 enable_pthread_mumps
 enable_openmp
 with_lapack
@@ -1482,6 +1487,8 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
+  --with-precision        floating-point precision to build: single, double
+                          (default), or all
   --with-lapack           Use lapack. If an argument is given, 'yes' is
                           equivalent to --with-lapack, 'no' is
                           equivalent to --without-lapack. Any other argument
@@ -16839,8 +16846,39 @@ case "$ac_cv_fc_mangling" in
   "upper case, underscore, extra underscore" )       MY_DEFS="-DUPPER" ;;
 esac
 
+
 # Add FCLIBS to MUMPS_LFLAGS, so that they get into the .pc files section for static builds
 MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
+
+# check which floating-point precision to build
+
+# Check whether --with-precision was given.
+if test "${with_precision+set}" = set; then :
+  withval=$with_precision; precision=$withval
+else
+  precision=double
+fi
+
+case "$precision" in
+  single | double | all ) ;;
+  *) as_fn_error $? "unsupported value $precision for option --with-precision" "$LINENO" 5
+esac
+ if test "$precision" = single || test "$precision" = all; then
+  MUMPS_SINGLE_TRUE=
+  MUMPS_SINGLE_FALSE='#'
+else
+  MUMPS_SINGLE_TRUE='#'
+  MUMPS_SINGLE_FALSE=
+fi
+
+ if test "$precision" = double || test "$precision" = all; then
+  MUMPS_DOUBLE_TRUE=
+  MUMPS_DOUBLE_FALSE='#'
+else
+  MUMPS_DOUBLE_TRUE='#'
+  MUMPS_DOUBLE_FALSE=
+fi
+
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
@@ -17002,8 +17040,9 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_d"
 
+#MY_DEFS="$MY_DEFS -DMUMPS_ARITH=MUMPS_ARITH_s"
+#MUMPS_ARITH == MUMPS_ARITH_s
 
 
 
@@ -17131,6 +17170,12 @@ $as_echo "no" >&6; }
     pkg_short_errors=" --short-errors "
   else
     pkg_short_errors=""
+  fi
+
+  # Check whether -static option of pkg-config should be used when requesting libs
+  pkg_static=
+  if test -n "$PKG_CONFIG" ; then
+    case "$LDFLAGS" in "-static" | "* -static*" ) pkg_static=--static ;; esac
   fi
 
    if test -n "$PKG_CONFIG"; then
@@ -17344,7 +17389,7 @@ $as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
   LIBS="$lapack_lflags $LIBS"
   if test -n "$lapack_pcfiles" ; then
 
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $lapack_pcfiles`
+      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static $lapack_pcfiles`
       LIBS="$temp_LFLAGS $LIBS"
     fi
 
@@ -17655,6 +17700,7 @@ $as_echo "$ac_success" >&6; }
         # check for 64-bit sequential MKL in $LIB
         old_IFS="$IFS"
         IFS=";"
+        coin_mkl=""
         for d in $LIB ; do
           # turn $d into unix-style short path (no spaces); cannot do -us, so first do -ws, then -u
           d=`cygpath -ws "$d"`
@@ -17672,6 +17718,7 @@ $as_echo "$ac_success" >&6; }
           fi
         done
         IFS="$old_IFS"
+        if test -n "$coin_mkl" ; then
 
   ac_save_LIBS="$LIBS"
   LIBS="$coin_mkl $LIBS"
@@ -17741,10 +17788,11 @@ $as_echo "$ac_success" >&6; }
 
   if test $ac_success = yes ; then
     coin_has_lapack=yes
-             lapack_lflags="$coin_mkl"
+                lapack_lflags="$coin_mkl"
 
   fi
 
+        fi
       ;;
 
       *-darwin*)
@@ -17921,7 +17969,7 @@ $as_echo "yes" >&6; }
 
   if test -n "lapack" ; then
 
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs lapack`
+      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static lapack`
       LIBS="$temp_LFLAGS $LIBS"
     fi
 
@@ -18166,7 +18214,7 @@ fi
   LIBS="$lapack_lflags $LIBS"
   if test -n "$lapack_pcfiles" ; then
 
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $lapack_pcfiles`
+      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static $lapack_pcfiles`
       LIBS="$temp_LFLAGS $LIBS"
     fi
 
@@ -18820,7 +18868,7 @@ $as_echo "$as_me: FINALIZE_FLAGS for MUMPS:" >&6;}
 
       if test -n "${MUMPS_PCFILES}" ; then
         temp_CFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --cflags ${MUMPS_PCFILES}`
-        temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs ${MUMPS_PCFILES}`
+        temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static ${MUMPS_PCFILES}`
         MUMPS_CFLAGS="$temp_CFLAGS ${MUMPS_CFLAGS}"
         MUMPS_LFLAGS="$temp_LFLAGS ${MUMPS_LFLAGS}"
       fi
@@ -19030,6 +19078,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_STATIC_BUILD_TRUE}" && test -z "${COIN_STATIC_BUILD_FALSE}"; then
   as_fn_error $? "conditional \"COIN_STATIC_BUILD\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${MUMPS_SINGLE_TRUE}" && test -z "${MUMPS_SINGLE_FALSE}"; then
+  as_fn_error $? "conditional \"MUMPS_SINGLE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${MUMPS_DOUBLE_TRUE}" && test -z "${MUMPS_DOUBLE_FALSE}"; then
+  as_fn_error $? "conditional \"MUMPS_DOUBLE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COIN_HAS_PKGCONFIG_TRUE}" && test -z "${COIN_HAS_PKGCONFIG_FALSE}"; then
