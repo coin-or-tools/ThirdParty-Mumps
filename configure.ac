@@ -31,6 +31,9 @@ AC_COIN_PROG_CC
 
 # Get the name of the Fortran compiler and appropriate compiler options
 AC_COIN_PROG_FC
+if test -z "$FC" ; then
+  AC_MSG_ERROR([No Fortran 90 compiler found. Try setting environment variable FC.])
+fi
 
 # Initialize libtool
 AC_COIN_PROG_LIBTOOL
