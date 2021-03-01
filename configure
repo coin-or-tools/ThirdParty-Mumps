@@ -650,6 +650,7 @@ FC_DEFINE
 FCFLAGS_F
 COIN_HAS_METIS_FALSE
 COIN_HAS_METIS_TRUE
+MUMPS_CFLAGS
 METISCHECK_LFLAGS
 COIN_HAS_LAPACK_FALSE
 COIN_HAS_LAPACK_TRUE
@@ -660,7 +661,6 @@ ac_ct_PKG_CONFIG
 PKG_CONFIG
 MUMPS_PCFILES
 MUMPS_LFLAGS
-MUMPS_CFLAGS
 MY_DEFS
 FCLIBS
 COIN_STATIC_BUILD_FALSE
@@ -17045,7 +17045,6 @@ $as_echo "no" >&6; }
    fi
   fi
 
-  # Check if PKG_CONFIG supports the short-errors flag.
   if test -n "$PKG_CONFIG" &&
      $PKG_CONFIG --atleast-pkgconfig-version 0.20 ; then
     pkg_short_errors=" --short-errors "
@@ -17053,7 +17052,6 @@ $as_echo "no" >&6; }
     pkg_short_errors=""
   fi
 
-  # Check whether -static option of pkg-config should be used when requesting libs
   pkg_static=
   if test -n "$PKG_CONFIG" ; then
     case "$LDFLAGS" in "-static" | "* -static*" ) pkg_static=--static ;; esac
@@ -17079,6 +17077,8 @@ $as_echo "$as_me: $PKG_CONFIG path is \"$COIN_PKG_CONFIG_PATH\"" >&6;}
   fi
 
 
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for LAPACK" >&5
+$as_echo_n "checking for LAPACK... " >&6; }
 
 
 
@@ -17106,177 +17106,22 @@ fi
 
 
 
-  # Look for user-specified lapack flags, but skip any checks via a .pc file.
-  # The result (coin_has_lapack) will be one of
-  # - yes (the user specified something),
-  # - no (user specified nothing), or
-  # - skipping (user said do not use).
-  # We'll also have variables lapack_lflags, lapack_cflags, and lapack_pcfiles.
+  coin_has_lapack=no
+  lapack_keep_looking=yes
 
-
-
-  dflt_action=yes
-
-  # Initialize variables for the primary package.
-  coin_has_lapack=noInfo
-  lapack_lflags=
-  lapack_cflags=
-  lapack_data=
-  lapack_pcfiles=
-
-  # --with-prim is always present.
-  withval="$with_lapack"
-  if test -n "$withval" ; then
-    case "$withval" in
-      no )
-        coin_has_lapack=skipping
-        ;;
-      yes )
-        coin_has_lapack=requested
-        ;;
-      build )
-        coin_has_lapack=build
-        ;;
-      * )
-        coin_has_lapack=yes
-                lapack_lflags="$withval"
-        ;;
-    esac
-  fi
-
-  # Specifying --with-prim=no overrides the individual options for lflags and cflags.
-     if test "$coin_has_lapack" != skipping ; then
-       withval="$with_lapack_lflags"
-       if test -n "$withval" ; then
-         case "$withval" in
-           build | no | yes )
-             as_fn_error $? "\"$withval\" is not valid here; please specify linker flags appropriate for your environment." "$LINENO" 5
-             ;;
-           * )
-             coin_has_lapack=yes
-             lapack_lflags="$withval"
-             ;;
-         esac
-       fi
-
-       withval="$with_lapack_cflags"
-       if test -n "$withval" ; then
-         case "$withval" in
-           build | no | yes )
-             as_fn_error $? "\"$withval\" is not valid here; please specify compiler flags appropriate for your environment." "$LINENO" 5
-             ;;
-           * )
-             coin_has_lapack=yes
-             lapack_cflags="$withval"
-             ;;
-         esac
-       fi
-     fi
-
-
-
-  # At this point, coin_has_prim can be one of
-  # - noInfo (no user options specified),
-  # - skipping (user said no),
-  # - requested,
-  # - build (user said yes or build and gave no further guidance),
-  # - or yes (user specified one or more --with-prim options).
-  # If we're already at yes or skipping, we're done looking.
-
-  # If there are no user options (noInfo) and the default is no, we're skipping.
-  # Otherwise, the default must be yes or build; consider the package requested.
-  # A default action we don't recognise defaults to yes.
-  if test "$coin_has_lapack" = noInfo ; then
-    case $dflt_action in
-      no )
-        coin_has_lapack=skipping
-        ;;
-      build )
-        coin_has_lapack=build
-        ;;
-      * )
-        coin_has_lapack=requested
-        ;;
-    esac
-  fi
-
-  # Now coin_has_prim can be one of skipping, yes, requested, or build.
-  # For requested or build, try pkgconf, if it's available.
-  # If it's not available, well, hope that the user knows their system
-  # and prim can be used with no additional flags.
-  case $coin_has_lapack in
-    requested | build )
-      if test -n "$PKG_CONFIG" -a "skip" != skip ; then
-        pcfile="skip"
-
-
-
-  if test -n "$PKG_CONFIG" ; then
-    if PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --exists "$pcfile" ; then
-      LAPACK_VERSIONS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --modversion "$pcfile" 2>/dev/null | tr '\n' ' '`
-      coin_has_lapack=yes
-           lapack_data=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --variable=datadir "$pcfile" 2>/dev/null`
-           lapack_pcfiles="$pcfile"
-    else
-      LAPACK_PKG_ERRORS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG $pkg_short_errors --errors-to-stdout --print-errors "$pcfile"`
-      coin_has_lapack=no
+  if test "$with_lapack" != "no" ; then
+    if test "$with_lapack" != "yes" ; then
+      with_lapack_lflags="$with_lapack"
     fi
-  else
-    as_fn_error $? "\"Cannot check for existence of module lapack without pkgconf\"" "$LINENO" 5
-  fi
-
-      else
-        coin_has_lapack=no
-      fi
-      ;;
-    skipping | yes )
-      ;;
-    * )
-      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Unexpected status \"$coin_has_lapack\" in COIN_FIND_PRIM_PKG" >&5
-$as_echo "$as_me: WARNING: Unexpected status \"$coin_has_lapack\" in COIN_FIND_PRIM_PKG" >&2;}
-      ;;
-  esac
-
-  # The final value of coin_has_prim will be yes, no, or skipping.
-  # No means we looked (with pkgconfig) and didn't find anything.
-  # Skipping means the user said `don't use.'
-  # Yes means we have something, from the user or from pkgconfig.
-  # Note that we haven't run a useability test!
-
-  # Define BUILDTOOLS_DEBUG to enable debugging output
-  if test "$BUILDTOOLS_DEBUG" = 1 ; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&5
-$as_echo "$as_me: FIND_PRIM_PKG result for lapack: \"$coin_has_lapack\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: Collected values for package 'lapack'" >&5
-$as_echo "$as_me: Collected values for package 'lapack'" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_lflags is \"$lapack_lflags\"" >&5
-$as_echo "$as_me: lapack_lflags is \"$lapack_lflags\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_cflags is \"$lapack_cflags\"" >&5
-$as_echo "$as_me: lapack_cflags is \"$lapack_cflags\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_data is \"$lapack_data\"" >&5
-$as_echo "$as_me: lapack_data is \"$lapack_data\"" >&6;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: lapack_pcfiles is \"$lapack_pcfiles\"" >&5
-$as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
-  fi
-
-
-
-  # If found something, then we'll do a link check to figure
-  # out whether it is working and what the name mangling scheme is.
-  # This sets dsyev_namemangling
-  if test "$coin_has_lapack" = yes ; then
+    if test -n "$with_lapack_lflags" ; then
 
   ac_save_LIBS="$LIBS"
-  LIBS="$lapack_lflags $LIBS"
-  if test -n "$lapack_pcfiles" ; then
+  LIBS="$with_lapack_lflags $LIBS"
 
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static $lapack_pcfiles`
-      LIBS="$temp_LFLAGS $LIBS"
-    fi
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17287,11 +17132,13 @@ $as_echo "$as_me: lapack_pcfiles is \"$lapack_pcfiles\"" >&6;}
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17326,8 +17173,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
+
         if test $ac_success = yes ; then
           break 3
         fi
@@ -17337,14 +17183,21 @@ $as_echo "$ac_success" >&6; }
   LIBS=$ac_save_LIBS
 
   if test $ac_success = yes ; then
-    :
-    else as_fn_error $? "Could not find dsyev in Lapack" "$LINENO" 5
+    coin_has_lapack=yes
+         lapack_what="user-specified ($with_lapack_lflags)"
+         lapack_keep_looking=no
+         lapack_lflags=$with_lapack_lflags
+    else as_fn_error $? "Cannot link to user-specified Lapack $with_lapack_lflags." "$LINENO" 5
   fi
 
+    fi
+  else
+    lapack_keep_looking=no
+    lapack_what="user-specified"
   fi
 
-  # If not found anything, try a few more guesses for optimized blas/lapack libs (based on build system type).
-  if test "$coin_has_lapack" = no ; then
+
+  if test "$lapack_keep_looking" = yes ; then
     case $build in
       *-linux*)
 
@@ -17354,7 +17207,7 @@ $as_echo "$ac_success" >&6; }
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17365,11 +17218,13 @@ $as_echo "$ac_success" >&6; }
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17404,8 +17259,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
+
         if test $ac_success = yes ; then
           break 3
         fi
@@ -17415,86 +17269,10 @@ $as_echo "$ac_success" >&6; }
   LIBS=$ac_save_LIBS
 
   if test $ac_success = yes ; then
-
-           coin_has_lapack=yes
+    coin_has_lapack=yes
            lapack_lflags="-lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lm"
+           lapack_what="Intel MKL ($lapack_lflags)"
 
-  fi
-
-      ;;
-
-      *-sgi-*)
-
-  ac_save_LIBS="$LIBS"
-  LIBS="-lcomplib.sgimath $LIBS"
-
-
-  dsyev_namemangling=unknown
-
-  for ac_extra in "no extra underscore" ; do
-    for ac_case in "lower case" "upper case" ; do
-      for ac_trail in "underscore" "no underscore" ; do
-        case $ac_case in
-          "lower case")
-            ac_name=dsyev
-            ;;
-          "upper case")
-            ac_name=DSYEV
-            ;;
-        esac
-        if test "$ac_trail" = underscore ; then
-          ac_name=${ac_name}_
-        fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
-        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char $ac_name ();
-#ifdef FC_DUMMY_MAIN
-#ifndef FC_DUMMY_MAIN_EQ_F77
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int FC_DUMMY_MAIN() { return 1; }
-#endif
-#endif
-int
-main ()
-{
-return $ac_name ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  dsyev_namemangling="${ac_case}, ${ac_trail}, ${ac_extra}"
-           ac_success=yes
-else
-  ac_success=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
-        if test $ac_success = yes ; then
-          break 3
-        fi
-      done
-    done
-  done
-  LIBS=$ac_save_LIBS
-
-  if test $ac_success = yes ; then
-
-          coin_has_lapack=yes
-          lapack_lflags=-lcomplib.sgimath
 
   fi
 
@@ -17508,7 +17286,7 @@ $as_echo "$ac_success" >&6; }
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17519,11 +17297,13 @@ $as_echo "$ac_success" >&6; }
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17558,8 +17338,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
+
         if test $ac_success = yes ; then
           break 3
         fi
@@ -17569,21 +17348,22 @@ $as_echo "$ac_success" >&6; }
   LIBS=$ac_save_LIBS
 
   if test $ac_success = yes ; then
+    coin_has_lapack=yes
+           lapack_lflags=-lsunperf
+           lapack_what="Sun Performance Library ($lapack_lflags)"
 
-          coin_has_lapack=yes
-          lapack_lflags=-lsunperf
 
   fi
 
       ;;
 
       *-cygwin* | *-mingw* | *-msys*)
-        # check for 64-bit sequential MKL in $LIB
         old_IFS="$IFS"
         IFS=";"
         coin_mkl=""
         for d in $LIB ; do
-          # turn $d into unix-style short path (no spaces); cannot do -us, so first do -ws, then -u
+          # turn $d into unix-style short path (no spaces); cannot do -us,
+          # so first do -ws, then -u
           d=`cygpath -ws "$d"`
           d=`cygpath -u "$d"`
           if test "$enable_shared" = yes ; then
@@ -17607,7 +17387,7 @@ $as_echo "$ac_success" >&6; }
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17618,11 +17398,13 @@ $as_echo "$ac_success" >&6; }
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17657,8 +17439,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
+
         if test $ac_success = yes ; then
           break 3
         fi
@@ -17670,6 +17451,8 @@ $as_echo "$ac_success" >&6; }
   if test $ac_success = yes ; then
     coin_has_lapack=yes
                 lapack_lflags="$coin_mkl"
+                lapack_what="Intel MKL ($lapack_lflags)"
+
 
   fi
 
@@ -17684,7 +17467,7 @@ $as_echo "$ac_success" >&6; }
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17695,11 +17478,13 @@ $as_echo "$ac_success" >&6; }
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17734,8 +17519,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
+
         if test $ac_success = yes ; then
           break 3
         fi
@@ -17745,9 +17529,10 @@ $as_echo "$ac_success" >&6; }
   LIBS=$ac_save_LIBS
 
   if test $ac_success = yes ; then
+    coin_has_lapack=yes
+           lapack_lflags="-lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lm"
+           lapack_what="Intel MKL ($lapack_lflags)"
 
-          coin_has_lapack=yes
-          lapack_lflags="-lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lm"
 
   fi
 
@@ -17759,7 +17544,7 @@ $as_echo "$ac_success" >&6; }
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17770,11 +17555,13 @@ $as_echo "$ac_success" >&6; }
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17809,105 +17596,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
-        if test $ac_success = yes ; then
-          break 3
-        fi
-      done
-    done
-  done
-  LIBS=$ac_save_LIBS
 
-  if test $ac_success = yes ; then
-
-            coin_has_lapack=yes
-            lapack_lflags="-framework Accelerate"
-
-  fi
-
-        fi
-      ;;
-    esac
-  fi
-
-  # If none of the above worked, check whether lapack.pc blas.pc exists and links.
-  # We check for both to ensure that blas lib also appears on link line in case
-  # someone wants to use Blas functions but tests only for Lapack.
-  if test "$coin_has_lapack" = no ; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for lapack.pc and blas.pc" >&5
-$as_echo_n "checking for lapack.pc and blas.pc... " >&6; }
-
-
-
-  if test -n "$PKG_CONFIG" ; then
-    if PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --exists "lapack blas" ; then
-      LAPACK_VERSIONS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --modversion "lapack blas" 2>/dev/null | tr '\n' ' '`
-      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-
-  ac_save_LIBS="$LIBS"
-
-  if test -n "lapack" ; then
-
-      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static lapack`
-      LIBS="$temp_LFLAGS $LIBS"
-    fi
-
-  dsyev_namemangling=unknown
-
-  for ac_extra in "no extra underscore" ; do
-    for ac_case in "lower case" "upper case" ; do
-      for ac_trail in "underscore" "no underscore" ; do
-        case $ac_case in
-          "lower case")
-            ac_name=dsyev
-            ;;
-          "upper case")
-            ac_name=DSYEV
-            ;;
-        esac
-        if test "$ac_trail" = underscore ; then
-          ac_name=${ac_name}_
-        fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
-        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char $ac_name ();
-#ifdef FC_DUMMY_MAIN
-#ifndef FC_DUMMY_MAIN_EQ_F77
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int FC_DUMMY_MAIN() { return 1; }
-#endif
-#endif
-int
-main ()
-{
-return $ac_name ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  dsyev_namemangling="${ac_case}, ${ac_trail}, ${ac_extra}"
-           ac_success=yes
-else
-  ac_success=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
         if test $ac_success = yes ; then
           break 3
         fi
@@ -17918,34 +17607,41 @@ $as_echo "$ac_success" >&6; }
 
   if test $ac_success = yes ; then
     coin_has_lapack=yes
-         lapack_pcfiles="lapack blas"
-    else { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: lapack.pc and blas.pc present, but could not find dsyev when trying to link with it." >&5
-$as_echo "$as_me: WARNING: lapack.pc and blas.pc present, but could not find dsyev when trying to link with it." >&2;}
+             lapack_lflags="-framework Accelerate"
+             lapack_what="Accelerate framework ($lapack_lflags)"
+
+
   fi
 
-    else
-      LAPACK_PKG_ERRORS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG $pkg_short_errors --errors-to-stdout --print-errors "lapack blas"`
-      { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
+        fi
+      ;;
+    esac
+    if test "$coin_has_lapack" = yes ; then
+      lapack_keep_looking=no
     fi
-  else
-    as_fn_error $? "\"Cannot check for existence of module lapack without pkgconf\"" "$LINENO" 5
   fi
 
-  fi
+  if test "$lapack_keep_looking" = yes ; then
 
-  # If none of the above worked, try the generic -llapack -lblas as last resort.
-  # We check for both to ensure that blas lib also appears on link line in case
-  # someone wants to use Blas functions but tests only for Lapack.
-  if test "$coin_has_lapack" = no ; then
+
+
+  if test -n "$PKG_CONFIG" ; then
+    if PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --exists "lapack blas" ; then
+      LAPACK_VERSIONS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --modversion "lapack blas" 2>/dev/null | tr '\n' ' '`
+      lapack_what="generic module (lapack.pc blas.pc)"
 
   ac_save_LIBS="$LIBS"
-  LIBS="-llapack -lblas $LIBS"
+
+
+    if test -n "lapack" ; then
+      temp_LFLAGS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG --libs $pkg_static lapack`
+      LIBS="$temp_LFLAGS $LIBS"
+    fi
 
 
   dsyev_namemangling=unknown
 
-  for ac_extra in "no extra underscore" ; do
+  for ac_extra in "no extra underscore" "extra underscore" ; do
     for ac_case in "lower case" "upper case" ; do
       for ac_trail in "underscore" "no underscore" ; do
         case $ac_case in
@@ -17956,11 +17652,13 @@ $as_echo "no" >&6; }
             ac_name=DSYEV
             ;;
         esac
-        if test "$ac_trail" = underscore ; then
+        if test "$ac_trail" = "underscore" ; then
           ac_name=${ac_name}_
         fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for function $ac_name in $LIBS" >&5
-$as_echo_n "checking for function $ac_name in $LIBS... " >&6; }
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17995,8 +17693,7 @@ else
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_success" >&5
-$as_echo "$ac_success" >&6; }
+
         if test $ac_success = yes ; then
           break 3
         fi
@@ -18006,13 +17703,120 @@ $as_echo "$ac_success" >&6; }
   LIBS=$ac_save_LIBS
 
   if test $ac_success = yes ; then
+    coin_has_lapack=yes
+         lapack_keep_looking=no
+         lapack_pcfiles="lapack blas"
+    else { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: lapack.pc and blas.pc present, but could not find dsyev when trying to link with LAPACK." >&5
+$as_echo "$as_me: WARNING: lapack.pc and blas.pc present, but could not find dsyev when trying to link with LAPACK." >&2;}
+  fi
 
-      coin_has_lapack=yes
-      lapack_lflags="-llapack -lblas"
+    else
+      LAPACK_PKG_ERRORS=`PKG_CONFIG_PATH="$COIN_PKG_CONFIG_PATH" $PKG_CONFIG $pkg_short_errors --errors-to-stdout --print-errors "lapack blas"`
+
+    fi
+  else
+    as_fn_error $? "\"Cannot check for existence of module lapack without pkgconf\"" "$LINENO" 5
+  fi
+
+  fi
+
+  if test "$lapack_keep_looking" = yes ; then
+
+  ac_save_LIBS="$LIBS"
+  LIBS="-llapack -lblas $LIBS"
+
+
+  dsyev_namemangling=unknown
+
+  for ac_extra in "no extra underscore" "extra underscore" ; do
+    for ac_case in "lower case" "upper case" ; do
+      for ac_trail in "underscore" "no underscore" ; do
+        case $ac_case in
+          "lower case")
+            ac_name=dsyev
+            ;;
+          "upper case")
+            ac_name=DSYEV
+            ;;
+        esac
+        if test "$ac_trail" = "underscore" ; then
+          ac_name=${ac_name}_
+        fi
+        if test "$ac_extra" = "extra underscore" ; then
+          ac_name=${ac_name}_
+        fi
+
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char $ac_name ();
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
+#endif
+#endif
+int
+main ()
+{
+return $ac_name ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  dsyev_namemangling="${ac_case}, ${ac_trail}, ${ac_extra}"
+           ac_success=yes
+else
+  ac_success=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+        if test $ac_success = yes ; then
+          break 3
+        fi
+      done
+    done
+  done
+  LIBS=$ac_save_LIBS
+
+  if test $ac_success = yes ; then
+    coin_has_lapack=yes
+       lapack_lflags="-llapack -lblas"
+       lapack_what="generic library ($lapack_lflags)"
 
   fi
 
   fi
+
+  case "$coin_has_lapack" in
+    yes)
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_lapack: $lapack_what" >&5
+$as_echo "$coin_has_lapack: $lapack_what" >&6; }
+      ;;
+    no)
+      if test -n "$lapack_what" ; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_lapack ($lapack_what)" >&5
+$as_echo "$coin_has_lapack ($lapack_what)" >&6; }
+      else
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_lapack" >&5
+$as_echo "$coin_has_lapack" >&6; }
+      fi
+      ;;
+    *)
+      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: CHK_LAPACK: unexpected result '$coin_has_lapack'" >&5
+$as_echo "$as_me: WARNING: CHK_LAPACK: unexpected result '$coin_has_lapack'" >&2;}
+      ;;
+  esac
 
    if test $coin_has_lapack = yes; then
   COIN_HAS_LAPACK_TRUE=
@@ -18023,8 +17827,6 @@ else
 fi
 
 
-  # If we've located the package, define preprocessor symbol COIN_HAS_LAPACK
-  # and COIN_LAPACK_FUNC[_] and augment the necessary variables for the client packages.
   if test $coin_has_lapack = yes ; then
 
 $as_echo "#define THIRDPARTYMUMPS_HAS_LAPACK 1" >>confdefs.h
@@ -18079,9 +17881,10 @@ $as_echo "$as_me: WARNING: Unsupported or unknown name-mangling scheme: ${dsyev_
       ;;
   esac
 
-    if test -n "$lapack_pcfiles" ; then MUMPS_PCFILES="$lapack_pcfiles $MUMPS_PCFILES" ; fi
+    if test -n "$lapack_pcfiles" ; then
+         MUMPS_PCFILES="$lapack_pcfiles $MUMPS_PCFILES"
+       fi
        MUMPS_LFLAGS="$lapack_lflags $MUMPS_LFLAGS"
-       MUMPS_CFLAGS="$lapack_cflags $MUMPS_CFLAGS"
 
   fi
 
@@ -18171,23 +17974,33 @@ ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for package Metis with function metis_nodend" >&5
-$as_echo_n "checking for package Metis with function metis_nodend... " >&6; }
 
 
 
 
 
-  # Check to see if the user has overridden configure parameters from the
-  # environment.
+
+
+
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library Metis with link check" >&5
+$as_echo_n "checking for library Metis with link check... " >&6; }
+
+
+
+
+
+
+
   coin_has_metis=noInfo
   if test x"$COIN_SKIP_PROJECTS" != x ; then
-    for pkg in $COIN_SKIP_PROJECTS ; do
-      if test "$pkg" = "$metis" ; then
+    for pkg in `echo $COIN_SKIP_PROJECTS | tr '[:upper:]' '[:lower:]'` ; do
+      if test "$pkg" = "metis" ; then
         coin_has_metis=skipping
       fi
     done
   fi
+
 
   if test "$coin_has_metis" != skipping ; then
 
@@ -18217,134 +18030,105 @@ fi
 
 
 
-  dflt_action=yes
 
-  # Initialize variables for the primary library.
-  coin_has_metis=noInfo
-  metis_lflags=
-  metis_cflags=
-  metis_data=
 
-  # --with-prim is always present.
+
+
+
+  metis_lflags="-lmetis "$METISCHECK_LFLAGS""
+  metis_cflags=""
+  metis_data=""
+  coin_has_metis=requested
+  metis_userflags='no'
+
+
   withval="$with_metis"
   if test -n "$withval" ; then
     case "$withval" in
       no )
         coin_has_metis=skipping
+        metis_failmode='command line'
         ;;
       yes )
         coin_has_metis=requested
-        ;;
-      build )
-        coin_has_metis=build
+        metis_failmode=''
         ;;
       * )
-        coin_has_metis=yes
+        coin_has_metis=requested
+        metis_failmode=''
         metis_lflags="$withval"
+        metis_userflags='yes'
         ;;
     esac
+  else
+    if test -n "$with_metis_lflags" ||
+       test -n "$with_metis_cflags" ||
+       test -n "$with_metis_data" ; then
+      coin_has_metis=requested
+      metis_failmode=''
+      metis_userflags='yes'
+    fi
   fi
 
-  # --with-prim-lflags and --with-prim-cflags are present
-     # Specifying --with-prim=no overrides the individual options for lflags and cflags.
-     if test "$coin_has_metis" != skipping ; then
+
+  if test "$coin_has_metis" != skipping ; then
        withval="$with_metis_lflags"
        if test -n "$withval" ; then
-         case "$withval" in
-           build | no | yes )
-             as_fn_error $? "\"$withval\" is not valid here; please specify linker flags appropriate for your environment." "$LINENO" 5
-             ;;
-           * )
-             coin_has_metis=yes
-             metis_lflags="$withval"
-             ;;
-         esac
+         coin_has_metis=requested
+         metis_lflags="$withval"
+         metis_userflags='yes'
        fi
 
        withval="$with_metis_cflags"
        if test -n "$withval" ; then
-         case "$withval" in
-           build | no | yes )
-             as_fn_error $? "\"$withval\" is not valid here; please specify compiler flags appropriate for your environment." "$LINENO" 5
-             ;;
-           * )
-             coin_has_metis=yes
-             metis_cflags="$withval"
-             ;;
-         esac
+         coin_has_metis=requested
+         metis_cflags="$withval"
+         metis_userflags='yes'
        fi
      fi
 
 
 
-  # At this point, coin_has_prim can be one of
-  # - noInfo (no user options specified),
-  # - skipping (user said no),
-  # - requested,
-  # - build (user said yes or build and gave no further guidance), or
-  # - yes (user specified one or more --with-prim options).
-  # If we're already at yes or skipping, we're done looking.
 
-  # If there are no user options (noInfo) and the default is no, we're skipping.
-  # Otherwise, the default must be yes or build; consider the package requested.
-  # A default action we don't recognise defaults to yes.
-  if test "$coin_has_metis" = noInfo ; then
-    case $dflt_action in
-      no )
-        coin_has_metis=skipping
-        ;;
-      build )
-        coin_has_metis=build
-        ;;
-      * )
-        coin_has_metis=requested
-        ;;
-    esac
-  fi
 
-  # Now coin_has_prim can be one of skipping, yes, build, or requested.
-  # For build or requested, use the parameter values or invent some.
-  case $coin_has_metis in
-    build | requested)
-      metis_lflags="-lmetis "$METISCHECK_LFLAGS""
-         if test "$coin_has_metis" = build ; then
-              metis_cflags="-I\$(pkgincludedir)/ThirdParty"
-            fi
 
-      coin_has_metis=yes
-      ;;
-    skipping | yes )
-      ;;
-    * )
-      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_LIB" >&5
-$as_echo "$as_me: WARNING: Unexpected status \"$coin_has_metis\" in COIN_FIND_PRIM_LIB" >&2;}
-      ;;
-  esac
 
-  # At this point, coin_has_prim is yes or skipping.
-  if test $coin_has_metis != skipping ; then
-       # Time to run a link check since we have a function name.
-       # Use whatever we've collected for lflags, plus other libraries ().
+
+
+  if test "$coin_has_metis" != skipping ; then
        ac_save_LIBS=$LIBS
-       LIBS="$metis_lflags "
+       ac_save_CPPFLAGS=$CPPFLAGS
+       LIBS="$metis_lflags"
+       CPPFLAGS="$metis_cflags"
        cat > conftest.$ac_ext <<_ACEOF
-      program main
-      call metis_nodend
-      end
+
+#ifdef __cplusplus
+  extern "C"
+#endif
+  void metis_nodend() ;
+  int main () { metis_nodend() ; return (0) ; }
 _ACEOF
 if ac_fn_fc_try_link "$LINENO"; then :
 
 else
-  coin_has_metis=no
+  coin_has_metis='no'
+            if test -n "$metis_failmode" ; then
+              metis_failmode="$metis_failmode, bare link"
+            else
+              metis_failmode="bare link"
+            fi
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
        LIBS=$ac_save_LIBS
+       CPPFLAGS=$ac_save_CPPFLAGS
      fi
 
-  # The final value of coin_has_prim will be yes, no, or skipping. No means that
-  # the link check failed. Yes means that we passed the link check, or no link
-  # check was performed. Skipping means the user said `don't use.'
+
+  if test $coin_has_metis = requested ; then
+    coin_has_metis=yes
+  fi
+
 
   # Define BUILDTOOLS_DEBUG to enable debugging output
   if test "$BUILDTOOLS_DEBUG" = 1 ; then
@@ -18362,18 +18146,57 @@ $as_echo "$as_me: metis_data is \"$metis_data\"" >&6;}
 $as_echo "$as_me: metis_pcfiles is \"$metis_pcfiles\"" >&6;}
   fi
 
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis" >&5
+    if test -n "$metis_failmode" ; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis ($metis_failmode)" >&5
+$as_echo "$coin_has_metis ($metis_failmode)" >&6; }
+    else
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis" >&5
 $as_echo "$coin_has_metis" >&6; }
+    fi
   else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis due to COIN_SKIP_PROJECTS" >&5
-$as_echo "$coin_has_metis due to COIN_SKIP_PROJECTS" >&6; }
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $coin_has_metis (COIN_SKIP_PROJECTS)" >&5
+$as_echo "$coin_has_metis (COIN_SKIP_PROJECTS)" >&6; }
   fi
 
-  # Possibilities are `yes', `no', or `skipping'. Normalise to `yes' or `no'.
+
+  if test "$coin_has_metis" = 'no' ; then
+    if expr "$metis_failmode" : '.*header.*' &>/dev/null ; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
+Compiler flags are \"$metis_cflags\". If you expected this test to
+succeed, check that they are correct. You can supply correct values using
+--with-metis-cflags." >&5
+$as_echo "$as_me: WARNING:
+Compiler flags are \"$metis_cflags\". If you expected this test to
+succeed, check that they are correct. You can supply correct values using
+--with-metis-cflags." >&2;}
+    fi
+    if expr "$metis_failmode" : '.*link.*' &>/dev/null ; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
+Linker flags are \"$metis_lflags\". If you expected this test to
+succeed, check that they are correct. You can supply correct values using
+--with-metis-lflags." >&5
+$as_echo "$as_me: WARNING:
+Linker flags are \"$metis_lflags\". If you expected this test to
+succeed, check that they are correct. You can supply correct values using
+--with-metis-lflags." >&2;}
+    fi
+    if expr "$metis_failmode" : '.*header.*' &>/dev/null ||
+       expr "$metis_failmode" : '.*link.*' &>/dev/null ; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
+Check config.log for details of failed compile or link attempts." >&5
+$as_echo "$as_me: WARNING:
+Check config.log for details of failed compile or link attempts." >&2;}
+    fi
+    if test "$metis_userflags" = 'yes' ; then
+      as_fn_error $? "user-specified flags for Metis do not work." "$LINENO" 5
+    fi
+  fi
+
+
   if test "$coin_has_metis" != yes ; then
     coin_has_metis=no
   fi
+
 
    if test $coin_has_metis = yes; then
   COIN_HAS_METIS_TRUE=
@@ -18384,8 +18207,7 @@ else
 fi
 
 
-  # If we've located the package, define preprocessor symbol COIN_HAS_PRIM
-  # and augment the necessary variables for the client packages.
+
   if test $coin_has_metis = yes ; then
 
 $as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
@@ -18395,7 +18217,10 @@ $as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
 
 
 
+
   fi
+
+
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
