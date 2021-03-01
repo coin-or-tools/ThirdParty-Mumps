@@ -17968,23 +17968,19 @@ fi
 
   LIBS="$coin_save_LIBS"
 
-ac_ext=${ac_fc_srcext-f}
-ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
-ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_fc_compiler_gnu
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
 
 
 
-
-
-
-
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library Metis with link check" >&5
-$as_echo_n "checking for library Metis with link check... " >&6; }
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library Metis with combined link and compile check" >&5
+$as_echo_n "checking for library Metis with combined link and compile check... " >&6; }
 
 
 
@@ -18092,7 +18088,37 @@ fi
 
 
 
+  if test $coin_has_metis != skipping ; then
+       ac_save_CPPFLAGS=$CPPFLAGS
+       CPPFLAGS="$metis_cflags"
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include "metis.h"
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
+#endif
+#endif
+int
+main ()
+{
 
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+
+else
+  coin_has_metis='no'
+          metis_failmode="header compile"
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+       CPPFLAGS=$ac_save_CPPFLAGS
+     fi
 
 
   if test "$coin_has_metis" != skipping ; then
@@ -18100,22 +18126,33 @@ fi
        ac_save_CPPFLAGS=$CPPFLAGS
        LIBS="$metis_lflags"
        CPPFLAGS="$metis_cflags"
-       cat > conftest.$ac_ext <<_ACEOF
-
-#ifdef __cplusplus
-  extern "C"
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include "metis.h"
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
 #endif
-  void metis_nodend() ;
-  int main () { metis_nodend() ; return (0) ; }
+#endif
+int
+main ()
+{
+METIS_Free((void*)0);
+  ;
+  return 0;
+}
 _ACEOF
-if ac_fn_fc_try_link "$LINENO"; then :
+if ac_fn_c_try_link "$LINENO"; then :
 
 else
   coin_has_metis='no'
             if test -n "$metis_failmode" ; then
-              metis_failmode="$metis_failmode, bare link"
+              metis_failmode="$metis_failmode, link with header"
             else
-              metis_failmode="bare link"
+              metis_failmode="link with header"
             fi
 fi
 rm -f core conftest.err conftest.$ac_objext \
@@ -18221,7 +18258,6 @@ $as_echo "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
   fi
 
 
-
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -18229,33 +18265,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-if test $coin_has_metis = yes ; then
-  ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-  coin_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS $metis_cflags"
-  ac_fn_c_check_header_mongrel "$LINENO" "metis.h" "ac_cv_header_metis_h" "$ac_includes_default"
-if test "x$ac_cv_header_metis_h" = xyes; then :
-
-else
-  coin_has_metis=no
-fi
-
-
-  CPPFLAGS="$coin_CPPFLAGS"
-  ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-fi
-
-# check whether we can redefine metis_nodend to coinmetis_nodend from metis_adapter
+# check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
 if test $coin_has_metis = yes ; then
   ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
