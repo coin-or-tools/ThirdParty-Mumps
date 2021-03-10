@@ -18093,7 +18093,18 @@ fi
        CPPFLAGS="$metis_cflags"
        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#include "metis.h"
+#define __STDC_WANT_IEC_60559_BFP_EXT__
+   #ifdef __STDC__
+   #include <limits.h>
+   #endif
+   #include "metis.h"
+   #ifndef METIS_VER_MAJOR
+   #define METIS_VER_MAJOR 4
+   #endif
+   #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
+   #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
+   #endif
+
 #ifdef FC_DUMMY_MAIN
 #ifndef FC_DUMMY_MAIN_EQ_F77
 #  ifdef __cplusplus
@@ -18128,7 +18139,18 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
        CPPFLAGS="$metis_cflags"
        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#include "metis.h"
+#define __STDC_WANT_IEC_60559_BFP_EXT__
+   #ifdef __STDC__
+   #include <limits.h>
+   #endif
+   #include "metis.h"
+   #ifndef METIS_VER_MAJOR
+   #define METIS_VER_MAJOR 4
+   #endif
+   #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
+   #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
+   #endif
+
 #ifdef FC_DUMMY_MAIN
 #ifndef FC_DUMMY_MAIN_EQ_F77
 #  ifdef __cplusplus
@@ -18140,7 +18162,12 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 int
 main ()
 {
-METIS_Free((void*)0);
+#if METIS_VER_MAJOR < 5
+   metis_nodend((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   #else
+   METIS_NodeND((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   #endif
+
   ;
   return 0;
 }

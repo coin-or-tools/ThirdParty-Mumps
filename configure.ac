@@ -84,8 +84,24 @@ fi
 AC_COIN_CHK_LIBM(METISCHECK)
 AC_LANG_PUSH(C)
 AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
-  [METIS_Free((void*)0);],
-  [#include "metis.h"])
+  [#if METIS_VER_MAJOR < 5
+   metis_nodend((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   #else
+   METIS_NodeND((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   #endif
+  ],
+  [#define __STDC_WANT_IEC_60559_BFP_EXT__
+   #ifdef __STDC__
+   #include <limits.h>
+   #endif
+   #include "metis.h"
+   #ifndef METIS_VER_MAJOR
+   #define METIS_VER_MAJOR 4
+   #endif
+   #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
+   #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
+   #endif
+  ])
 AC_LANG_POP(C)
 
 # check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
