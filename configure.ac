@@ -106,21 +106,38 @@ fi
 AC_COIN_TRY_LINK([dgemmt],[$lapack_lflags],[$lapack_pcfiles],[MY_FDEFS="$MY_FDEFS -DGEMMT_AVAILABLE"])
 
 AC_COIN_CHK_LIBM(METISCHECK)
-AC_LANG_PUSH(Fortran)
-# check for metis5: METIS_SetDefaultOptions does not exist in Metis 4
-AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[METIS_SetDefaultOptions])
+AC_LANG_PUSH(C)
+AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
+  [#if METIS_VER_MAJOR < 5
+   metis_nodend((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   #else
+   METIS_NodeND((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   #endif
+  ],
+  [#define __STDC_WANT_IEC_60559_BFP_EXT__
+   #ifdef __STDC__
+   #include <limits.h>
+   #endif
+   #include "metis.h"
+   #ifndef METIS_VER_MAJOR
+   #define METIS_VER_MAJOR 4
+   #endif
+   #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
+   #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
+   #endif
+  ])
+AC_LANG_POP(C)
+
+# check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
+if test $coin_has_metis = yes ; then
+  AC_FC_PP_DEFINE([],[coin_has_metis=no])
+fi
+AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
+
 if test "$coin_has_metis" = yes; then
   MY_DEFS="$MY_DEFS -Dmetis"
   MY_FDEFS="$MY_FDEFS -Dmetis"
-else
-  # check for metis4: metis_nodewnd does not exist in Metis 5 anymore
-  AC_COIN_CHK_LIB(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],[metis_nodewnd])
-  if test "$coin_has_metis" = yes; then
-    MY_DEFS="$MY_DEFS -Dmetis4"
-    MY_FDEFS="$MY_FDEFS -Dmetis4"
-  fi
 fi
-AC_LANG_POP(Fortran)
 
 # Fix Fortran preprocessor flags
 # Add workaround for incompatibility with Fortran 2003 (https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4)
