@@ -48,6 +48,7 @@ libcoinmumps_la_SOURCES = \
   MUMPS/src/mumps_size.c \
   MUMPS/src/mumps_static_mapping.F \
   MUMPS/src/mumps_thread_affinity.c \
+  MUMPS/src/mumps_register_thread.c \
   MUMPS/src/mumps_thread.c \
   MUMPS/src/mumps_type2_blocking.F \
   MUMPS/src/mumps_type_size.F \
@@ -422,7 +423,8 @@ MUMPS/src/dlr_core.lo: \
   MUMPS/src/dmumps_lr_data_m.lo \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/lr_common.lo
-MUMPS/src/dlr_stats.lo: MUMPS/src/dlr_type.lo
+MUMPS/src/dlr_stats.lo: MUMPS/src/dlr_type.lo \
+  MUMPS/src/dmumps_struc_def.lo
 MUMPS/src/dmumps_comm_buffer.lo: \
   MUMPS/src/mumps_comm_ibcast.lo \
   MUMPS/src/dlr_type.lo \
@@ -598,7 +600,8 @@ MUMPS/src/slr_core.lo: \
   MUMPS/src/smumps_lr_data_m.lo \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/lr_common.lo
-MUMPS/src/slr_stats.lo: MUMPS/src/slr_type.lo
+MUMPS/src/slr_stats.lo: MUMPS/src/slr_type.lo \
+  MUMPS/src/smumps_struc_def.lo
 MUMPS/src/smumps_comm_buffer.lo: \
   MUMPS/src/mumps_comm_ibcast.lo \
   MUMPS/src/slr_type.lo \
@@ -647,6 +650,7 @@ MUMPS/src/mumps_static_mapping.lo: MUMPS/src/lr_common.lo
 
 # iii) compile modules before others
 OBJS_COMMON_MOD = \
+  MUMPS/src/ana_blk_m.lo \
   MUMPS/src/ana_omp_m.lo \
   MUMPS/src/ana_orderings_wrappers_m.lo \
   MUMPS/src/double_linked_list.lo \
@@ -666,6 +670,7 @@ OBJS_COMMON_MOD = \
   MUMPS/src/mumps_static_mapping.lo \
   MUMPS/src/omp_tps_common_m.lo
 OBJS_COMMON_OTHER = \
+  MUMPS/src/ana_blk.lo \
   MUMPS/src/ana_orderings.lo \
   MUMPS/src/ana_set_ordering.lo \
   MUMPS/src/ana_AMDMF.lo \

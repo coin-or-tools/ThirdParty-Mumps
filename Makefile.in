@@ -559,7 +559,8 @@ am_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
 	MUMPS/src/mumps_save_restore_C.lo MUMPS/src/mumps_scotch64.lo \
 	MUMPS/src/mumps_scotch.lo MUMPS/src/mumps_scotch_int.lo \
 	MUMPS/src/mumps_size.lo MUMPS/src/mumps_static_mapping.lo \
-	MUMPS/src/mumps_thread_affinity.lo MUMPS/src/mumps_thread.lo \
+	MUMPS/src/mumps_thread_affinity.lo \
+	MUMPS/src/mumps_register_thread.lo MUMPS/src/mumps_thread.lo \
 	MUMPS/src/mumps_type2_blocking.lo MUMPS/src/mumps_type_size.lo \
 	MUMPS/src/mumps_version.lo MUMPS/src/omp_tps_common_m.lo \
 	MUMPS/src/sol_common.lo MUMPS/src/tools_common.lo \
@@ -600,6 +601,7 @@ am__depfiles_remade = ./$(DEPDIR)/dmumps_c.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_metis_int.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_numa.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_pord.Plo \
+	MUMPS/src/$(DEPDIR)/mumps_register_thread.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_save_restore_C.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_scotch.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo \
@@ -845,7 +847,8 @@ libcoinmumps_la_SOURCES = MUMPS/src/ana_AMDMF.F MUMPS/src/ana_blk.F \
 	MUMPS/src/mumps_save_restore_C.c MUMPS/src/mumps_scotch64.c \
 	MUMPS/src/mumps_scotch.c MUMPS/src/mumps_scotch_int.c \
 	MUMPS/src/mumps_size.c MUMPS/src/mumps_static_mapping.F \
-	MUMPS/src/mumps_thread_affinity.c MUMPS/src/mumps_thread.c \
+	MUMPS/src/mumps_thread_affinity.c \
+	MUMPS/src/mumps_register_thread.c MUMPS/src/mumps_thread.c \
 	MUMPS/src/mumps_type2_blocking.F MUMPS/src/mumps_type_size.F \
 	MUMPS/src/mumps_version.F MUMPS/src/omp_tps_common_m.F \
 	MUMPS/src/sol_common.F MUMPS/src/tools_common.F \
@@ -857,6 +860,7 @@ AM_LDFLAGS = $(LT_LDFLAGS)
 
 # iii) compile modules before others
 OBJS_COMMON_MOD = \
+  MUMPS/src/ana_blk_m.lo \
   MUMPS/src/ana_omp_m.lo \
   MUMPS/src/ana_orderings_wrappers_m.lo \
   MUMPS/src/double_linked_list.lo \
@@ -877,6 +881,7 @@ OBJS_COMMON_MOD = \
   MUMPS/src/omp_tps_common_m.lo
 
 OBJS_COMMON_OTHER = \
+  MUMPS/src/ana_blk.lo \
   MUMPS/src/ana_orderings.lo \
   MUMPS/src/ana_set_ordering.lo \
   MUMPS/src/ana_AMDMF.lo \
@@ -1315,6 +1320,8 @@ MUMPS/src/mumps_size.lo: MUMPS/src/$(am__dirstamp) \
 MUMPS/src/mumps_static_mapping.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/mumps_thread_affinity.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/mumps_register_thread.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/mumps_thread.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
@@ -1760,6 +1767,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_metis_int.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_numa.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_pord.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_register_thread.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_save_restore_C.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_scotch.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo@am__quote@ # am--include-marker
@@ -1999,6 +2007,7 @@ distclean: distclean-am
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_metis_int.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_numa.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_pord.Plo
+	-rm -f MUMPS/src/$(DEPDIR)/mumps_register_thread.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_save_restore_C.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo
@@ -2071,6 +2080,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_metis_int.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_numa.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_pord.Plo
+	-rm -f MUMPS/src/$(DEPDIR)/mumps_register_thread.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_save_restore_C.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo
@@ -2120,6 +2130,7 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfiglibDATA \
 .PRECIOUS: Makefile
 
 
+# this is to compile mumps_c.c once for each precision with different setting for MUMPS_ARITH
 dmumps_c.c : $(srcdir)/MUMPS/src/mumps_c.c
 	echo "#define MUMPS_ARITH MUMPS_ARITH_d" > $@
 	cat $< >> $@
@@ -2270,7 +2281,8 @@ MUMPS/src/dlr_core.lo: \
   MUMPS/src/dmumps_lr_data_m.lo \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/lr_common.lo
-MUMPS/src/dlr_stats.lo: MUMPS/src/dlr_type.lo
+MUMPS/src/dlr_stats.lo: MUMPS/src/dlr_type.lo \
+  MUMPS/src/dmumps_struc_def.lo
 MUMPS/src/dmumps_comm_buffer.lo: \
   MUMPS/src/mumps_comm_ibcast.lo \
   MUMPS/src/dlr_type.lo \
@@ -2446,7 +2458,8 @@ MUMPS/src/slr_core.lo: \
   MUMPS/src/smumps_lr_data_m.lo \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/lr_common.lo
-MUMPS/src/slr_stats.lo: MUMPS/src/slr_type.lo
+MUMPS/src/slr_stats.lo: MUMPS/src/slr_type.lo \
+  MUMPS/src/smumps_struc_def.lo
 MUMPS/src/smumps_comm_buffer.lo: \
   MUMPS/src/mumps_comm_ibcast.lo \
   MUMPS/src/slr_type.lo \

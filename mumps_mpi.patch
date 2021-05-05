@@ -1,8 +1,8 @@
 diff -ur MUMPS_5.2.1/libseq/mpic.c MUMPS/libseq/mpic.c
 --- MUMPS_5.2.1/libseq/mpic.c	2019-06-14 16:46:08.000000000 +0200
 +++ MUMPS/libseq/mpic.c	2019-09-12 10:28:06.358911237 +0200
-@@ -12,7 +12,7 @@
-  *  https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+@@ -13,7 +13,7 @@
+  *  https://cecill.info/licences/Licence_CeCILL-C_V1-en.html)
   *
   */
 -#include "mpi.h"
@@ -13,7 +13,7 @@ diff -ur MUMPS_5.2.1/libseq/mpic.c MUMPS/libseq/mpic.c
 diff -ur MUMPS_5.2.1/src/mumps_metis64.h MUMPS/src/mumps_metis64.h
 --- MUMPS_5.2.1/src/mumps_metis64.h	2019-06-14 16:46:09.000000000 +0200
 +++ MUMPS/src/mumps_metis64.h	2019-09-12 10:27:32.439311173 +0200
-@@ -17,7 +17,11 @@
+@@ -18,7 +18,11 @@
  /* Interfacing with 64-bit (par)metis, for METIS 4 or METIS 5 */
  #include "mumps_common.h" /* includes mumps_compat.h and mumps_c_types.h */
  #if defined(parmetis) || defined(parmetis3)
@@ -28,7 +28,7 @@ diff -ur MUMPS_5.2.1/src/mumps_metis64.h MUMPS/src/mumps_metis64.h
 diff -ur MUMPS_5.2.1/src/mumps_metis.h MUMPS/src/mumps_metis.h
 --- MUMPS_5.2.1/src/mumps_metis.h	2019-06-14 16:46:09.000000000 +0200
 +++ MUMPS/src/mumps_metis.h	2019-09-12 10:27:12.016311061 +0200
-@@ -17,7 +17,11 @@
+@@ -18,7 +18,11 @@
  /* Interfacing with 32-bit (par)metis, for METIS 4 or METIS 5 */
  #include "mumps_common.h" /* includes mumps_compat.h and mumps_c_types.h */
  #if defined(parmetis) || defined(parmetis3)
@@ -52,6 +52,5 @@ diff -ur MUMPS_5.2.1/src/mumps_scotch.h MUMPS/src/mumps_scotch.h
 +#else
 +#include "mumps_mpi.h"
 +#endif
- #include <stdio.h>
  #include "ptscotch.h"
  #define MUMPS_DGRAPHINIT \
