@@ -16859,11 +16859,11 @@ MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
 
 # Check whether --with-precision was given.
 if test "${with_precision+set}" = set; then :
-  withval=$with_precision; case "$precision" in
+  withval=$with_precision; precision=$withval
+             case "$precision" in
                single | double | all ) ;;
                *) as_fn_error $? "unsupported value $precision for option --with-precision" "$LINENO" 5 ;;
              esac
-             precision=$withval
 else
   precision=double
 fi

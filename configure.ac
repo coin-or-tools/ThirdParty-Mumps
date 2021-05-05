@@ -59,11 +59,11 @@ MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
 # check which floating-point precision to build
 AC_ARG_WITH([precision],
             [AC_HELP_STRING([--with-precision],[floating-point precision to build: single, double (default), or all])],
-            [case "$precision" in
+            [precision=$withval
+             case "$precision" in
                single | double | all ) ;;
                *) AC_MSG_ERROR([unsupported value $precision for option --with-precision]) ;;
-             esac
-             precision=$withval],
+             esac],
             [precision=double])
 AM_CONDITIONAL([MUMPS_SINGLE],[test "$precision" = single || test "$precision" = all])
 AM_CONDITIONAL([MUMPS_DOUBLE],[test "$precision" = double || test "$precision" = all])
