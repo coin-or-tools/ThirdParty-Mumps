@@ -8,7 +8,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([ThirdPartyMumps],[2.1.0],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],,[https://github.com/coin-or-tools/ThirdParty-Mumps])
+AC_INIT([ThirdPartyMumps],[2.1.0],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-Mumps])
 
 AC_COPYRIGHT([
 Copyright 2007-2009 International Business Machines and others.
@@ -58,7 +58,7 @@ MUMPS_LFLAGS="$MUMPS_LFLAGS $FCLIBS"
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
 AC_ARG_ENABLE([pthread-mumps],
-  [AC_HELP_STRING([--disable-pthread-mumps],[disable use of pthread library])],
+  [AS_HELP_STRING([--disable-pthread-mumps],[disable use of pthread library])],
   [enable_pthread_mumps=$enableval],
   [enable_pthread_mumps=yes])
 if test $enable_pthread_mumps = yes ; then
@@ -149,6 +149,6 @@ AC_MSG_NOTICE([additional C preprocessor flags: $MY_DEFS])
 AC_MSG_NOTICE([additional Fortran preprocessor flags: $MY_FDEFS])
 
 AC_CONFIG_FILES([Makefile coinmumps.pc])
-AC_CONFIG_HEADER(config.h mumps_compat.h)
+AC_CONFIG_HEADERS([config.h mumps_compat.h])
 
 AC_COIN_FINALIZE
