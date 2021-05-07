@@ -133,8 +133,11 @@ AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
    #ifndef METIS_VER_MAJOR
    #define METIS_VER_MAJOR 4
    #endif
-   #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
-   #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
+   #if defined(MUMPS_INTSIZE32) && defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
+   #error "Metis does not use int type for idx_t, but this build of MUMPS requires it"
+   #endif
+   #if defined(MUMPS_INTSIZE64) && IDXTYPEWIDTH != 8
+   #error "Metis does not use 64-bit integers for idx_t, but this build of MUMPS requires it"
    #endif
   ])
 AC_LANG_POP(C)
@@ -150,22 +153,35 @@ if test "$coin_has_metis" = yes; then
   MY_FDEFS="$MY_FDEFS -Dmetis"
 fi
 
-# Fix Fortran preprocessor flags
-# Add workaround for incompatibility with Fortran 2003 (https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4)
-case $FC in
-  *xlf*)
-    fdefs=
-    if test -n "$MY_FDEFS"; then
-      for flag in $MY_FDEFS; do
-        fdefs="$fdefs -WF,$flag"
-      done
-    fi
-    MY_FDEFS="$fdefs"
-    ;;
-  *gfortran*)
-    MY_FDEFS="$MY_FDEFS -std=legacy"
-    ;;
+# Adjust Fortran preprocessor flags for IBM compiler
+case $FC in *xlf*)
+  fdefs=
+  if test -n "$MY_FDEFS"; then
+    for flag in $MY_FDEFS; do
+      fdefs="$fdefs -WF,$flag"
+    done
+  fi
+  MY_FDEFS="$fdefs"
+  ;;
 esac
+
+# Add workaround for incompatibility with Fortran 2003 (https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4)
+case $FC in *gfortran*) MY_FDEFS="$MY_FDEFS -std=legacy" ;; esac
+
+# Specify 8-byte integers if intsize=64 (TODO This should become a macro in BuildTools that figures out the right flag to use)
+if test $intsize = 64 ; then
+  case $FC in
+    *gfortran*) MY_FDEFS="$MY_FDEFS -fdefault-integer-8" ;;
+    *ifort*)
+      case $build in
+        *-cygwin* | *-mingw* | *-msys* ) MY_FDEFS="$MY_FDEFS -integer-size:64" ;;
+        *) MY_FDEFS="$MY_FDEFS -integer-size 64" ;;
+      esac
+      ;;
+    *) AC_MSG_ERROR([Do not know how to select 8-byte integers for Fortran compiler $FC]) ;;
+  esac
+fi
+
 AC_SUBST(MY_FDEFS)
 
 AC_COIN_FINALIZE_FLAGS([MUMPS])
