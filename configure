@@ -840,6 +840,7 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 with_precision
+with_intsize
 enable_pthread_mumps
 enable_openmp
 with_lapack
@@ -1526,6 +1527,7 @@ Optional Packages:
                           compiler's sysroot if not specified).
   --with-precision        floating-point precision to build: single, double
                           (default), or all
+  --with-intsize          integer size in bits to use: 32 or 64
   --with-lapack           Use lapack. If an argument is given, 'yes' is
                           equivalent to --with-lapack, 'no' is
                           equivalent to --without-lapack. Any other argument
@@ -17336,6 +17338,26 @@ else
   MUMPS_DOUBLE_FALSE=
 fi
 
+
+# check which integer size to build
+
+# Check whether --with-intsize was given.
+if test ${with_intsize+y}
+then :
+  withval=$with_intsize; intsize=$withval
+else $as_nop
+  intsize=32
+fi
+
+case "$intsize" in
+  32 )
+printf "%s\n" "#define MUMPS_INTSIZE32 /**/" >>confdefs.h
+ ;;
+  64 )
+printf "%s\n" "#define MUMPS_INTSIZE64 /**/" >>confdefs.h
+ ;;
+  *) as_fn_error $? "unsupported value $intsize for option --with-intsize" "$LINENO" 5 ;;
+esac
 
 # Mumps can make use of pthreads
 # check for pthread.h header file and library

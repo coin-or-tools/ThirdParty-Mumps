@@ -68,6 +68,17 @@ AC_ARG_WITH([precision],
 AM_CONDITIONAL([MUMPS_SINGLE],[test "$precision" = single || test "$precision" = all])
 AM_CONDITIONAL([MUMPS_DOUBLE],[test "$precision" = double || test "$precision" = all])
 
+# check which integer size to build
+AC_ARG_WITH([intsize],
+            [AS_HELP_STRING([--with-intsize],[integer size in bits to use: 32 or 64])],
+            [intsize=$withval],
+            [intsize=32])
+case "$intsize" in
+  32 ) AC_DEFINE(MUMPS_INTSIZE32, [], [Define if MUMPS integers have a size of 32-bit]) ;;
+  64 ) AC_DEFINE(MUMPS_INTSIZE64, [], [Define if MUMPS integers have a size of 64-bit]) ;;
+  *) AC_MSG_ERROR([unsupported value $intsize for option --with-intsize]) ;;
+esac
+
 # Mumps can make use of pthreads
 # check for pthread.h header file and library
 AC_ARG_ENABLE([pthread-mumps],

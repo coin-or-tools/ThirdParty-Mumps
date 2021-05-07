@@ -56,6 +56,12 @@
 /* Library Visibility Attribute */
 #undef MUMPS_EXPORT
 
+/* Define if MUMPS integers have a size of 32-bit */
+#undef MUMPS_INTSIZE32
+
+/* Define if MUMPS integers have a size of 64-bit */
+#undef MUMPS_INTSIZE64
+
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
