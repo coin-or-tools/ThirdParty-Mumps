@@ -108,7 +108,7 @@ FCFLAGS="$FCFLAGS $OPENMP_FCFLAGS"
 MUMPS_LFLAGS="$MUMPS_LFLAGS $OPENMP_FCFLAGS"
 AC_LANG_POP(Fortran)
 
-AC_COIN_CHK_LAPACK(MUMPS)
+AC_COIN_CHK_LAPACK(MUMPS, int$intsize)
 if test $coin_has_lapack != yes; then
   AC_MSG_ERROR([Required package LAPACK not found.])
 fi
