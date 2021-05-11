@@ -61,3 +61,16 @@ To do so, use the configure option `--with-precision=single`.
 
 It is also possible to build both single- and double-precision variants
 of MUMPS into the same library by using `--with-precision=all`.
+
+## 64-bit integers
+
+This buildsystem can be instructed to change the integer type of MUMPS to
+have a size of 64-bit by using the configure option `--with-intsize=64`.
+This defines `MUMPS_INTSIZE64` instead of `MUMPS_INTSIZE32` in
+`mumps_int_def.h` and instructs the Fortran compiler to use 8-byte integers.
+The latter requires that the Fortran compiler is either GNU Fortran or
+Intel Fortran.
+
+When MUMPS uses 64-bit integers, also Lapack and METIS need to use 64-bit
+integers. For METIS, this means that `IDXTYPEWIDTH` needs to be set to 8
+instead of 4.
