@@ -85,7 +85,7 @@ AC_COIN_CHK_LIBM(METISCHECK)
 AC_LANG_PUSH(C)
 AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
   [#if METIS_VER_MAJOR < 5
-   metis_nodend((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
+   metis_nodend((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
    #else
    METIS_NodeND((int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0, (int*)0);
    #endif
