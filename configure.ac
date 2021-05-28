@@ -147,10 +147,6 @@ AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
   ])
 AC_LANG_POP(C)
 
-# check whether we can redefine metis_nodend to cmets_nodend from metis_adapter
-if test $coin_has_metis = yes ; then
-  AC_FC_PP_DEFINE([],[coin_has_metis=no])
-fi
 AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
 
 if test "$coin_has_metis" = yes; then
