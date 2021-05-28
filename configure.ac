@@ -92,14 +92,19 @@ AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
   ],
   [#define __STDC_WANT_IEC_60559_BFP_EXT__
    #ifdef __STDC__
-   #include <limits.h>
+    #include <limits.h>
    #endif
    #include "metis.h"
    #ifndef METIS_VER_MAJOR
-   #define METIS_VER_MAJOR 4
+    #define METIS_VER_MAJOR 4
+    #ifdef IDXTYPE_INT
+     #define IDXTYPEWIDTH 4
+    #else
+     #define IDXTYPEWIDTH 8
+    #endif
    #endif
    #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
-   #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
+    #error "Metis does not use int for idx_t. This isn't supported by this build of MUMPS."
    #endif
   ])
 AC_LANG_POP(C)
