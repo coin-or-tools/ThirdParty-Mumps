@@ -18813,17 +18813,22 @@ fi
 /* end confdefs.h.  */
 #define __STDC_WANT_IEC_60559_BFP_EXT__
    #ifdef __STDC__
-   #include <limits.h>
+    #include <limits.h>
    #endif
    #include "metis.h"
    #ifndef METIS_VER_MAJOR
-   #define METIS_VER_MAJOR 4
+    #define METIS_VER_MAJOR 4
+    #ifdef IDXTYPE_INT
+     #define IDXTYPEWIDTH 4
+    #else
+     #define IDXTYPEWIDTH 8
+    #endif
    #endif
    #if defined(MUMPS_INTSIZE32) && defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
-   #error "Metis does not use int type for idx_t, but this build of MUMPS requires it"
+    #error "Metis does not use int type for idx_t, but this build of MUMPS requires it"
    #endif
    #if defined(MUMPS_INTSIZE64) && IDXTYPEWIDTH != 8
-   #error "Metis does not use 64-bit integers for idx_t, but this build of MUMPS requires it"
+    #error "Metis does not use 64-bit integers for idx_t, but this build of MUMPS requires it"
    #endif
 
 #ifdef FC_DUMMY_MAIN
@@ -18863,17 +18868,22 @@ rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
 /* end confdefs.h.  */
 #define __STDC_WANT_IEC_60559_BFP_EXT__
    #ifdef __STDC__
-   #include <limits.h>
+    #include <limits.h>
    #endif
    #include "metis.h"
    #ifndef METIS_VER_MAJOR
-   #define METIS_VER_MAJOR 4
+    #define METIS_VER_MAJOR 4
+    #ifdef IDXTYPE_INT
+     #define IDXTYPEWIDTH 4
+    #else
+     #define IDXTYPEWIDTH 8
+    #endif
    #endif
    #if defined(MUMPS_INTSIZE32) && defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
-   #error "Metis does not use int type for idx_t, but this build of MUMPS requires it"
+    #error "Metis does not use int type for idx_t, but this build of MUMPS requires it"
    #endif
    #if defined(MUMPS_INTSIZE64) && IDXTYPEWIDTH != 8
-   #error "Metis does not use 64-bit integers for idx_t, but this build of MUMPS requires it"
+    #error "Metis does not use 64-bit integers for idx_t, but this build of MUMPS requires it"
    #endif
 
 #ifdef FC_DUMMY_MAIN
@@ -18951,31 +18961,12 @@ printf "%s\n" "$coin_has_metis (COIN_SKIP_PROJECTS)" >&6; }
 
   if test "$coin_has_metis" = 'no' ; then
     if expr "$metis_failmode" : '.*header.*' &>/dev/null ; then
-      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING:
-Compiler flags are \"$metis_cflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-cflags." >&5
-printf "%s\n" "$as_me: WARNING:
-Compiler flags are \"$metis_cflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-cflags." >&2;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: Compiler flags were \"$metis_cflags\". Use --with-metis-cflags to overwrite. Check config.log for details of failed compile attempt." >&5
+printf "%s\n" "$as_me: Compiler flags were \"$metis_cflags\". Use --with-metis-cflags to overwrite. Check config.log for details of failed compile attempt." >&6;}
     fi
     if expr "$metis_failmode" : '.*link.*' &>/dev/null ; then
-      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING:
-Linker flags are \"$metis_lflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-lflags." >&5
-printf "%s\n" "$as_me: WARNING:
-Linker flags are \"$metis_lflags\". If you expected this test to
-succeed, check that they are correct. You can supply correct values using
---with-metis-lflags." >&2;}
-    fi
-    if expr "$metis_failmode" : '.*header.*' &>/dev/null ||
-       expr "$metis_failmode" : '.*link.*' &>/dev/null ; then
-      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING:
-Check config.log for details of failed compile or link attempts." >&5
-printf "%s\n" "$as_me: WARNING:
-Check config.log for details of failed compile or link attempts." >&2;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: Linker flags are \"$metis_lflags\". Use --with-metis-lflags to overwrite. Check config.log for details of failed link attempt." >&5
+printf "%s\n" "$as_me: Linker flags are \"$metis_lflags\". Use --with-metis-lflags to overwrite. Check config.log for details of failed link attempt." >&6;}
     fi
     if test "$metis_userflags" = 'yes' ; then
       as_fn_error $? "user-specified flags for Metis do not work." "$LINENO" 5
