@@ -98,9 +98,9 @@ AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
    #ifndef METIS_VER_MAJOR
     #define METIS_VER_MAJOR 4
     #ifdef IDXTYPE_INT
-     #define IDXTYPEWIDTH 4
+     #define IDXTYPEWIDTH 32
     #else
-     #define IDXTYPEWIDTH 8
+     #define IDXTYPEWIDTH 64
     #endif
    #endif
    #if defined(INT_WIDTH) && INT_WIDTH != IDXTYPEWIDTH
