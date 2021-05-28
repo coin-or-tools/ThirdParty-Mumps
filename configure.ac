@@ -145,14 +145,31 @@ AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
     #error "Metis does not use 64-bit integers for idx_t, but this build of MUMPS requires it"
    #endif
   ])
-AC_LANG_POP(C)
 
 AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
 
 if test "$coin_has_metis" = yes; then
-  MY_DEFS="$MY_DEFS -Dmetis"
-  MY_FDEFS="$MY_FDEFS -Dmetis"
+  AC_MSG_CHECKING([Metis version])
+  ac_save_CPPFLAGS=$CPPFLAGS
+  CPPFLAGS="$MUMPS_CFLAGS"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([
+    #include "metis.h"
+    #ifndef METIS_VER_MAJOR
+    #error metis4
+    #endif
+   ],[])],
+  [MY_DEFS="$MY_DEFS -Dmetis"
+   MY_FDEFS="$MY_FDEFS -Dmetis"
+   AC_MSG_RESULT([5])
+  ],
+  [MY_DEFS="$MY_DEFS -Dmetis4"
+   MY_FDEFS="$MY_FDEFS -Dmetis4"
+   AC_MSG_RESULT([4])
+  ])
+  CPPFLAGS=$ac_save_CPPFLAGS
 fi
+
+AC_LANG_POP(C)
 
 # Adjust Fortran preprocessor flags for IBM compiler
 case $FC in *xlf*)

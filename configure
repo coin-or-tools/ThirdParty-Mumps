@@ -19000,12 +19000,6 @@ printf "%s\n" "#define THIRDPARTYMUMPS_HAS_METIS 1" >>confdefs.h
   fi
 
 
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
  if test $coin_has_metis = yes; then
   COIN_HAS_METIS_TRUE=
@@ -19017,9 +19011,58 @@ fi
 
 
 if test "$coin_has_metis" = yes; then
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking Metis version" >&5
+printf %s "checking Metis version... " >&6; }
+  ac_save_CPPFLAGS=$CPPFLAGS
+  CPPFLAGS="$MUMPS_CFLAGS"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+    #include "metis.h"
+    #ifndef METIS_VER_MAJOR
+    #error metis4
+    #endif
+
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+     extern "C"
+#  endif
+   int FC_DUMMY_MAIN() { return 1; }
+#endif
+#endif
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
   MY_DEFS="$MY_DEFS -Dmetis"
-  MY_FDEFS="$MY_FDEFS -Dmetis"
+   MY_FDEFS="$MY_FDEFS -Dmetis"
+   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: 5" >&5
+printf "%s\n" "5" >&6; }
+
+else $as_nop
+  MY_DEFS="$MY_DEFS -Dmetis4"
+   MY_FDEFS="$MY_FDEFS -Dmetis4"
+   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: 4" >&5
+printf "%s\n" "4" >&6; }
+
 fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+  CPPFLAGS=$ac_save_CPPFLAGS
+fi
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
 
 # Adjust Fortran preprocessor flags for IBM compiler
 case $FC in *xlf*)
