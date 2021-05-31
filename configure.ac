@@ -8,7 +8,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([ThirdPartyMumps],[devel],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-Mumps])
+AC_INIT([ThirdPartyMumps],[3.0.0],[https://github.com/coin-or-tools/ThirdParty-Mumps/issues/new],[],[https://github.com/coin-or-tools/ThirdParty-Mumps])
 
 AC_COPYRIGHT([
 Copyright 2007-2009 International Business Machines and others.
