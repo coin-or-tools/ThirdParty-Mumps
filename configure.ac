@@ -146,6 +146,25 @@ AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],
    #endif
   ])
 
+# check that Metis flags also work with Fortran compiler
+if test "$coin_has_metis" = yes ; then
+  AC_MSG_CHECKING([whether Metis library is linkable with Fortran compiler])
+  AC_LANG_PUSH(Fortran)
+  orig_LIBS="$LIBS"
+  LIBS="$LIBS $metis_lflags"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],[])],
+    [AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])
+     if test "$metis_userflags" = yes ; then
+       AC_MSG_ERROR([Metis linker flags $metis_lflags worked with C compiler, but failed with Fortran compiler. Check config.log for details.])
+     else
+       AC_MSG_WARN([Metis linker flags $metis_lflags worked with C compiler, but failed with Fortran compiler. Check config.log for details. Disabling Metis.])
+       coin_has_metis=no
+     fi])
+  LIBS="$orig_LIBS"
+  AC_LANG_POP(Fortran)
+fi
+
 AM_CONDITIONAL(COIN_HAS_METIS, [test $coin_has_metis = yes])
 
 if test "$coin_has_metis" = yes; then
