@@ -67,4 +67,10 @@ patch -p0 < mumps_mpi.patch
 mv MUMPS/libseq/mpi.h MUMPS/libseq/mumps_mpi.h
 
 echo " "
+echo "Apply a patch to fix Intel build."
+echo " "
+
+patch -p0 < mumps_dump.patch
+
+echo " "
 echo "Verify that there are no error message in the output above."
