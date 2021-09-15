@@ -1516,16 +1516,18 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
-  --with-lapack           Use lapack. If an argument is given, 'yes' is
-                          equivalent to --with-lapack, 'no' is
-                          equivalent to --without-lapack. Any other argument
-                          is applied as for --with-lapack-lflags
+  --without-lapack        Do not use lapack. If an argument is given to
+                          --with-lapack, then 'yes' is equivalent
+                          to --with-lapack, 'no' is equivalent to
+                          --without-lapack and any other argument is applied
+                          as for --with-lapack-lflags.
   --with-lapack-lflags    Linker flags for lapack appropriate for your
                           environment. (Most often, -l specs for libraries.)
-  --with-metis            Use Metis. If an argument is given, 'yes' is
-                          equivalent to --with-metis, 'no' is
-                          equivalent to --without-metis. Any other argument is
-                          applied as for --with-metis-lflags
+  --without-metis         Do not use Metis. If an argument is given to
+                          --with-metis, then 'yes' is equivalent
+                          to --with-metis, 'no' is equivalent to
+                          --without-metis and any other argument is applied as
+                          for --with-metis-lflags.
   --with-metis-lflags     Linker flags for Metis appropriate for your
                           environment. (Most often, -l specs for libraries.)
   --with-metis-cflags     Compiler flags for Metis appropriate for your
@@ -2818,7 +2820,7 @@ fi
       : ${FFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FFLAGS"}
       : ${FCFLAGS:="-nologo -fpp -Z7 -MDd $ADD_FCFLAGS"}
       : ${CFLAGS:="-nologo -Z7 -MDd $ADD_CFLAGS"}
-      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd $ADD_CXXFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -Z7 -MDd -Zc:__cplusplus $ADD_CXXFLAGS"}
     else
       : ${FFLAGS:="-g $ADD_FFLAGS"}
       : ${FCFLAGS:="-g $ADD_FCFLAGS"}
@@ -2830,7 +2832,7 @@ fi
       : ${FFLAGS:="-nologo -fpp -O2 -MD $ADD_FFLAGS"}
       : ${FCFLAGS:="-nologo -fpp -O2 -MD $ADD_FCFLAGS"}
       : ${CFLAGS:="-nologo -DNDEBUG -O2 -MD $ADD_CFLAGS"}
-      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD $ADD_CXXFLAGS"}
+      : ${CXXFLAGS:="-nologo -EHs -DNDEBUG -O2 -MD -Zc:__cplusplus $ADD_CXXFLAGS"}
     else
       : ${FFLAGS:="-O2 $ADD_FFLAGS"}
       : ${FCFLAGS:="-O2 $ADD_FCFLAGS"}
@@ -17574,7 +17576,7 @@ fi
   lapack_keep_looking=yes
 
   if test "$with_lapack" != "no" ; then
-    if test "$with_lapack" != "yes" ; then
+    if test "$with_lapack" != "yes" && test -z "$with_lapack_lflags" ; then
       with_lapack_lflags="$with_lapack"
     fi
     if test -n "$with_lapack_lflags" ; then
