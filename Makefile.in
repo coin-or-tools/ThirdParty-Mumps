@@ -943,6 +943,7 @@ DOBJS_MOD = \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/domp_tps_m.lo \
   MUMPS/src/dsol_lr.lo \
+  MUMPS/src/dsol_omp_m.lo \
   MUMPS/src/dstatic_ptr_m.lo
 
 DOBJS_OTHER = \
@@ -1042,6 +1043,7 @@ SOBJS_MOD = \
   MUMPS/src/smumps_struc_def.lo \
   MUMPS/src/somp_tps_m.lo \
   MUMPS/src/ssol_lr.lo \
+  MUMPS/src/ssol_omp_m.lo \
   MUMPS/src/sstatic_ptr_m.lo
 
 SOBJS_OTHER = \
