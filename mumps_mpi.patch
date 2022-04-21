@@ -43,8 +43,8 @@ diff -ur MUMPS_5.4.0/src/mumps_metis.h MUMPS/src/mumps_metis.h
 diff -ur MUMPS_5.4.0/src/mumps_scotch.h MUMPS/src/mumps_scotch.h
 --- MUMPS_5.4.0/src/mumps_scotch.h	2021-04-13 17:26:35.000000000 +0200
 +++ MUMPS/src/mumps_scotch.h	2021-05-12 16:25:49.708906988 +0200
-@@ -45,7 +45,11 @@
-               MUMPS_INT * const        weightrequested );
+@@ -72,7 +72,11 @@
+ MUMPS_SCOTCH_SET_PTHREAD_NUMBER (MUMPS_INT *PTHREAD_NUMBER);
  #endif /*scotch or ptscotch*/
  #if defined(ptscotch)
 +#ifdef MPI
