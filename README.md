@@ -1,7 +1,7 @@
 # ThirdParty-Mumps
 
 This is an autotools-based build system to build and install
-[MUltifrontal Massively Parallel sparse direct Solver](http://mumps.enseeiht.fr/) (MUMPS).
+[MUltifrontal Massively Parallel sparse direct Solver](http://mumps-solver.org/) (MUMPS).
 This installation of MUMPS is used by some other COIN-OR projects.
 
 This version of ThirdParty-Mumps retrieves and builds MUMPS 5.5.1.
@@ -32,7 +32,7 @@ This version of ThirdParty-Mumps retrieves and builds MUMPS 5.5.1.
    The shell script `get.Mumps` can be used to automatically download and
    extract the correct version of the MUMPS source code. The script will
    first try to download from from https://coin-or-tools.github.io/ThirdParty-Mumps.
-   If this fails, it will attempt to download from the MUMPS website: http://mumps.enseeiht.fr/
+   If this fails, it will attempt to download from the MUMPS website: http://mumps-solver.org
 
    The script requires wget, curl, or fetch to be available on the system
    and in the shells search path (`$PATH`).
