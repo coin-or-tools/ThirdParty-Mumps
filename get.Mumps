@@ -36,7 +36,7 @@ then
   echo "Download finished."
 else
   echo
-  echo "Downloading from GitHub failed, trying mumps.enseeiht.fr..."
+  echo "Downloading from GitHub failed, trying mumps-solver.org..."
   if $wgetcmd http://mumps-solver.org/MUMPS_${mumps_ver}.tar.gz ;
   then
     echo "Download finished."
