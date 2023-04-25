@@ -24,6 +24,7 @@ libcoinmumps_la_SOURCES = \
   MUMPS/src/fac_maprow_data_m.F \
   MUMPS/src/front_data_mgt_m.F \
   MUMPS/src/lr_common.F \
+  MUMPS/src/mumps_addr.c \
   MUMPS/src/mumps_comm_ibcast.F \
   MUMPS/src/mumps_common.c \
   MUMPS/src/mumps_config_file_C.c \
@@ -39,13 +40,13 @@ libcoinmumps_la_SOURCES = \
   MUMPS/src/mumps_mpitoomp_m.F \
   MUMPS/src/mumps_numa.c \
   MUMPS/src/mumps_ooc_common.F \
+  MUMPS/src/mumps_pivnul_mod.F \
   MUMPS/src/mumps_pord.c \
   MUMPS/src/mumps_print_defined.F \
   MUMPS/src/mumps_save_restore_C.c \
   MUMPS/src/mumps_scotch64.c \
   MUMPS/src/mumps_scotch.c \
   MUMPS/src/mumps_scotch_int.c \
-  MUMPS/src/mumps_size.c \
   MUMPS/src/mumps_static_mapping.F \
   MUMPS/src/mumps_thread_affinity.c \
   MUMPS/src/mumps_register_thread.c \
@@ -295,7 +296,8 @@ MUMPS/src/dana_aux_par.lo: \
 MUMPS/src/dana_lr.lo: MUMPS/src/dlr_core.lo \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/lr_common.lo \
-  MUMPS/src/ana_orderings_wrappers_m.lo
+  MUMPS/src/ana_orderings_wrappers_m.lo \
+  MUMPS/src/ana_blk_m.lo
 MUMPS/src/dfac_asm_master_ELT_m.lo: \
   MUMPS/src/omp_tps_common_m.lo \
   MUMPS/src/fac_ibct_data_m.lo \
@@ -322,8 +324,6 @@ MUMPS/src/dfac_asm_master_m.lo: \
   MUMPS/src/domp_tps_m.lo \
   MUMPS/src/dmumps_comm_buffer.lo \
   MUMPS/src/dmumps_load.lo
-MUMPS/src/dfac_b.lo: \
-  MUMPS/src/dfac_sispointers_m.lo
 MUMPS/src/dfac_front_aux.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dlr_stats.lo \
@@ -331,7 +331,8 @@ MUMPS/src/dfac_front_aux.lo: \
   MUMPS/src/dmumps_load.lo \
   MUMPS/src/dmumps_ooc.lo \
   MUMPS/src/mumps_ooc_common.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_front_LU_type1.lo : \
   MUMPS/src/dfac_front_aux.lo \
   MUMPS/src/dmumps_ooc.lo \
@@ -340,7 +341,8 @@ MUMPS/src/dfac_front_LU_type1.lo : \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/dana_lr.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_front_LU_type2.lo : \
   MUMPS/src/dfac_front_aux.lo \
   MUMPS/src/dfac_front_type2_aux.lo \
@@ -353,7 +355,8 @@ MUMPS/src/dfac_front_LU_type2.lo : \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/dana_lr.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
-  MUMPS/src/dmumps_struc_def.lo
+  MUMPS/src/dmumps_struc_def.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_front_LDLT_type1.lo : \
   MUMPS/src/dfac_front_aux.lo \
   MUMPS/src/dmumps_ooc.lo \
@@ -362,7 +365,8 @@ MUMPS/src/dfac_front_LDLT_type1.lo : \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/dana_lr.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_front_LDLT_type2.lo : \
   MUMPS/src/dfac_front_aux.lo \
   MUMPS/src/dfac_front_type2_aux.lo \
@@ -374,7 +378,8 @@ MUMPS/src/dfac_front_LDLT_type2.lo : \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/dana_lr.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
-  MUMPS/src/dmumps_struc_def.lo
+  MUMPS/src/dmumps_struc_def.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_front_type2_aux.lo : \
   MUMPS/src/mumps_ooc_common.lo \
   MUMPS/src/dfac_front_aux.lo \
@@ -383,7 +388,8 @@ MUMPS/src/dfac_front_type2_aux.lo : \
   MUMPS/src/dmumps_comm_buffer.lo \
   MUMPS/src/dmumps_load.lo \
   MUMPS/src/mumps_comm_ibcast.lo \
-  MUMPS/src/fac_ibct_data_m.lo
+  MUMPS/src/fac_ibct_data_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_lr.lo: \
   MUMPS/src/dlr_core.lo \
   MUMPS/src/dlr_type.lo \
@@ -402,7 +408,8 @@ MUMPS/src/dfac_omp_m.lo: \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/omp_tps_common_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/dfac_par_m.lo: \
   MUMPS/src/dmumps_load.lo \
   MUMPS/src/dmumps_ooc.lo \
@@ -417,13 +424,17 @@ MUMPS/src/dfac_par_m.lo: \
   MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/omp_tps_common_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
+MUMPS/src/dfac_sol_l0omp_m.lo: \
+  MUMPS/src/dmumps_struc_def.lo
 MUMPS/src/dlr_core.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dmumps_lr_data_m.lo \
   MUMPS/src/dlr_stats.lo \
   MUMPS/src/lr_common.lo
-MUMPS/src/dlr_stats.lo: MUMPS/src/dlr_type.lo \
+MUMPS/src/dlr_stats.lo: \
+  MUMPS/src/dlr_type.lo \
   MUMPS/src/dmumps_struc_def.lo
 MUMPS/src/dmumps_comm_buffer.lo: \
   MUMPS/src/mumps_comm_ibcast.lo \
@@ -458,7 +469,9 @@ MUMPS/src/dmumps_save_restore_files.lo : MUMPS/src/dmumps_struc_def.lo
 MUMPS/src/dsol_lr.lo: \
   MUMPS/src/dlr_type.lo \
   MUMPS/src/dlr_stats.lo \
+  MUMPS/src/dlr_core.lo \
   MUMPS/src/dmumps_lr_data_m.lo
+MUMPS/src/dsol_omp_m.lo: MUMPS/src/dmumps_struc_def.lo
 
 MUMPS/src/sana_aux.lo: \
   MUMPS/src/smumps_struc_def.lo \
@@ -472,7 +485,8 @@ MUMPS/src/sana_aux_par.lo: \
 MUMPS/src/sana_lr.lo: MUMPS/src/slr_core.lo \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/lr_common.lo \
-  MUMPS/src/ana_orderings_wrappers_m.lo
+  MUMPS/src/ana_orderings_wrappers_m.lo \
+  MUMPS/src/ana_blk_m.lo
 MUMPS/src/sfac_asm_master_ELT_m.lo: \
   MUMPS/src/omp_tps_common_m.lo \
   MUMPS/src/fac_ibct_data_m.lo \
@@ -508,7 +522,8 @@ MUMPS/src/sfac_front_aux.lo: \
   MUMPS/src/smumps_load.lo \
   MUMPS/src/smumps_ooc.lo \
   MUMPS/src/mumps_ooc_common.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/sfac_front_LU_type1.lo : \
   MUMPS/src/sfac_front_aux.lo \
   MUMPS/src/smumps_ooc.lo \
@@ -517,7 +532,8 @@ MUMPS/src/sfac_front_LU_type1.lo : \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/sana_lr.lo \
   MUMPS/src/smumps_lr_data_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/sfac_front_LU_type2.lo : \
   MUMPS/src/sfac_front_aux.lo \
   MUMPS/src/sfac_front_type2_aux.lo \
@@ -530,7 +546,8 @@ MUMPS/src/sfac_front_LU_type2.lo : \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/sana_lr.lo \
   MUMPS/src/smumps_lr_data_m.lo \
-  MUMPS/src/smumps_struc_def.lo
+  MUMPS/src/smumps_struc_def.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/sfac_front_LDLT_type1.lo : \
   MUMPS/src/sfac_front_aux.lo \
   MUMPS/src/smumps_ooc.lo \
@@ -539,7 +556,8 @@ MUMPS/src/sfac_front_LDLT_type1.lo : \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/sana_lr.lo \
   MUMPS/src/smumps_lr_data_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/sfac_front_LDLT_type2.lo : \
   MUMPS/src/sfac_front_aux.lo \
   MUMPS/src/sfac_front_type2_aux.lo \
@@ -551,7 +569,8 @@ MUMPS/src/sfac_front_LDLT_type2.lo : \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/sana_lr.lo \
   MUMPS/src/smumps_lr_data_m.lo \
-  MUMPS/src/smumps_struc_def.lo
+  MUMPS/src/smumps_struc_def.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/sfac_front_type2_aux.lo : \
   MUMPS/src/mumps_ooc_common.lo \
   MUMPS/src/sfac_front_aux.lo \
@@ -560,7 +579,8 @@ MUMPS/src/sfac_front_type2_aux.lo : \
   MUMPS/src/smumps_comm_buffer.lo \
   MUMPS/src/smumps_load.lo \
   MUMPS/src/mumps_comm_ibcast.lo \
-  MUMPS/src/fac_ibct_data_m.lo
+  MUMPS/src/fac_ibct_data_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/sfac_lr.lo: \
   MUMPS/src/slr_core.lo \
   MUMPS/src/slr_type.lo \
@@ -579,7 +599,10 @@ MUMPS/src/sfac_omp_m.lo: \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/smumps_struc_def.lo \
   MUMPS/src/omp_tps_common_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
+MUMPS/src/sfac_sol_l0omp_m.lo: \
+  MUMPS/src/smumps_struc_def.lo
 MUMPS/src/sfac_par_m.lo: \
   MUMPS/src/smumps_load.lo \
   MUMPS/src/smumps_ooc.lo \
@@ -594,7 +617,8 @@ MUMPS/src/sfac_par_m.lo: \
   MUMPS/src/smumps_struc_def.lo \
   MUMPS/src/slr_stats.lo \
   MUMPS/src/omp_tps_common_m.lo \
-  MUMPS/src/mumps_l0_omp_m.lo
+  MUMPS/src/mumps_l0_omp_m.lo \
+  MUMPS/src/mumps_pivnul_mod.lo
 MUMPS/src/slr_core.lo: \
   MUMPS/src/slr_type.lo \
   MUMPS/src/smumps_lr_data_m.lo \
@@ -635,7 +659,9 @@ MUMPS/src/smumps_save_restore_files.lo : MUMPS/src/smumps_struc_def.lo
 MUMPS/src/ssol_lr.lo: \
   MUMPS/src/slr_type.lo \
   MUMPS/src/slr_stats.lo \
+  MUMPS/src/slr_core.lo \
   MUMPS/src/smumps_lr_data_m.lo
+MUMPS/src/ssol_omp_m.lo: MUMPS/src/dmumps_struc_def.lo
 
 # Dependencies between modules:
 # ii) arithmetic-independent modules:
@@ -667,6 +693,7 @@ OBJS_COMMON_MOD = \
   MUMPS/src/mumps_memory_mod.lo \
   MUMPS/src/mumps_mpitoomp_m.lo \
   MUMPS/src/mumps_ooc_common.lo \
+  MUMPS/src/mumps_pivnul_mod.lo \
   MUMPS/src/mumps_static_mapping.lo \
   MUMPS/src/omp_tps_common_m.lo
 OBJS_COMMON_OTHER = \
@@ -680,6 +707,7 @@ OBJS_COMMON_OTHER = \
   MUMPS/src/mumps_type2_blocking.lo \
   MUMPS/src/mumps_version.lo \
   MUMPS/src/mumps_print_defined.lo \
+  MUMPS/src/mumps_addr.lo \
   MUMPS/src/mumps_common.lo \
   MUMPS/src/mumps_pord.lo \
   MUMPS/src/mumps_metis.lo \
@@ -688,7 +716,6 @@ OBJS_COMMON_OTHER = \
   MUMPS/src/mumps_scotch.lo \
   MUMPS/src/mumps_scotch64.lo \
   MUMPS/src/mumps_scotch_int.lo \
-  MUMPS/src/mumps_size.lo \
   MUMPS/src/mumps_io.lo \
   MUMPS/src/mumps_io_basic.lo \
   MUMPS/src/mumps_io_thread.lo \
@@ -698,6 +725,7 @@ OBJS_COMMON_OTHER = \
   MUMPS/src/mumps_save_restore_C.lo \
   MUMPS/src/mumps_config_file_C.lo \
   MUMPS/src/mumps_thread_affinity.lo \
+  MUMPS/src/mumps_register_thread.lo \
   MUMPS/src/tools_common.lo \
   MUMPS/src/sol_common.lo
 DOBJS_MOD = \
@@ -712,6 +740,7 @@ DOBJS_MOD = \
   MUMPS/src/dfac_front_LDLT_type1.lo \
   MUMPS/src/dfac_front_LDLT_type2.lo \
   MUMPS/src/dfac_front_type2_aux.lo \
+  MUMPS/src/dfac_sispointers_m.lo \
   MUMPS/src/dfac_lr.lo \
   MUMPS/src/dfac_mem_dynamic.lo \
   MUMPS/src/dfac_omp_m.lo \
@@ -732,7 +761,8 @@ DOBJS_MOD = \
   MUMPS/src/domp_tps_m.lo \
   MUMPS/src/dsol_lr.lo \
   MUMPS/src/dsol_omp_m.lo \
-  MUMPS/src/dstatic_ptr_m.lo
+  MUMPS/src/dstatic_ptr_m.lo \
+  MUMPS/src/dmumps_mpi3_mod.lo
 DOBJS_OTHER = \
   MUMPS/src/dini_driver.lo \
   MUMPS/src/dana_driver.lo \
@@ -810,6 +840,7 @@ SOBJS_MOD = \
   MUMPS/src/sfac_front_LDLT_type1.lo \
   MUMPS/src/sfac_front_LDLT_type2.lo \
   MUMPS/src/sfac_front_type2_aux.lo \
+  MUMPS/src/sfac_sispointers_m.lo \
   MUMPS/src/sfac_lr.lo \
   MUMPS/src/sfac_mem_dynamic.lo \
   MUMPS/src/sfac_omp_m.lo \
@@ -830,7 +861,8 @@ SOBJS_MOD = \
   MUMPS/src/somp_tps_m.lo \
   MUMPS/src/ssol_lr.lo \
   MUMPS/src/ssol_omp_m.lo \
-  MUMPS/src/sstatic_ptr_m.lo
+  MUMPS/src/sstatic_ptr_m.lo \
+  MUMPS/src/dmumps_mpi3_mod.lo
 SOBJS_OTHER = \
   MUMPS/src/sini_driver.lo \
   MUMPS/src/sana_driver.lo \
