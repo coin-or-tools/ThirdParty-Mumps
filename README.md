@@ -38,8 +38,6 @@ This version of ThirdParty-Mumps retrieves and builds MUMPS 5.6.0.
    and in the shells search path (`$PATH`).
 
 2. Run `./configure`. Use `./configure --help` to see available options.
-   If using GFortran 10, add `ADD_FCFLAGS=-fallow-argument-mismatch` to
-   your configure call (see above)
 
 3. Run `make` to build the MUMPS library.
 
@@ -47,7 +45,7 @@ This version of ThirdParty-Mumps retrieves and builds MUMPS 5.6.0.
 
 ## NOTE for GFortran users
 
-MUMPS source does not compile out of the box when using GFortran 10, probably
+MUMPS source does not compile out of the box when using GFortran 10 or higher, probably
 due to some incompatibilities between assumed Fortran language standards,
 see also [issue #4](https://github.com/coin-or-tools/ThirdParty-Mumps/issues/4).
 
