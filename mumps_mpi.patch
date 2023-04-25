@@ -8,7 +8,7 @@ diff -ur MUMPS_5.4.0/libseq/mpic.c MUMPS/libseq/mpic.c
 -#include "mpi.h"
 +#include "mumps_mpi.h"
  #include "elapse.h"
- LIBSEQ_INT LIBSEQ_CALL MPI_Init(LIBSEQ_INT *pargc, char ***pargv)
+ MPI_Comm LIBSEQ_CALL MPI_Comm_f2c(LIBSEQ_INT comm)
  {
    return 0;
 diff -ur MUMPS_5.4.0/src/mumps_metis64.h MUMPS/src/mumps_metis64.h
