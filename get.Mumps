@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set the following to the latest MUMPS version.
-mumps_ver=5.7.0
+mumps_ver=5.7.1
 
 set -e
 
