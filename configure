@@ -2783,7 +2783,7 @@ else case e in #(
   e) enable_msvc=no
      case $build in
        *-mingw* | *-cygwin* | *-msys* )
-         for ac_prog in gcc clang icl cl
+         for ac_prog in gcc clang icx icl cl
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -2831,7 +2831,7 @@ fi
   test -n "$CC" && break
 done
 
-         case "$CC" in *cl ) enable_msvc=yes ;; esac
+         case "$CC" in *cl | *icx ) enable_msvc=yes ;; esac
        ;;
      esac ;;
 esac
@@ -3870,7 +3870,7 @@ fi
 
 
   if test $enable_msvc = yes ; then
-    for ac_prog in icl cl
+    for ac_prog in icx icl cl
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3934,7 +3934,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 if test -n "$ac_tool_prefix"; then
-  for ac_prog in gcc clang cc icc icl cl cc xlc xlc_r pgcc
+  for ac_prog in gcc clang cc icx icc icl cl cc xlc xlc_r pgcc
   do
     # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
 set dummy $ac_tool_prefix$ac_prog; ac_word=$2
@@ -3984,7 +3984,7 @@ fi
 fi
 if test -z "$CC"; then
   ac_ct_CC=$CC
-  for ac_prog in gcc clang cc icc icl cl cc xlc xlc_r pgcc
+  for ac_prog in gcc clang cc icx icc icl cl cc xlc xlc_r pgcc
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -4826,7 +4826,7 @@ fi
   # explicitly and add compile-wrapper, because the compile-wrapper works
   # around issues when having the wrong link.exe in the PATH first.
   if test $enable_msvc = yes ; then
-    for ac_prog in ifort
+    for ac_prog in ifx ifort
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -4887,7 +4887,7 @@ ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
 if test -n "$ac_tool_prefix"; then
-  for ac_prog in gfortran ifort g95 f95 f90 pgf90 ifc frt xlf_r fl32
+  for ac_prog in gfortran ifx ifort flang g95 f95 f90 pgf90 ifc frt xlf_r fl32
   do
     # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
 set dummy $ac_tool_prefix$ac_prog; ac_word=$2
@@ -4937,7 +4937,7 @@ fi
 fi
 if test -z "$FC"; then
   ac_ct_FC=$FC
-  for ac_prog in gfortran ifort g95 f95 f90 pgf90 ifc frt xlf_r fl32
+  for ac_prog in gfortran ifx ifort flang g95 f95 f90 pgf90 ifc frt xlf_r fl32
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -11492,8 +11492,8 @@ fi
       # hardcode_libdir_flag_spec is actually meaningless, as there is
       # no search path for DLLs.
       case $cc_basename in
-      cl* | icl* | ifort*)
-	# Native MSVC or ICC or IFORT
+      cl* | icl* | ifort* | icx* | ifx*)
+	# Native MSVC or classic or new Intel Compilers
 	hardcode_libdir_flag_spec=' '
 	allow_undefined_flag=unsupported
 	always_export_symbols=yes
@@ -11534,7 +11534,7 @@ fi
           fi'
 	;;
       *)
-	# Assume MSVC and ICC and IFORT wrapper
+	# Assume MSVC and Intel compilers wrapper
 	hardcode_libdir_flag_spec=' '
 	allow_undefined_flag=unsupported
 	# Tell ltmain to make .lib files, not .a files.
@@ -12595,8 +12595,8 @@ cygwin* | mingw* | windows* | pw32* | cegcc*)
     dynamic_linker='Win32 ld.exe'
     ;;
 
-  *,cl* | *,icl* | *,ifort*)
-    # Native MSVC or ICC or IFORT
+  *,cl* | *,icl* | *,ifort* | *,icx* | *,ifx*)
+    # Native MSVC or classic or new Intel Compilers
     libname_spec='$name'
     soname_spec='$libname`echo $release | $SED -e 's/[.]/-/g'`$versuffix$shared_ext'
     library_names_spec='$libname.dll.lib'
@@ -16166,8 +16166,8 @@ fi
       # hardcode_libdir_flag_spec is actually meaningless, as there is
       # no search path for DLLs.
       case $cc_basename in
-      cl* | icl* | ifort*)
-	# Native MSVC or ICC or IFORT
+      cl* | icl* | ifort* | icx* | ifx*)
+	# Native MSVC or classic or new Intel Compilers
 	hardcode_libdir_flag_spec_FC=' '
 	allow_undefined_flag_FC=unsupported
 	always_export_symbols_FC=yes
@@ -16208,7 +16208,7 @@ fi
           fi'
 	;;
       *)
-	# Assume MSVC and ICC and IFORT wrapper
+	# Assume MSVC and Intel compilers wrapper
 	hardcode_libdir_flag_spec_FC=' '
 	allow_undefined_flag_FC=unsupported
 	# Tell ltmain to make .lib files, not .a files.
@@ -17058,8 +17058,8 @@ cygwin* | mingw* | windows* | pw32* | cegcc*)
     dynamic_linker='Win32 ld.exe'
     ;;
 
-  *,cl* | *,icl* | *,ifort*)
-    # Native MSVC or ICC or IFORT
+  *,cl* | *,icl* | *,ifort* | *,icx* | *,ifx*)
+    # Native MSVC or classic or new Intel Compilers
     libname_spec='$name'
     soname_spec='$libname`echo $release | $SED -e 's/[.]/-/g'`$versuffix$shared_ext'
     library_names_spec='$libname.dll.lib'
