@@ -468,6 +468,7 @@ MUMPS/src/dmumps_lr_data_m.lo: \
 MUMPS/src/dmumps_ooc_buffer.lo: MUMPS/src/mumps_ooc_common.lo
 MUMPS/src/dmumps_ooc.lo: \
   MUMPS/src/dmumps_ooc_buffer.lo \
+  MUMPS/src/dmumps_struc_def.lo \
   MUMPS/src/mumps_ooc_common.lo
 MUMPS/src/dmumps_sol_es.lo: \
   MUMPS/src/dlr_type.lo \
