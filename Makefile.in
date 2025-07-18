@@ -2378,7 +2378,7 @@ MUMPS/src/dmumps_config_file.lo: MUMPS/src/dmumps_struc_def.lo
 MUMPS/src/mumps_load.lo: \
   MUMPS/src/mumps_comm_buffer_common.lo \
   MUMPS/src/fac_future_niv2_mod.lo
-MUMPS/src/dmumps_intr_types: \
+MUMPS/src/dmumps_intr_types.lo: \
   MUMPS/src/mumps_intr_types_common.lo
 MUMPS/src/dmumps_lr_data_m.lo: \
   MUMPS/src/dlr_type.lo \
