@@ -16,3 +16,4 @@ Mumps download
 - [Mumps 5.7.2](MUMPS_5.7.2.tar.gz)
 - [Mumps 5.7.3](MUMPS_5.7.3.tar.gz)
 - [Mumps 5.8.0](MUMPS_5.8.0.tar.gz)
+- [Mumps 5.8.1](MUMPS_5.8.1.tar.gz)
