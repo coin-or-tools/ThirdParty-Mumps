@@ -66,4 +66,10 @@ patch -p0 < mumps_mpi.patch
 mv MUMPS/libseq/mpi.h MUMPS/libseq/mumps_mpi.h
 
 echo " "
+echo "Apply a patch to gate USE OMP_LIB on the !\$ Fortran-OpenMP sentinel."
+echo " "
+
+patch -p0 < mumps_omp.patch
+
+echo " "
 echo "Verify that there are no error message in the output above."
