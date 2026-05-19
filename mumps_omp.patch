@@ -1,7 +1,7 @@
-diff -ur MUMPS_5.8.2/src/cfac_b.F MUMPS/src/cfac_b.F
---- MUMPS_5.8.2/src/cfac_b.F	2026-01-12 16:17:29.000000000 +0100
-+++ MUMPS/src/cfac_b.F	2026-05-15 15:44:17.500042616 +0200
-@@ -35,7 +35,7 @@
+diff -ru MUMPS_5.9.0/src/cfac_b.F MUMPS/src/cfac_b.F
+--- MUMPS_5.9.0/src/cfac_b.F	2026-04-28 15:06:26.000000000 +0200
++++ MUMPS/src/cfac_b.F	2026-05-19 14:56:33.796076002 +0200
+@@ -38,7 +38,7 @@
       &                     , CMUMPS_BUF_DEALL_MAX_ARRAY
        USE CMUMPS_FAC_S_IS_POINTERS_M, ONLY : CMUMPS_S_IS_POINTERS_T
        USE MUMPS_PIVNUL_MOD, ONLY : PIVNUL_LIST_STRUCT_T
@@ -10,9 +10,9 @@ diff -ur MUMPS_5.8.2/src/cfac_b.F MUMPS/src/cfac_b.F
        USE MUMPS_TPS_M
        USE CMUMPS_TPS_M
        USE CMUMPS_FAC_OMP_M
-diff -ur MUMPS_5.8.2/src/cfac_compact_factors_m.F MUMPS/src/cfac_compact_factors_m.F
---- MUMPS_5.8.2/src/cfac_compact_factors_m.F	2026-01-12 16:17:31.000000000 +0100
-+++ MUMPS/src/cfac_compact_factors_m.F	2026-05-15 15:44:17.501042624 +0200
+diff -ru MUMPS_5.9.0/src/cfac_compact_factors_m.F MUMPS/src/cfac_compact_factors_m.F
+--- MUMPS_5.9.0/src/cfac_compact_factors_m.F	2026-04-28 15:06:28.000000000 +0200
++++ MUMPS/src/cfac_compact_factors_m.F	2026-05-19 14:56:33.796358527 +0200
 @@ -19,7 +19,7 @@
       &      WK_USER_PROVIDED, S, KEEP, KEEP8, INFO, MYID, ICNTL,
       &      PROK, MP, CMUMPS_LBUFR_BYTES8, CMUMPS_LBUF8, 
@@ -22,10 +22,10 @@ diff -ur MUMPS_5.8.2/src/cfac_compact_factors_m.F MUMPS/src/cfac_compact_factors
        USE CMUMPS_DYNAMIC_MEMORY_M, ONLY : CMUMPS_DM_FREE_S_WK
  C
  C Purpose
-diff -ur MUMPS_5.8.2/src/cfac_par_m.F MUMPS/src/cfac_par_m.F
---- MUMPS_5.8.2/src/cfac_par_m.F	2026-01-12 16:17:30.000000000 +0100
-+++ MUMPS/src/cfac_par_m.F	2026-05-15 15:44:17.502042632 +0200
-@@ -47,7 +47,7 @@
+diff -ru MUMPS_5.9.0/src/cfac_par_m.F MUMPS/src/cfac_par_m.F
+--- MUMPS_5.9.0/src/cfac_par_m.F	2026-04-28 15:06:26.000000000 +0200
++++ MUMPS/src/cfac_par_m.F	2026-05-19 14:56:33.796507518 +0200
+@@ -50,7 +50,7 @@
        USE CMUMPS_FAC2_LDLT_M
        USE CMUMPS_FAC1_LU_M
        USE CMUMPS_FAC2_LU_M
@@ -34,22 +34,22 @@ diff -ur MUMPS_5.8.2/src/cfac_par_m.F MUMPS/src/cfac_par_m.F
        USE MUMPS_TPS_M
        USE CMUMPS_TPS_M
        USE MUMPS_INTR_TYPES, ONLY : MUMPS_ROOT_STRUC
-diff -ur MUMPS_5.8.2/src/csol_omp_m.F MUMPS/src/csol_omp_m.F
---- MUMPS_5.8.2/src/csol_omp_m.F	2026-01-12 16:17:29.000000000 +0100
-+++ MUMPS/src/csol_omp_m.F	2026-05-15 15:44:17.504042647 +0200
-@@ -305,7 +305,7 @@
+diff -ru MUMPS_5.9.0/src/csol_omp_m.F MUMPS/src/csol_omp_m.F
+--- MUMPS_5.9.0/src/csol_omp_m.F	2026-04-28 15:06:25.000000000 +0200
++++ MUMPS/src/csol_omp_m.F	2026-05-19 14:57:57.684749493 +0200
+@@ -324,7 +324,7 @@
       &  PERM_L0_OMP, PTR_LEAFS_L0_OMP, L0_OMP_MAPPING, LL0_OMP_MAPPING,
       &  L0_OMP_FACTORS, LL0_OMP_FACTORS )
        USE CMUMPS_INTR_TYPES, ONLY : CMUMPS_L0OMPFAC_T
 -      USE OMP_LIB
 +!$      USE OMP_LIB
+       USE MUMPS_L0_OMP_M, ONLY : THREAD_ID
        IMPLICIT NONE
        INTEGER, INTENT( in ) :: N, MTYPE, NRHS, SLAVEF, LIW
-       INTEGER, INTENT( in ) :: IW(LIW)
-diff -ur MUMPS_5.8.2/src/dfac_b.F MUMPS/src/dfac_b.F
---- MUMPS_5.8.2/src/dfac_b.F	2026-01-12 16:17:28.000000000 +0100
-+++ MUMPS/src/dfac_b.F	2026-05-15 15:44:17.505042655 +0200
-@@ -35,7 +35,7 @@
+diff -ru MUMPS_5.9.0/src/dfac_b.F MUMPS/src/dfac_b.F
+--- MUMPS_5.9.0/src/dfac_b.F	2026-04-28 15:06:25.000000000 +0200
++++ MUMPS/src/dfac_b.F	2026-05-19 14:56:33.797152549 +0200
+@@ -38,7 +38,7 @@
       &                     , DMUMPS_BUF_DEALL_MAX_ARRAY
        USE DMUMPS_FAC_S_IS_POINTERS_M, ONLY : DMUMPS_S_IS_POINTERS_T
        USE MUMPS_PIVNUL_MOD, ONLY : PIVNUL_LIST_STRUCT_T
@@ -58,9 +58,9 @@ diff -ur MUMPS_5.8.2/src/dfac_b.F MUMPS/src/dfac_b.F
        USE MUMPS_TPS_M
        USE DMUMPS_TPS_M
        USE DMUMPS_FAC_OMP_M
-diff -ur MUMPS_5.8.2/src/dfac_compact_factors_m.F MUMPS/src/dfac_compact_factors_m.F
---- MUMPS_5.8.2/src/dfac_compact_factors_m.F	2026-01-12 16:17:31.000000000 +0100
-+++ MUMPS/src/dfac_compact_factors_m.F	2026-05-15 15:44:17.507042671 +0200
+diff -ru MUMPS_5.9.0/src/dfac_compact_factors_m.F MUMPS/src/dfac_compact_factors_m.F
+--- MUMPS_5.9.0/src/dfac_compact_factors_m.F	2026-04-28 15:06:27.000000000 +0200
++++ MUMPS/src/dfac_compact_factors_m.F	2026-05-19 14:56:33.797395206 +0200
 @@ -19,7 +19,7 @@
       &      WK_USER_PROVIDED, S, KEEP, KEEP8, INFO, MYID, ICNTL,
       &      PROK, MP, DMUMPS_LBUFR_BYTES8, DMUMPS_LBUF8, 
@@ -70,10 +70,10 @@ diff -ur MUMPS_5.8.2/src/dfac_compact_factors_m.F MUMPS/src/dfac_compact_factors
        USE DMUMPS_DYNAMIC_MEMORY_M, ONLY : DMUMPS_DM_FREE_S_WK
  C
  C Purpose
-diff -ur MUMPS_5.8.2/src/dfac_par_m.F MUMPS/src/dfac_par_m.F
---- MUMPS_5.8.2/src/dfac_par_m.F	2026-01-12 16:17:29.000000000 +0100
-+++ MUMPS/src/dfac_par_m.F	2026-05-15 15:44:17.509042686 +0200
-@@ -47,7 +47,7 @@
+diff -ru MUMPS_5.9.0/src/dfac_par_m.F MUMPS/src/dfac_par_m.F
+--- MUMPS_5.9.0/src/dfac_par_m.F	2026-04-28 15:06:25.000000000 +0200
++++ MUMPS/src/dfac_par_m.F	2026-05-19 14:56:33.797520163 +0200
+@@ -50,7 +50,7 @@
        USE DMUMPS_FAC2_LDLT_M
        USE DMUMPS_FAC1_LU_M
        USE DMUMPS_FAC2_LU_M
@@ -82,22 +82,22 @@ diff -ur MUMPS_5.8.2/src/dfac_par_m.F MUMPS/src/dfac_par_m.F
        USE MUMPS_TPS_M
        USE DMUMPS_TPS_M
        USE MUMPS_INTR_TYPES, ONLY : MUMPS_ROOT_STRUC
-diff -ur MUMPS_5.8.2/src/dsol_omp_m.F MUMPS/src/dsol_omp_m.F
---- MUMPS_5.8.2/src/dsol_omp_m.F	2026-01-12 16:17:28.000000000 +0100
-+++ MUMPS/src/dsol_omp_m.F	2026-05-15 15:44:17.510042694 +0200
-@@ -305,7 +305,7 @@
+diff -ru MUMPS_5.9.0/src/dsol_omp_m.F MUMPS/src/dsol_omp_m.F
+--- MUMPS_5.9.0/src/dsol_omp_m.F	2026-04-28 15:06:24.000000000 +0200
++++ MUMPS/src/dsol_omp_m.F	2026-05-19 14:58:16.177971436 +0200
+@@ -324,7 +324,7 @@
       &  PERM_L0_OMP, PTR_LEAFS_L0_OMP, L0_OMP_MAPPING, LL0_OMP_MAPPING,
       &  L0_OMP_FACTORS, LL0_OMP_FACTORS )
        USE DMUMPS_INTR_TYPES, ONLY : DMUMPS_L0OMPFAC_T
 -      USE OMP_LIB
 +!$      USE OMP_LIB
+       USE MUMPS_L0_OMP_M, ONLY : THREAD_ID
        IMPLICIT NONE
        INTEGER, INTENT( in ) :: N, MTYPE, NRHS, SLAVEF, LIW
-       INTEGER, INTENT( in ) :: IW(LIW)
-diff -ur MUMPS_5.8.2/src/sfac_b.F MUMPS/src/sfac_b.F
---- MUMPS_5.8.2/src/sfac_b.F	2026-01-12 16:17:28.000000000 +0100
-+++ MUMPS/src/sfac_b.F	2026-05-15 15:44:17.511042701 +0200
-@@ -35,7 +35,7 @@
+diff -ru MUMPS_5.9.0/src/sfac_b.F MUMPS/src/sfac_b.F
+--- MUMPS_5.9.0/src/sfac_b.F	2026-04-28 15:06:24.000000000 +0200
++++ MUMPS/src/sfac_b.F	2026-05-19 14:56:33.798164911 +0200
+@@ -38,7 +38,7 @@
       &                     , SMUMPS_BUF_DEALL_MAX_ARRAY
        USE SMUMPS_FAC_S_IS_POINTERS_M, ONLY : SMUMPS_S_IS_POINTERS_T
        USE MUMPS_PIVNUL_MOD, ONLY : PIVNUL_LIST_STRUCT_T
@@ -106,9 +106,9 @@ diff -ur MUMPS_5.8.2/src/sfac_b.F MUMPS/src/sfac_b.F
        USE MUMPS_TPS_M
        USE SMUMPS_TPS_M
        USE SMUMPS_FAC_OMP_M
-diff -ur MUMPS_5.8.2/src/sfac_compact_factors_m.F MUMPS/src/sfac_compact_factors_m.F
---- MUMPS_5.8.2/src/sfac_compact_factors_m.F	2026-01-12 16:17:31.000000000 +0100
-+++ MUMPS/src/sfac_compact_factors_m.F	2026-05-15 15:44:17.512042709 +0200
+diff -ru MUMPS_5.9.0/src/sfac_compact_factors_m.F MUMPS/src/sfac_compact_factors_m.F
+--- MUMPS_5.9.0/src/sfac_compact_factors_m.F	2026-04-28 15:06:27.000000000 +0200
++++ MUMPS/src/sfac_compact_factors_m.F	2026-05-19 14:56:33.798415085 +0200
 @@ -19,7 +19,7 @@
       &      WK_USER_PROVIDED, S, KEEP, KEEP8, INFO, MYID, ICNTL,
       &      PROK, MP, SMUMPS_LBUFR_BYTES8, SMUMPS_LBUF8, 
@@ -118,10 +118,10 @@ diff -ur MUMPS_5.8.2/src/sfac_compact_factors_m.F MUMPS/src/sfac_compact_factors
        USE SMUMPS_DYNAMIC_MEMORY_M, ONLY : SMUMPS_DM_FREE_S_WK
  C
  C Purpose
-diff -ur MUMPS_5.8.2/src/sfac_par_m.F MUMPS/src/sfac_par_m.F
---- MUMPS_5.8.2/src/sfac_par_m.F	2026-01-12 16:17:28.000000000 +0100
-+++ MUMPS/src/sfac_par_m.F	2026-05-15 15:44:17.513042717 +0200
-@@ -47,7 +47,7 @@
+diff -ru MUMPS_5.9.0/src/sfac_par_m.F MUMPS/src/sfac_par_m.F
+--- MUMPS_5.9.0/src/sfac_par_m.F	2026-04-28 15:06:24.000000000 +0200
++++ MUMPS/src/sfac_par_m.F	2026-05-19 14:56:33.798543874 +0200
+@@ -50,7 +50,7 @@
        USE SMUMPS_FAC2_LDLT_M
        USE SMUMPS_FAC1_LU_M
        USE SMUMPS_FAC2_LU_M
@@ -130,22 +130,22 @@ diff -ur MUMPS_5.8.2/src/sfac_par_m.F MUMPS/src/sfac_par_m.F
        USE MUMPS_TPS_M
        USE SMUMPS_TPS_M
        USE MUMPS_INTR_TYPES, ONLY : MUMPS_ROOT_STRUC
-diff -ur MUMPS_5.8.2/src/ssol_omp_m.F MUMPS/src/ssol_omp_m.F
---- MUMPS_5.8.2/src/ssol_omp_m.F	2026-01-12 16:17:27.000000000 +0100
-+++ MUMPS/src/ssol_omp_m.F	2026-05-15 15:44:17.515042732 +0200
-@@ -305,7 +305,7 @@
+diff -ru MUMPS_5.9.0/src/ssol_omp_m.F MUMPS/src/ssol_omp_m.F
+--- MUMPS_5.9.0/src/ssol_omp_m.F	2026-04-28 15:06:23.000000000 +0200
++++ MUMPS/src/ssol_omp_m.F	2026-05-19 14:58:20.311279884 +0200
+@@ -324,7 +324,7 @@
       &  PERM_L0_OMP, PTR_LEAFS_L0_OMP, L0_OMP_MAPPING, LL0_OMP_MAPPING,
       &  L0_OMP_FACTORS, LL0_OMP_FACTORS )
        USE SMUMPS_INTR_TYPES, ONLY : SMUMPS_L0OMPFAC_T
 -      USE OMP_LIB
 +!$      USE OMP_LIB
+       USE MUMPS_L0_OMP_M, ONLY : THREAD_ID
        IMPLICIT NONE
        INTEGER, INTENT( in ) :: N, MTYPE, NRHS, SLAVEF, LIW
-       INTEGER, INTENT( in ) :: IW(LIW)
-diff -ur MUMPS_5.8.2/src/zfac_b.F MUMPS/src/zfac_b.F
---- MUMPS_5.8.2/src/zfac_b.F	2026-01-12 16:17:30.000000000 +0100
-+++ MUMPS/src/zfac_b.F	2026-05-15 15:44:17.516042740 +0200
-@@ -35,7 +35,7 @@
+diff -ru MUMPS_5.9.0/src/zfac_b.F MUMPS/src/zfac_b.F
+--- MUMPS_5.9.0/src/zfac_b.F	2026-04-28 15:06:27.000000000 +0200
++++ MUMPS/src/zfac_b.F	2026-05-19 14:56:33.799159419 +0200
+@@ -38,7 +38,7 @@
       &                     , ZMUMPS_BUF_DEALL_MAX_ARRAY
        USE ZMUMPS_FAC_S_IS_POINTERS_M, ONLY : ZMUMPS_S_IS_POINTERS_T
        USE MUMPS_PIVNUL_MOD, ONLY : PIVNUL_LIST_STRUCT_T
@@ -154,9 +154,9 @@ diff -ur MUMPS_5.8.2/src/zfac_b.F MUMPS/src/zfac_b.F
        USE MUMPS_TPS_M
        USE ZMUMPS_TPS_M
        USE ZMUMPS_FAC_OMP_M
-diff -ur MUMPS_5.8.2/src/zfac_compact_factors_m.F MUMPS/src/zfac_compact_factors_m.F
---- MUMPS_5.8.2/src/zfac_compact_factors_m.F	2026-01-12 16:17:31.000000000 +0100
-+++ MUMPS/src/zfac_compact_factors_m.F	2026-05-15 15:44:17.517042748 +0200
+diff -ru MUMPS_5.9.0/src/zfac_compact_factors_m.F MUMPS/src/zfac_compact_factors_m.F
+--- MUMPS_5.9.0/src/zfac_compact_factors_m.F	2026-04-28 15:06:28.000000000 +0200
++++ MUMPS/src/zfac_compact_factors_m.F	2026-05-19 14:56:33.799398439 +0200
 @@ -19,7 +19,7 @@
       &      WK_USER_PROVIDED, S, KEEP, KEEP8, INFO, MYID, ICNTL,
       &      PROK, MP, ZMUMPS_LBUFR_BYTES8, ZMUMPS_LBUF8, 
@@ -166,10 +166,10 @@ diff -ur MUMPS_5.8.2/src/zfac_compact_factors_m.F MUMPS/src/zfac_compact_factors
        USE ZMUMPS_DYNAMIC_MEMORY_M, ONLY : ZMUMPS_DM_FREE_S_WK
  C
  C Purpose
-diff -ur MUMPS_5.8.2/src/zfac_par_m.F MUMPS/src/zfac_par_m.F
---- MUMPS_5.8.2/src/zfac_par_m.F	2026-01-12 16:17:30.000000000 +0100
-+++ MUMPS/src/zfac_par_m.F	2026-05-15 15:44:17.518042755 +0200
-@@ -47,7 +47,7 @@
+diff -ru MUMPS_5.9.0/src/zfac_par_m.F MUMPS/src/zfac_par_m.F
+--- MUMPS_5.9.0/src/zfac_par_m.F	2026-04-28 15:06:27.000000000 +0200
++++ MUMPS/src/zfac_par_m.F	2026-05-19 14:56:33.799525861 +0200
+@@ -50,7 +50,7 @@
        USE ZMUMPS_FAC2_LDLT_M
        USE ZMUMPS_FAC1_LU_M
        USE ZMUMPS_FAC2_LU_M
@@ -178,15 +178,15 @@ diff -ur MUMPS_5.8.2/src/zfac_par_m.F MUMPS/src/zfac_par_m.F
        USE MUMPS_TPS_M
        USE ZMUMPS_TPS_M
        USE MUMPS_INTR_TYPES, ONLY : MUMPS_ROOT_STRUC
-diff -ur MUMPS_5.8.2/src/zsol_omp_m.F MUMPS/src/zsol_omp_m.F
---- MUMPS_5.8.2/src/zsol_omp_m.F	2026-01-12 16:17:30.000000000 +0100
-+++ MUMPS/src/zsol_omp_m.F	2026-05-15 15:44:17.519042763 +0200
-@@ -305,7 +305,7 @@
+diff -ru MUMPS_5.9.0/src/zsol_omp_m.F MUMPS/src/zsol_omp_m.F
+--- MUMPS_5.9.0/src/zsol_omp_m.F	2026-04-28 15:06:26.000000000 +0200
++++ MUMPS/src/zsol_omp_m.F	2026-05-19 14:58:09.501344982 +0200
+@@ -324,7 +324,7 @@
       &  PERM_L0_OMP, PTR_LEAFS_L0_OMP, L0_OMP_MAPPING, LL0_OMP_MAPPING,
       &  L0_OMP_FACTORS, LL0_OMP_FACTORS )
        USE ZMUMPS_INTR_TYPES, ONLY : ZMUMPS_L0OMPFAC_T
 -      USE OMP_LIB
 +!$      USE OMP_LIB
+       USE MUMPS_L0_OMP_M, ONLY : THREAD_ID
        IMPLICIT NONE
        INTEGER, INTENT( in ) :: N, MTYPE, NRHS, SLAVEF, LIW
-       INTEGER, INTENT( in ) :: IW(LIW)

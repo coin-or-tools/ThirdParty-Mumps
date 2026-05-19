@@ -1,6 +1,6 @@
-diff -ur MUMPS_5.4.0/libseq/mpic.c MUMPS/libseq/mpic.c
---- MUMPS_5.4.0/libseq/mpic.c	2021-04-13 17:26:34.000000000 +0200
-+++ MUMPS/libseq/mpic.c	2021-05-12 16:25:49.708906988 +0200
+diff -ru MUMPS_5.9.0/libseq/mpic.c MUMPS/libseq/mpic.c
+--- MUMPS_5.9.0/libseq/mpic.c	2026-04-28 15:06:03.000000000 +0200
++++ MUMPS/libseq/mpic.c	2026-05-19 14:56:33.793662320 +0200
 @@ -13,7 +13,7 @@
   *  https://cecill.info/licences/Licence_CeCILL-C_V1-en.html)
   *
@@ -10,10 +10,9 @@ diff -ur MUMPS_5.4.0/libseq/mpic.c MUMPS/libseq/mpic.c
  #include "elapse.h"
  MPI_Comm LIBSEQ_CALL MPI_Comm_f2c(LIBSEQ_INT comm)
  {
-   return 0;
-diff -ur MUMPS_5.4.0/src/mumps_metis64.h MUMPS/src/mumps_metis64.h
---- MUMPS_5.4.0/src/mumps_metis64.h	2021-04-13 17:26:35.000000000 +0200
-+++ MUMPS/src/mumps_metis64.h	2021-05-12 16:25:49.708906988 +0200
+diff -ru MUMPS_5.9.0/src/mumps_metis64.h MUMPS/src/mumps_metis64.h
+--- MUMPS_5.9.0/src/mumps_metis64.h	2026-04-28 15:06:04.000000000 +0200
++++ MUMPS/src/mumps_metis64.h	2026-05-19 14:56:33.793825024 +0200
 @@ -18,7 +18,11 @@
  /* Interfacing with 64-bit (par)metis, for METIS 4 or METIS 5 */
  #include "mumps_common.h" /* includes mumps_compat.h and mumps_c_types.h */
@@ -26,9 +25,9 @@ diff -ur MUMPS_5.4.0/src/mumps_metis64.h MUMPS/src/mumps_metis64.h
  #define MUMPS_PARMETIS_64 \
    F_SYMBOL(parmetis_64,PARMETIS_64)
  void MUMPS_CALL
-diff -ur MUMPS_5.4.0/src/mumps_metis.h MUMPS/src/mumps_metis.h
---- MUMPS_5.4.0/src/mumps_metis.h	2021-04-13 17:26:35.000000000 +0200
-+++ MUMPS/src/mumps_metis.h	2021-05-12 16:25:49.708906988 +0200
+diff -ru MUMPS_5.9.0/src/mumps_metis.h MUMPS/src/mumps_metis.h
+--- MUMPS_5.9.0/src/mumps_metis.h	2026-04-28 15:06:04.000000000 +0200
++++ MUMPS/src/mumps_metis.h	2026-05-19 14:56:33.793923068 +0200
 @@ -18,7 +18,11 @@
  /* Interfacing with 32-bit (par)metis, for METIS 4 or METIS 5 */
  #include "mumps_common.h" /* includes mumps_compat.h and mumps_c_types.h */
@@ -41,10 +40,10 @@ diff -ur MUMPS_5.4.0/src/mumps_metis.h MUMPS/src/mumps_metis.h
  #define MUMPS_PARMETIS \
    F_SYMBOL(parmetis,PARMETIS)
  void MUMPS_CALL
-diff -ur MUMPS_5.4.0/src/mumps_scotch.h MUMPS/src/mumps_scotch.h
---- MUMPS_5.4.0/src/mumps_scotch.h	2021-04-13 17:26:35.000000000 +0200
-+++ MUMPS/src/mumps_scotch.h	2021-05-12 16:25:49.708906988 +0200
-@@ -82,7 +82,11 @@
+diff -ru MUMPS_5.9.0/src/mumps_scotch.h MUMPS/src/mumps_scotch.h
+--- MUMPS_5.9.0/src/mumps_scotch.h	2026-04-28 15:06:04.000000000 +0200
++++ MUMPS/src/mumps_scotch.h	2026-05-19 14:56:33.794011964 +0200
+@@ -97,7 +97,11 @@
  MUMPS_SCOTCH_SET_PTHREAD_NUMBER (MUMPS_INT *PTHREAD_NUMBER);
  #endif /*scotch or ptscotch*/
  #if defined(ptscotch)

@@ -50,6 +50,7 @@ libcoinmumps_la_SOURCES = \
   MUMPS/src/mumps_scotch64.c \
   MUMPS/src/mumps_scotch.c \
   MUMPS/src/mumps_scotch_int.c \
+  MUMPS/src/mumps_sol_omp_memory_manager.c \
   MUMPS/src/mumps_static_mapping.F \
   MUMPS/src/mumps_thread_affinity.c \
   MUMPS/src/mumps_register_thread.c \
@@ -401,7 +402,8 @@ MUMPS/src/dfac_front_type2_aux.lo : \
   MUMPS/src/dmumps_comm_buffer.lo \
   MUMPS/src/dmumps_intr_types.lo \
   MUMPS/src/mumps_load.lo \
-  MUMPS/src/mumps_pivnul_mod.lo
+  MUMPS/src/mumps_pivnul_mod.lo \
+  MUMPS/src/dmumps_lr_data_m.lo
 MUMPS/src/dfac_lr.lo: \
   MUMPS/src/dlr_core.lo \
   MUMPS/src/dlr_type.lo \
@@ -594,7 +596,8 @@ MUMPS/src/sfac_front_type2_aux.lo : \
   MUMPS/src/smumps_comm_buffer.lo \
   MUMPS/src/smumps_intr_types.lo \
   MUMPS/src/mumps_load.lo \
-  MUMPS/src/mumps_pivnul_mod.lo
+  MUMPS/src/mumps_pivnul_mod.lo \
+  MUMPS/src/smumps_lr_data_m.lo
 MUMPS/src/sfac_lr.lo: \
   MUMPS/src/slr_core.lo \
   MUMPS/src/slr_type.lo \

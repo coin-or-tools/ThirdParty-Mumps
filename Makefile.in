@@ -574,6 +574,7 @@ am_libcoinmumps_la_OBJECTS = MUMPS/src/ana_AMDMF.lo \
 	MUMPS/src/mumps_pord.lo MUMPS/src/mumps_print_defined.lo \
 	MUMPS/src/mumps_save_restore_C.lo MUMPS/src/mumps_scotch64.lo \
 	MUMPS/src/mumps_scotch.lo MUMPS/src/mumps_scotch_int.lo \
+	MUMPS/src/mumps_sol_omp_memory_manager.lo \
 	MUMPS/src/mumps_static_mapping.lo \
 	MUMPS/src/mumps_thread_affinity.lo \
 	MUMPS/src/mumps_register_thread.lo MUMPS/src/mumps_thread.lo \
@@ -625,6 +626,7 @@ am__depfiles_remade = ./$(DEPDIR)/dmumps_c.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_scotch.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_scotch_int.Plo \
+	MUMPS/src/$(DEPDIR)/mumps_sol_omp_memory_manager.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_thread.Plo \
 	MUMPS/src/$(DEPDIR)/mumps_thread_affinity.Plo \
 	MUMPS/src/$(DEPDIR)/smumps_gpu.Plo
@@ -870,6 +872,7 @@ libcoinmumps_la_SOURCES = MUMPS/src/ana_AMDMF.F MUMPS/src/ana_blk.F \
 	MUMPS/src/mumps_print_defined.F \
 	MUMPS/src/mumps_save_restore_C.c MUMPS/src/mumps_scotch64.c \
 	MUMPS/src/mumps_scotch.c MUMPS/src/mumps_scotch_int.c \
+	MUMPS/src/mumps_sol_omp_memory_manager.c \
 	MUMPS/src/mumps_static_mapping.F \
 	MUMPS/src/mumps_thread_affinity.c \
 	MUMPS/src/mumps_register_thread.c MUMPS/src/mumps_thread.c \
@@ -1367,6 +1370,8 @@ MUMPS/src/mumps_scotch.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/mumps_scotch_int.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
+MUMPS/src/mumps_sol_omp_memory_manager.lo: MUMPS/src/$(am__dirstamp) \
+	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/mumps_static_mapping.lo: MUMPS/src/$(am__dirstamp) \
 	MUMPS/src/$(DEPDIR)/$(am__dirstamp)
 MUMPS/src/mumps_thread_affinity.lo: MUMPS/src/$(am__dirstamp) \
@@ -1844,6 +1849,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_scotch.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_scotch_int.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_sol_omp_memory_manager.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_thread.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/mumps_thread_affinity.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@MUMPS/src/$(DEPDIR)/smumps_gpu.Plo@am__quote@ # am--include-marker
@@ -2086,6 +2092,7 @@ distclean: distclean-am
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch_int.Plo
+	-rm -f MUMPS/src/$(DEPDIR)/mumps_sol_omp_memory_manager.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_thread.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_thread_affinity.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/smumps_gpu.Plo
@@ -2160,6 +2167,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch64.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_scotch_int.Plo
+	-rm -f MUMPS/src/$(DEPDIR)/mumps_sol_omp_memory_manager.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_thread.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/mumps_thread_affinity.Plo
 	-rm -f MUMPS/src/$(DEPDIR)/smumps_gpu.Plo
@@ -2319,7 +2327,8 @@ MUMPS/src/dfac_front_type2_aux.lo : \
   MUMPS/src/dmumps_comm_buffer.lo \
   MUMPS/src/dmumps_intr_types.lo \
   MUMPS/src/mumps_load.lo \
-  MUMPS/src/mumps_pivnul_mod.lo
+  MUMPS/src/mumps_pivnul_mod.lo \
+  MUMPS/src/dmumps_lr_data_m.lo
 MUMPS/src/dfac_lr.lo: \
   MUMPS/src/dlr_core.lo \
   MUMPS/src/dlr_type.lo \
@@ -2512,7 +2521,8 @@ MUMPS/src/sfac_front_type2_aux.lo : \
   MUMPS/src/smumps_comm_buffer.lo \
   MUMPS/src/smumps_intr_types.lo \
   MUMPS/src/mumps_load.lo \
-  MUMPS/src/mumps_pivnul_mod.lo
+  MUMPS/src/mumps_pivnul_mod.lo \
+  MUMPS/src/smumps_lr_data_m.lo
 MUMPS/src/sfac_lr.lo: \
   MUMPS/src/slr_core.lo \
   MUMPS/src/slr_type.lo \
