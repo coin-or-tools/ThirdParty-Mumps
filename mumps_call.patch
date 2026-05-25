@@ -1,0 +1,312 @@
+--- MUMPS/src/mumps_flytes.c.orig	2026-05-25 17:51:40.907504835 +0200
++++ MUMPS/src/mumps_flytes.c	2026-05-25 17:53:05.999910171 +0200
+@@ -151,49 +151,49 @@
+ 	decompress_float(2, in, out, 2*(*nrows), *ncols, 2*(*ldi), 2*(*ldo));
+ }
+ /* CONSIDER whether or not column-major format would be useful */
+-MUMPS_INLINE void MUMPS_CALL compress_double(uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
++MUMPS_INLINE void compress_double(uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
+ 	int i;
+ 	if (ldi == ldo && nrows == ldi) compress_vector_double(nb_bytes, in, out, nrows*ncols);
+ 	else
+ 		for (i = 0; i < ncols; i++)
+ 			compress_vector_double(nb_bytes, in + i*ldi, out + i*nb_bytes*ldo, nrows);
+ }
+-MUMPS_INLINE void MUMPS_CALL decompress_double(uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
++MUMPS_INLINE void decompress_double(uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
+ 	int i;
+ 	if (ldi == ldo && nrows == ldi) decompress_vector_double(nb_bytes, in, out, nrows*ncols);
+ 	else
+ 		for (i = 0; i < ncols; i++)
+ 			decompress_vector_double(nb_bytes, in + i*nb_bytes*ldi, out + i*ldo, nrows);
+ }
+-MUMPS_INLINE void MUMPS_CALL compress_double_float(uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
++MUMPS_INLINE void compress_double_float(uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
+ 	int i;
+ 	if (ldi == ldo && nrows == ldi) compress_vector_double_float(nb_bytes, in, out, nrows*ncols);
+ 	else
+ 		for (i = 0; i < ncols; i++)
+ 			compress_vector_double_float(nb_bytes, in + i*ldi, out + i*nb_bytes*ldo, nrows);
+ }
+-MUMPS_INLINE void MUMPS_CALL decompress_double_float(uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
++MUMPS_INLINE void decompress_double_float(uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
+ 	int i;
+ 	if (ldi == ldo && nrows == ldi) decompress_vector_double_float(nb_bytes, in, out, nrows*ncols);
+ 	else
+ 		for (i = 0; i < ncols; i++)
+ 			decompress_vector_double_float(nb_bytes, in + i*nb_bytes*ldi, out + i*ldo, nrows);
+ }
+-MUMPS_INLINE void MUMPS_CALL compress_float(uint8_t nb_bytes, const float* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
++MUMPS_INLINE void compress_float(uint8_t nb_bytes, const float* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
+ 	int i;
+ 	if (ldi == ldo && nrows == ldi) compress_vector_float(nb_bytes, in, out, nrows*ncols);
+ 	else
+ 		for (i = 0; i < ncols; i++)
+ 			compress_vector_float(nb_bytes, in + i*ldi, out + i*nb_bytes*ldo, nrows);
+ }
+-MUMPS_INLINE void MUMPS_CALL decompress_float(uint8_t nb_bytes, const uint8_t* const in, float* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
++MUMPS_INLINE void decompress_float(uint8_t nb_bytes, const uint8_t* const in, float* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo) {
+ 	int i;
+ 	if (ldi == ldo && nrows == ldi) decompress_vector_float(nb_bytes, in, out, nrows*ncols);
+ 	else
+ 		for (i = 0; i < ncols; i++)
+ 			decompress_vector_float(nb_bytes, in + i*nb_bytes*ldi, out + i*ldo, nrows);
+ }
+-MUMPS_INLINE void MUMPS_CALL compress_vector_double(const uint8_t nb_bytes, const double* const in, 
++MUMPS_INLINE void compress_vector_double(const uint8_t nb_bytes, const double* const in, 
+   		              uint8_t* const out, const MUMPS_INT length) {
+ 	int start_base = 0;
+ 	int j;
+@@ -221,7 +221,7 @@
+ 		compress_scalar_double(nb_bytes, &out[j * nb_bytes], in[j]);
+ 	}
+ }
+-MUMPS_INLINE void MUMPS_CALL decompress_vector_double(const uint8_t nb_bytes, 
++MUMPS_INLINE void decompress_vector_double(const uint8_t nb_bytes, 
+ 				       const uint8_t* const in, double* const out, const MUMPS_INT length) {
+ 	int start_base = 0;
+ 	int j;
+@@ -279,7 +279,7 @@
+ 		out[j] = decompress_scalar_double(nb_bytes, &in[j * nb_bytes]);
+ 	}
+ }
+-MUMPS_INLINE void MUMPS_CALL compress_vector_double_float(const uint8_t nb_bytes, 
++MUMPS_INLINE void compress_vector_double_float(const uint8_t nb_bytes, 
+                                     const double* const in, uint8_t* const out, 
+                                     const MUMPS_INT length) {
+ 	int start_base = 0;
+@@ -319,7 +319,7 @@
+ 	printf("\n");
+ }
+ #endif
+-MUMPS_INLINE void MUMPS_CALL decompress_vector_double_float(const uint8_t nb_bytes, 
++MUMPS_INLINE void decompress_vector_double_float(const uint8_t nb_bytes, 
+                                       const uint8_t* const in, double* const out, 
+                                       const MUMPS_INT length) {
+ 	int start_base = 0;
+@@ -370,7 +370,7 @@
+ 		out[j] = decompress_scalar_double(nb_bytes, &in[j*nb_bytes]);
+ 	}
+ }
+-MUMPS_INLINE void MUMPS_CALL compress_vector_float(const uint8_t nb_bytes, const float* const in, 
++MUMPS_INLINE void compress_vector_float(const uint8_t nb_bytes, const float* const in, 
+   		              uint8_t* const out, const MUMPS_INT length) {
+ 	int start_base = 0;
+ 	int j;
+@@ -398,7 +398,7 @@
+ 		compress_scalar_float(nb_bytes, &out[j * nb_bytes], in[j]);
+ 	}
+ }
+-MUMPS_INLINE void MUMPS_CALL decompress_vector_float(const uint8_t nb_bytes, 
++MUMPS_INLINE void decompress_vector_float(const uint8_t nb_bytes, 
+ 				       const uint8_t* const in, float* const out, const MUMPS_INT length) {
+ 	int start_base = 0;
+ 	int j;
+@@ -458,7 +458,7 @@
+ 	}
+ }
+ #if defined(__AVX512VBMI__)
+-MUMPS_INLINE const char* MUMPS_CALL get_compress_permutation(const uint8_t nb_bytes) {
++MUMPS_INLINE const char* get_compress_permutation(const uint8_t nb_bytes) {
+ 	const char* p = NULL;
+ 	switch (nb_bytes) {
+ 		case 7:
+@@ -479,7 +479,7 @@
+ 	}
+ 	return p;
+ } 
+-MUMPS_INLINE const char* MUMPS_CALL get_decompress_permutation(const uint8_t nb_bytes) {
++MUMPS_INLINE const char* get_decompress_permutation(const uint8_t nb_bytes) {
+ 	const char* p = NULL;
+ 	switch (nb_bytes) {
+ 		case 7:
+@@ -553,7 +553,7 @@
+ 	return mask;
+ };
+ #endif
+-MUMPS_INLINE void MUMPS_CALL compress_scalar_double(const uint8_t nb_bytes, uint8_t* const c, const double f) {
++MUMPS_INLINE void compress_scalar_double(const uint8_t nb_bytes, uint8_t* const c, const double f) {
+ 	switch (nb_bytes) {
+ 		case 7:
+ 			compress_fp56_scalar(c, f);
+@@ -572,7 +572,7 @@
+ 			break;
+ 	}
+ }
+-MUMPS_INLINE double MUMPS_CALL decompress_scalar_double(const uint8_t nb_bytes, const uint8_t* const c) {
++MUMPS_INLINE double decompress_scalar_double(const uint8_t nb_bytes, const uint8_t* const c) {
+ 	double f;
+ 	switch (nb_bytes) {
+ 		case 7:
+@@ -593,7 +593,7 @@
+ 	}
+ 	return f;
+ }
+-MUMPS_INLINE void MUMPS_CALL compress_scalar_float(const uint8_t nb_bytes, uint8_t* c, const float f) {
++MUMPS_INLINE void compress_scalar_float(const uint8_t nb_bytes, uint8_t* c, const float f) {
+ 	switch (nb_bytes) {
+ 		case 3:
+ 			compress_fp24_scalar(c, f);
+@@ -603,7 +603,7 @@
+ 			break;
+ 	}
+ }
+-MUMPS_INLINE float MUMPS_CALL decompress_scalar_float(const uint8_t nb_bytes, const uint8_t* const c) {
++MUMPS_INLINE float decompress_scalar_float(const uint8_t nb_bytes, const uint8_t* const c) {
+ 	float f;
+ 	switch (nb_bytes) {
+ 		case 3:
+@@ -615,7 +615,7 @@
+ 	}
+ 	return f;
+ }
+-NO_SAN_ALIGN MUMPS_INLINE void MUMPS_CALL compress_fp56_scalar(uint8_t* const c, const double f) {
++NO_SAN_ALIGN MUMPS_INLINE void compress_fp56_scalar(uint8_t* const c, const double f) {
+ 	union fl_fp64 u64;
+ 	u64.f = f;
+ 	uint32_t *i32 = (uint32_t*) &c[0];
+@@ -624,7 +624,7 @@
+ 	*i16 = (uint16_t) (u64.i >> 16);
+ 	c[6] = (uint8_t) (u64.i >> 8);
+ }
+-NO_SAN_ALIGN MUMPS_INLINE void MUMPS_CALL compress_fp48_scalar(uint8_t* const c, const double f) {
++NO_SAN_ALIGN MUMPS_INLINE void compress_fp48_scalar(uint8_t* const c, const double f) {
+ 	union fl_fp64 u64;
+ 	u64.f = f;
+ 	uint32_t *i32 = (uint32_t*) (&c[0]);
+@@ -632,53 +632,53 @@
+ 	*i32 = (uint32_t) (u64.i >> 32);
+ 	*i16 = (uint16_t) (u64.i >> 16);
+ }
+-NO_SAN_ALIGN MUMPS_INLINE void MUMPS_CALL compress_fp40_scalar(uint8_t* const c, const double f) {
++NO_SAN_ALIGN MUMPS_INLINE void compress_fp40_scalar(uint8_t* const c, const double f) {
+ 	union fl_fp64 u64;
+ 	u64.f = f;
+ 	uint32_t *i32 = (uint32_t*) (&c[0]);
+ 	*i32 = (uint32_t) (u64.i >> 32);
+ 	c[4] = (uint8_t) (u64.i >> 24);
+ }
+-NO_SAN_ALIGN MUMPS_INLINE void MUMPS_CALL compress_fp24_scalar(uint8_t* const c, const float f) {
++NO_SAN_ALIGN MUMPS_INLINE void compress_fp24_scalar(uint8_t* const c, const float f) {
+ 	union fl_fp32 u32;
+ 	u32.f = f;
+ 	uint16_t *i16 = (uint16_t*)(&c[0]);
+ 	*i16 = (uint16_t) (u32.i >> 16);
+ 	c[2] = (uint8_t) (u32.i >> 8);
+ }
+-NO_SAN_ALIGN MUMPS_INLINE void MUMPS_CALL compress_fp16_scalar(uint8_t* const c, const float f) {
++NO_SAN_ALIGN MUMPS_INLINE void compress_fp16_scalar(uint8_t* const c, const float f) {
+ 	union fl_fp32 u32;
+ 	u32.f = f;
+ 	uint16_t *i16 = (uint16_t*) (&c[0]);
+ 	*i16 = (uint16_t) (u32.i >> 16);
+ }
+-NO_SAN_ALIGN MUMPS_INLINE double MUMPS_CALL decompress_fp56_scalar(const uint8_t* const c) {
++NO_SAN_ALIGN MUMPS_INLINE double decompress_fp56_scalar(const uint8_t* const c) {
+ 	uint32_t *i32 = (uint32_t*) &c[0];
+ 	uint16_t *i16 = (uint16_t*) &c[4];
+ 	union fl_fp64 u64;
+ 	u64.i = 0x80ULL + (((uint64_t) *i32) << 32) + (((uint64_t) *i16) << 16) + (((uint64_t) c[6]) << 8) ;
+ 	return u64.f;
+ }
+-NO_SAN_ALIGN MUMPS_INLINE double MUMPS_CALL decompress_fp48_scalar(const uint8_t* const c) {
++NO_SAN_ALIGN MUMPS_INLINE double decompress_fp48_scalar(const uint8_t* const c) {
+ 	uint32_t *i32 = (uint32_t*) &c[0];
+ 	uint16_t *i16 = (uint16_t*) &c[4];
+ 	union fl_fp64 u64;
+ 	u64.i = 0x8000ULL + (((uint64_t) *i32) << 32) + (((uint64_t) *i16) << 16) ;
+ 	return u64.f;
+ }
+-NO_SAN_ALIGN MUMPS_INLINE double MUMPS_CALL decompress_fp40_scalar(const uint8_t* const c) {
++NO_SAN_ALIGN MUMPS_INLINE double decompress_fp40_scalar(const uint8_t* const c) {
+ 	uint32_t *i32 = (uint32_t*) &c[0];
+ 	union fl_fp64 u64;
+ 	u64.i = 0x800000ULL + (((uint64_t) *i32) << 32) + (((uint64_t) c[4]) << 24) ;
+ 	return u64.f;
+ }
+-NO_SAN_ALIGN MUMPS_INLINE float MUMPS_CALL decompress_fp24_scalar(const uint8_t* const c) {
++NO_SAN_ALIGN MUMPS_INLINE float decompress_fp24_scalar(const uint8_t* const c) {
+ 	uint16_t *i16 = (uint16_t*)(&c[0]);
+ 	union fl_fp32 u32;
+ 	u32.i = 0x80 +(((uint32_t) *i16) << 16) + (((uint32_t) c[2]) << 8) ;
+ 	return u32.f;
+ }
+-NO_SAN_ALIGN MUMPS_INLINE float MUMPS_CALL decompress_fp16_scalar(const uint8_t* const c) {
++NO_SAN_ALIGN MUMPS_INLINE float decompress_fp16_scalar(const uint8_t* const c) {
+ 	uint16_t *i16 = (uint16_t*)(&c[0]);
+ 	union fl_fp32 u32;
+ 	u32.i = 0x8000 +(((uint32_t) *i16) << 16);
+--- MUMPS/src/mumps_flytes.h.orig	2026-05-25 17:51:48.563559346 +0200
++++ MUMPS/src/mumps_flytes.h	2026-05-25 17:53:50.436332382 +0200
+@@ -192,39 +192,39 @@
+ 		-1,-1,24,25, 	-1,-1,26,27,  
+ 		-1,-1,28,29,  	-1,-1,30,31
+ 	};
+-MUMPS_INLINE void MUMPS_CALL compress_double(          const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
+-MUMPS_INLINE void MUMPS_CALL decompress_double(        const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
+-MUMPS_INLINE void MUMPS_CALL compress_double_float(    const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
+-MUMPS_INLINE void MUMPS_CALL decompress_double_float(  const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
+-MUMPS_INLINE void MUMPS_CALL compress_float(           const uint8_t nb_bytes, const float* const in, uint8_t*  const out,  const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
+-MUMPS_INLINE void MUMPS_CALL decompress_float(         const uint8_t nb_bytes, const uint8_t* const in, float*  const out,  const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
+-MUMPS_INLINE void MUMPS_CALL compress_vector_double(        const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT length);
+-MUMPS_INLINE void MUMPS_CALL decompress_vector_double(      const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT length);
+-MUMPS_INLINE void MUMPS_CALL compress_vector_double_float(  const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT length);
+-MUMPS_INLINE void MUMPS_CALL decompress_vector_double_float(const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT length);
+-MUMPS_INLINE void MUMPS_CALL compress_vector_float(         const uint8_t nb_bytes, const float* const in, uint8_t*  const out, const MUMPS_INT length);
+-MUMPS_INLINE void MUMPS_CALL decompress_vector_float(       const uint8_t nb_bytes, const uint8_t* const in, float*  const out, const MUMPS_INT length);
+-MUMPS_INLINE const char* MUMPS_CALL get_compress_permutation(   const uint8_t nb_bytes);
+-MUMPS_INLINE const char* MUMPS_CALL get_decompress_permutation( const uint8_t nb_bytes);
++MUMPS_INLINE void compress_double(          const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
++MUMPS_INLINE void decompress_double(        const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
++MUMPS_INLINE void compress_double_float(    const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
++MUMPS_INLINE void decompress_double_float(  const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
++MUMPS_INLINE void compress_float(           const uint8_t nb_bytes, const float* const in, uint8_t*  const out,  const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
++MUMPS_INLINE void decompress_float(         const uint8_t nb_bytes, const uint8_t* const in, float*  const out,  const MUMPS_INT nrows, const MUMPS_INT ncols, const MUMPS_INT ldi, const MUMPS_INT ldo);
++MUMPS_INLINE void compress_vector_double(        const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT length);
++MUMPS_INLINE void decompress_vector_double(      const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT length);
++MUMPS_INLINE void compress_vector_double_float(  const uint8_t nb_bytes, const double* const in, uint8_t* const out, const MUMPS_INT length);
++MUMPS_INLINE void decompress_vector_double_float(const uint8_t nb_bytes, const uint8_t* const in, double* const out, const MUMPS_INT length);
++MUMPS_INLINE void compress_vector_float(         const uint8_t nb_bytes, const float* const in, uint8_t*  const out, const MUMPS_INT length);
++MUMPS_INLINE void decompress_vector_float(       const uint8_t nb_bytes, const uint8_t* const in, float*  const out, const MUMPS_INT length);
++MUMPS_INLINE const char* get_compress_permutation(   const uint8_t nb_bytes);
++MUMPS_INLINE const char* get_decompress_permutation( const uint8_t nb_bytes);
+ #if defined(__AVX512F__)
+-MUMPS_INLINE __mmask64 MUMPS_CALL build_zero_mask(      const uint8_t nb_bytes);
+-MUMPS_INLINE __mmask64 MUMPS_CALL build_zero_mask_float(const uint8_t nb_bytes);
+-MUMPS_INLINE __mmask64 MUMPS_CALL build_half_mask(      const uint8_t nb_bytes);
+-MUMPS_INLINE __mmask64 MUMPS_CALL build_half_mask_float(const uint8_t nb_bytes);
++MUMPS_INLINE __mmask64 build_zero_mask(      const uint8_t nb_bytes);
++MUMPS_INLINE __mmask64 build_zero_mask_float(const uint8_t nb_bytes);
++MUMPS_INLINE __mmask64 build_half_mask(      const uint8_t nb_bytes);
++MUMPS_INLINE __mmask64 build_half_mask_float(const uint8_t nb_bytes);
+ #endif
+-MUMPS_INLINE void MUMPS_CALL compress_scalar_double(    const uint8_t nb_bytes, uint8_t* const c, const double f);
+-MUMPS_INLINE double MUMPS_CALL decompress_scalar_double(const uint8_t nb_bytes, const uint8_t* const c);
+-MUMPS_INLINE void MUMPS_CALL compress_scalar_float(     const uint8_t nb_bytes, uint8_t* const c, const float f);
+-MUMPS_INLINE float MUMPS_CALL decompress_scalar_float(  const uint8_t nb_bytes, const uint8_t* const c);
+-MUMPS_INLINE void MUMPS_CALL compress_fp56_scalar(      uint8_t* const c, const double f);
+-MUMPS_INLINE double MUMPS_CALL decompress_fp56_scalar(  const uint8_t* const c);
+-MUMPS_INLINE void MUMPS_CALL compress_fp48_scalar(      uint8_t* const c, const double f);
+-MUMPS_INLINE double MUMPS_CALL decompress_fp48_scalar(  const uint8_t* const c);
+-MUMPS_INLINE void MUMPS_CALL compress_fp40_scalar(      uint8_t* const c, const double f);
+-MUMPS_INLINE double MUMPS_CALL decompress_fp40_scalar(  const uint8_t* const c);
+-MUMPS_INLINE void MUMPS_CALL compress_fp24_scalar(      uint8_t* const c, const float f);
+-MUMPS_INLINE float MUMPS_CALL decompress_fp24_scalar(   const uint8_t* const c);
+-MUMPS_INLINE void MUMPS_CALL compress_fp16_scalar(      uint8_t* const c, const float f);
+-MUMPS_INLINE float MUMPS_CALL decompress_fp16_scalar(   const uint8_t* const c);
++MUMPS_INLINE void compress_scalar_double(    const uint8_t nb_bytes, uint8_t* const c, const double f);
++MUMPS_INLINE double decompress_scalar_double(const uint8_t nb_bytes, const uint8_t* const c);
++MUMPS_INLINE void compress_scalar_float(     const uint8_t nb_bytes, uint8_t* const c, const float f);
++MUMPS_INLINE float decompress_scalar_float(  const uint8_t nb_bytes, const uint8_t* const c);
++MUMPS_INLINE void compress_fp56_scalar(      uint8_t* const c, const double f);
++MUMPS_INLINE double decompress_fp56_scalar(  const uint8_t* const c);
++MUMPS_INLINE void compress_fp48_scalar(      uint8_t* const c, const double f);
++MUMPS_INLINE double decompress_fp48_scalar(  const uint8_t* const c);
++MUMPS_INLINE void compress_fp40_scalar(      uint8_t* const c, const double f);
++MUMPS_INLINE double decompress_fp40_scalar(  const uint8_t* const c);
++MUMPS_INLINE void compress_fp24_scalar(      uint8_t* const c, const float f);
++MUMPS_INLINE float decompress_fp24_scalar(   const uint8_t* const c);
++MUMPS_INLINE void compress_fp16_scalar(      uint8_t* const c, const float f);
++MUMPS_INLINE float decompress_fp16_scalar(   const uint8_t* const c);
+ #endif
+ #endif

@@ -72,4 +72,10 @@ echo " "
 patch -p0 < mumps_omp.patch
 
 echo " "
+echo "Apply a patch to not try to inline and export some functions at the same time."
+echo " "
+
+patch -p0 < mumps_call.patch
+
+echo " "
 echo "Verify that there are no error message in the output above."
