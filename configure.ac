@@ -120,6 +120,9 @@ fi
 # if the BLAS library includes the GEMMT level-3 BLAS extension, it is strongly recommend to use it
 AC_COIN_TRY_LINK([dgemmt],[$lapack_lflags],[$lapack_pcfiles],[MY_FDEFS="$MY_FDEFS -DGEMMT_AVAILABLE"])
 
+# enable workaround for Apple Accelerate's snrm2 and scnrm2 returning double precision instead of single precision reals
+case "$lapack_lflags" in *Accelerate* ) MY_FDEFS="$MY_FDEFS -Dnrm2_returns_double" ;; esac
+
 AC_COIN_CHK_LIBM(METISCHECK)
 AC_LANG_PUSH(C)
 AC_COIN_CHK_LIBHDR(Metis,[MUMPS],[-lmetis "$METISCHECK_LFLAGS"],[],[],

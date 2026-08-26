@@ -20531,6 +20531,9 @@ printf "%s\n" "$ac_success" >&6; }
   fi
 
 
+# enable workaround for Apple Accelerate's snrm2 and scnrm2 returning double precision instead of single precision reals
+case "$lapack_lflags" in *Accelerate* ) MY_FDEFS="$MY_FDEFS -Dnrm2_returns_double" ;; esac
+
 
 
 
