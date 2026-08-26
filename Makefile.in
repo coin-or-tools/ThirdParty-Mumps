@@ -2377,7 +2377,7 @@ MUMPS/src/dlr_core.lo: \
   MUMPS/src/lr_common.lo
 MUMPS/src/lr_stats.lo: \
   MUMPS/src/lr_common.lo
-MUMPS/src/dlr_types.lo: \
+MUMPS/src/dlr_type.lo: \
   MUMPS/src/lr_common.lo
 MUMPS/src/dmumps_comm_buffer.lo: \
   MUMPS/src/dlr_type.lo \
