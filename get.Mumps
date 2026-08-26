@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set the following to the latest MUMPS version.
-mumps_ver=5.9.0
+mumps_ver=5.9.1
 
 set -e
 
@@ -64,12 +64,6 @@ echo " "
 
 patch -p0 < mumps_mpi.patch
 mv MUMPS/libseq/mpi.h MUMPS/libseq/mumps_mpi.h
-
-echo " "
-echo "Apply a patch to gate USE OMP_LIB on the !\$ Fortran-OpenMP sentinel."
-echo " "
-
-patch -p0 < mumps_omp.patch
 
 echo " "
 echo "Apply a patch to not try to inline and export some functions at the same time."
