@@ -72,4 +72,10 @@ echo " "
 patch -p0 < mumps_call.patch
 
 echo " "
+echo "Apply a patch to remove unnecessary include of C11-only header stdalign.h."
+echo " "
+
+patch -p0 < mumps_stdalign.patch
+
+echo " "
 echo "Verify that there are no error message in the output above."

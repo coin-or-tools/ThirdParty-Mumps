@@ -1,0 +1,10 @@
+--- MUMPS/src/mumps_sol_omp_memory_manager.c.orig	2026-08-26 15:31:19.000498750 +0200
++++ MUMPS/src/mumps_sol_omp_memory_manager.c	2026-08-26 15:31:26.580501422 +0200
+@@ -27,7 +27,6 @@
+  *
+  */
+ #include "mumps_sol_omp_memory_manager.h"
+-#include <stdalign.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ static uint8_t **arena = NULL;
